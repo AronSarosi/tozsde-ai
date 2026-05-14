@@ -572,6 +572,38 @@
     .method-cell { background: #f6f8fa; border: 1px solid #e8edf2; border-radius: 10px; padding: 12px; }
     .method-cell span { display: block; color: #64748b; font-size: 13px; }
     .method-cell strong { font-size: 22px; color: #111827; }
+    .summary-wrap { display: grid; gap: 18px; }
+    .summary-intro h2 { font-size: 26px; margin: 0 0 6px; }
+    .summary-intro p { color: #475569; font-size: 15px; line-height: 1.5; margin: 0; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .summary-col { display: grid; gap: 10px; }
+    .summary-col-title { font-size: 18px; font-weight: 800; margin: 0; padding: 8px 12px; border-radius: 8px; }
+    .summary-col-title-buy { background: #eaf8ef; color: #0f7b42; }
+    .summary-col-title-sell { background: #fff0f2; color: #b42338; }
+    .summary-card {
+      text-align: left; width: 100%; cursor: pointer;
+      background: #ffffff; border: 1px solid var(--line);
+      border-radius: 10px; padding: 12px 14px;
+      display: grid; gap: 6px;
+      font-family: inherit; color: inherit;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .summary-card:hover { border-color: #94a3b8; transform: translateY(-1px); }
+    .summary-card.summary-buy { border-left: 4px solid #0f7b42; }
+    .summary-card.summary-sell { border-left: 4px solid #b42338; }
+    .summary-card header { display: flex; justify-content: space-between; align-items: center; }
+    .summary-card header strong { font-size: 19px; }
+    .summary-card .summary-score { font-size: 15px; font-weight: 700; color: #475569; }
+    .summary-card .summary-name { font-size: 13px; color: #64748b; margin: 0; }
+    .summary-card .summary-prices { font-size: 13px; color: #1f2937; margin: 0; line-height: 1.5; }
+    .summary-card .summary-prices span { color: #64748b; }
+    .summary-card .summary-foot { font-size: 13px; color: #475569; margin: 0; }
+    .summary-pill {
+      display: inline-block; padding: 2px 9px; border-radius: 999px;
+      background: #f1f5f9; font-weight: 700; color: #1e293b;
+      margin-right: 6px;
+    }
+    @media (max-width: 900px) { .summary-grid { grid-template-columns: 1fr; } }
     .score-change {
       display: inline-block; margin-left: 8px; padding: 3px 9px;
       border-radius: 999px; font-size: 13px; font-weight: 700;
@@ -989,8 +1021,7 @@
         if (!response.ok) throw new Error("A helyi szerver nem adott választ.");
         state = await response.json();
         clearInterval(stageTimer);
-        const topRow = (state.rankings && state.rankings[0]) || (state.investment_ideas && state.investment_ideas[0]);
-        selectedSymbol = topRow ? topRow.symbol : null;
+        selectedSymbol = null;
         renderApp();
         landing.style.display = "none";
         $("shell").classList.add("ready");
@@ -1321,7 +1352,7 @@
             ${renderScoreChange(row)}
           </div>
         </div>
-        ${renderInvestmentSummary(idea)}
+        ${renderInvestmentSummary(idea, row)}
         <section class="executive-grid">
           <div class="exec-card">
             <h3>Vezetői összefoglaló</h3>
@@ -1460,7 +1491,7 @@
             <span>pontszám</span>
           </div>
         </div>
-        ${renderInvestmentSummary(idea)}
+        ${renderInvestmentSummary(idea, row)}
         <section class="priority-method section">
           <h3>Pontozási bontás</h3>
           <div class="method-grid">${renderComponents(row)}</div>
@@ -1486,16 +1517,103 @@
     function renderDetail() {
       const row = selectedRow();
       if (!row) {
-        $("detailPanel").innerHTML = `<div class="empty-detail"><div><h2>Válassz egy részvényt.</h2><p>Keresőből, Buy/Sell jelzésből vagy a mozgó adatcsíkból nyisd meg. A teljes felület az elemzésé lesz.</p></div></div>`;
+        $("detailPanel").innerHTML = renderResearchSummary();
         return;
       }
       $("detailPanel").innerHTML = renderDetailHTML(row, false);
     }
-    function renderInvestmentSummary(idea) {
+
+    function renderResearchSummary() {
+      const rows = state.rankings || [];
+      const buys = rows.filter(r => r.category === "buy").sort((a,b) => (b.score||0) - (a.score||0)).slice(0, 6);
+      const sells = rows.filter(r => r.category === "sell").sort((a,b) => (a.score||0) - (b.score||0)).slice(0, 6);
+
+      const renderCard = (row, side) => {
+        const idea = investmentIdea(row.symbol);
+        const sideClass = side === "buy" ? "summary-buy" : "summary-sell";
+        const priceLine = side === "buy"
+          ? `<span>Aktuális:</span> <strong>${fmt(row.latest_price, 2)} USD</strong> &middot; <span>Beszálló:</span> <strong>${fmt(idea?.entry_price || idea?.entry_high || row.latest_price, 2)}</strong> &middot; <span>Cél:</span> <strong>${fmt(idea?.exit_price || idea?.target_price || row.latest_price, 2)}</strong>`
+          : `<span>Aktuális:</span> <strong>${fmt(row.latest_price, 2)} USD</strong> &middot; <span>Ha tartod, kiszállási szint:</span> <strong>${fmt(idea?.review_down || row.latest_price, 2)} USD</strong>`;
+        const sizeLine = row.position_size && row.position_size.recommended_pct > 0
+          ? `${row.position_size.range_low.toFixed(1)}-${row.position_size.range_high.toFixed(1)}%`
+          : esc(row.position_size?.label || "-");
+        return `
+          <button class="summary-card ${sideClass}" type="button" onclick="openSymbol('${esc(row.symbol)}')">
+            <header>
+              <strong>${esc(row.symbol)}</strong>
+              <span class="summary-score">${fmt(row.score, 1)}/100</span>
+            </header>
+            <p class="summary-name">${esc(row.name)} · ${esc(row.sector || "")}</p>
+            <p class="summary-prices">${priceLine}</p>
+            <p class="summary-foot"><span class="summary-pill">${sizeLine}</span> ${esc(row.position_size?.label || "")}</p>
+          </button>
+        `;
+      };
+
+      return `
+        <div class="summary-wrap">
+          <div class="summary-intro">
+            <h2>Friss kutatás · összegzés</h2>
+            <p>A két oldalon a legjobb vételi és gyengébb (eladás-felülvizsgálati) jelölteket látod. Kattints bármelyikre a részletes elemzésért. Csak long elven működünk: a "sell" oldal azoknak szól, akik már tartják az adott részvényt.</p>
+          </div>
+          <div class="summary-grid">
+            <section class="summary-col">
+              <h3 class="summary-col-title summary-col-title-buy">Top Buy ötletek</h3>
+              ${buys.length ? buys.map(r => renderCard(r, "buy")).join("") : `<p class="small">Most nincs erős buy jelzés.</p>`}
+            </section>
+            <section class="summary-col">
+              <h3 class="summary-col-title summary-col-title-sell">Top Sell jelzések (ha tartod)</h3>
+              ${sells.length ? sells.map(r => renderCard(r, "sell")).join("") : `<p class="small">Most nincs erős sell jelzés.</p>`}
+            </section>
+          </div>
+        </div>
+      `;
+    }
+
+    function openSymbol(symbol) {
+      selectedSymbol = symbol;
+      renderApp();
+      const panel = document.getElementById("detailPanel");
+      if (panel) panel.scrollIntoView({behavior: "smooth", block: "start"});
+    }
+
+    function renderInvestmentSummary(idea, row) {
       if (!idea) return "";
+      const category = row && row.category;
+      // For SELL: user is long-only, doesn't short. Show exit guidance only.
+      if (category === "sell") {
+        return `
+          <section class="section">
+            <h3>Árszintek (ha jelenleg birtoklod a részvényt)</h3>
+            <div class="price-grid">
+              <div class="price-cell"><span>Aktuális ár</span><strong>${fmt(idea.latest_price, 2)} USD</strong></div>
+              <div class="price-cell"><span>${hintLabel("Javasolt kiszállási szint", "Ha jelenleg tartod a részvényt, ezen szint körül érdemes lehet trim/kiszállás. Stop loss vagy fokozatos eladás javasolt.")}</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
+              <div class="price-cell"><span>${hintLabel("Elemzői célár", "Külső elemzői konszenzus célára.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
+              <div class="price-cell"><span>Kockázat</span><strong>${esc(idea.risk_level)}</strong><small>${fmt(idea.risk_score, 0)}/100</small></div>
+            </div>
+            <p class="small"><strong>Megjegyzés:</strong> a rendszer long-only elven dolgozik, nem javasol short pozíciót. Ez a jelzés azt jelenti: új vételi pozíciót ne nyiss, és ha tartod a részvényt, érdemes átgondolni a kiszállást.</p>
+          </section>
+        `;
+      }
+      // For HOLD: no specific entry/exit, just monitoring info
+      if (category === "hold") {
+        return `
+          <section class="section">
+            <h3>Árszintek</h3>
+            <div class="price-grid">
+              <div class="price-cell"><span>Aktuális ár</span><strong>${fmt(idea.latest_price, 2)} USD</strong></div>
+              <div class="price-cell"><span>${hintLabel("Elemzői célár", "Külső elemzői konszenzus célára. Csak referencia, semleges jelzés mellett nem érdemes pozíciót nyitni.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
+              <div class="price-cell"><span>${hintLabel("Felülvizsgálati szint", "Ha az árfolyam ezen szint alá esik, a kockázati profil romlik.")}</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
+              <div class="price-cell"><span>Kockázat</span><strong>${esc(idea.risk_level)}</strong><small>${fmt(idea.risk_score, 0)}/100</small></div>
+            </div>
+            <p class="small"><strong>Megjegyzés:</strong> semleges jelzés (50 körüli pontszám). Most nem érdemes új pozíciót nyitni, érdemes katalizátorra (eredményközlés, célár-revízió) várni.</p>
+          </section>
+        `;
+      }
+      // BUY: full entry/target panel (original behavior)
       return `
         <section class="section">
-          <h3>Befektetési árszintek</h3>
+          <h3>Befektetési árszintek (long pozíció)</h3>
           <div class="price-grid">
             <div class="price-cell"><span>Aktuális ár</span><strong>${fmt(idea.latest_price, 2)} USD</strong></div>
             <div class="price-cell"><span>${hintLabel("Beszállóár", "A becsült felső ár, ahol a rendszer szerint a belépés már értelmezhető. Nem vételi megbízás.")}</span><strong>${fmt(idea.entry_price || idea.entry_high, 2)} USD</strong><small>zóna: ${fmt(idea.entry_low, 2)}-${fmt(idea.entry_high, 2)}</small></div>
@@ -1506,7 +1624,7 @@
             <div class="price-cell"><span>${hintLabel("Elemzői / AI kontroll", "Ha van külső elemzői konszenzus, azt mutatja. Ha nincs, a Tőzsde AI saját célárbecslése jelenik meg, külön jelölve.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
             <div class="price-cell"><span>${hintLabel("Elemzői sáv", "Az elérhető legalacsonyabb és legmagasabb elemzői célár.")}</span><strong>${idea.analyst_target_low && idea.analyst_target_high ? `${fmt(idea.analyst_target_low, 2)}-${fmt(idea.analyst_target_high, 2)} USD` : "nincs adat"}</strong></div>
             <div class="price-cell"><span>Célár típusa</span><strong>${esc(idea.analyst_target_consensus ? "elemzői kontrollal" : "modellbecslés")}</strong></div>
-            <div class="price-cell"><span>Kontrollár</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
+            <div class="price-cell"><span>Stop / kontrollár</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
           </div>
           <p class="small"><span class="risk-pill ${riskClass(idea.risk_level)}">${esc(idea.risk_level)}</span> ${esc(idea.warning)}</p>
         </section>

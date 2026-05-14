@@ -1395,24 +1395,24 @@ def compute_fundamentals_score(fund_data: dict, stock: dict, latest_price: float
     if pe is not None:
         baseline = sector_pe_baseline(sector)
         if pe <= 0:
-            score -= 12
+            score -= 18
             notes.append(f"Veszteséges (P/E {pe:.1f}).")
         else:
             ratio = pe / baseline
             if ratio < 0.7:
-                score += 14
+                score += 22
                 notes.append(f"P/E {pe:.1f} a szektor átlag alatt ({baseline:.0f}).")
             elif ratio < 1.0:
-                score += 8
+                score += 12
                 notes.append(f"P/E {pe:.1f} a szektor átlaga alatt ({baseline:.0f}).")
             elif ratio < 1.3:
-                score += 2
+                score += 3
                 notes.append(f"P/E {pe:.1f} a szektor átlag közelében ({baseline:.0f}).")
             elif ratio < 1.8:
-                score -= 5
+                score -= 8
                 notes.append(f"P/E {pe:.1f} drágább a szektor átlagánál ({baseline:.0f}).")
             else:
-                score -= 12
+                score -= 18
                 notes.append(f"P/E {pe:.1f} jelentősen drága a szektorhoz képest ({baseline:.0f}).")
     else:
         notes.append("Nincs publikált P/E adat.")
@@ -1420,26 +1420,26 @@ def compute_fundamentals_score(fund_data: dict, stock: dict, latest_price: float
     eps = fund_data.get("eps")
     if eps is not None:
         if eps > 0:
-            score += 6
+            score += 9
             notes.append(f"Pozitív EPS: {eps:.2f}.")
         else:
-            score -= 8
+            score -= 12
             notes.append(f"Negatív EPS: {eps:.2f} - profitabilitás nyomás alatt.")
 
     price_avg_50 = fund_data.get("price_avg_50")
     price_avg_200 = fund_data.get("price_avg_200")
     if price_avg_50 and price_avg_200 and latest_price:
         if latest_price > price_avg_50 > price_avg_200:
-            score += 8
+            score += 12
             notes.append("Ár > 50d MA > 200d MA: tartós feltrend, minőségi jel.")
         elif latest_price > price_avg_200 and price_avg_50 < price_avg_200:
-            score += 2
+            score += 3
             notes.append("Ár 200d MA felett, de a rövid trend gyengül.")
         elif latest_price < price_avg_50 < price_avg_200:
-            score -= 8
+            score -= 12
             notes.append("Ár < 50d MA < 200d MA: tartós letrend.")
         elif latest_price < price_avg_200:
-            score -= 4
+            score -= 6
             notes.append("Ár 200d MA alatt: gyenge hosszú távú trend.")
 
     return max(5.0, min(95.0, score)), notes
@@ -1453,19 +1453,19 @@ def compute_valuation_score(fund_data: dict, latest_price: float, stock: dict) -
     pos = fund_data.get("year_range_position")
     if pos is not None:
         if pos < 0.2:
-            score += 18
+            score += 26
             notes.append(f"Az árfolyam az 52-hetes mélypont közelében ({pos*100:.0f}%): erős értékeltségi szint, de fundamentummal validálni.")
         elif pos < 0.4:
-            score += 10
+            score += 14
             notes.append(f"Az árfolyam az 52-hetes sáv alsó harmadában ({pos*100:.0f}%): kedvező belépési zóna.")
         elif pos < 0.6:
-            score += 2
+            score += 3
             notes.append(f"Az árfolyam az 52-hetes sáv közepén ({pos*100:.0f}%).")
         elif pos < 0.85:
-            score -= 5
+            score -= 8
             notes.append(f"Az árfolyam a sáv felső felében ({pos*100:.0f}%): drágább belépő.")
         else:
-            score -= 12
+            score -= 18
             notes.append(f"Az árfolyam az 52-hetes csúcs közelében ({pos*100:.0f}%): túlfeszített belépő.")
     else:
         notes.append("Nincs 52-hetes árfolyam-sáv adat.")
@@ -1476,20 +1476,20 @@ def compute_valuation_score(fund_data: dict, latest_price: float, stock: dict) -
         baseline = sector_pe_baseline(sector)
         ratio = pe / baseline
         if ratio < 0.8:
-            score += 10
+            score += 15
             notes.append("P/E olcsó a szektorhoz képest: értékeltségi bónusz.")
         elif ratio > 1.5:
-            score -= 8
+            score -= 12
             notes.append("P/E drága a szektorhoz képest: értékeltségi büntetés.")
 
     price_avg_200 = fund_data.get("price_avg_200")
     if price_avg_200 and latest_price:
         gap = (latest_price / price_avg_200) - 1.0
         if gap > 0.25:
-            score -= 6
+            score -= 9
             notes.append(f"Az ár {gap*100:.0f}%-kal a 200d MA felett: trendi prémium.")
         elif gap < -0.15:
-            score += 5
+            score += 7
             notes.append(f"Az ár {abs(gap)*100:.0f}%-kal a 200d MA alatt: lehetséges visszateszt.")
 
     return max(5.0, min(95.0, score)), notes
