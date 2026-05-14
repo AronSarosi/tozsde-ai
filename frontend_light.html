@@ -989,7 +989,8 @@
         if (!response.ok) throw new Error("A helyi szerver nem adott választ.");
         state = await response.json();
         clearInterval(stageTimer);
-        selectedSymbol = null;
+        const topRow = (state.rankings && state.rankings[0]) || (state.investment_ideas && state.investment_ideas[0]);
+        selectedSymbol = topRow ? topRow.symbol : null;
         renderApp();
         landing.style.display = "none";
         $("shell").classList.add("ready");
