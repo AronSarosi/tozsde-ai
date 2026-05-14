@@ -1234,15 +1234,11 @@ def pct(a: float, b: float) -> float:
 
 
 def category(score: float) -> str:
-    if score >= 74:
-        return "strong buy"
-    if score >= 62:
+    if score >= 55:
         return "buy"
-    if score >= 38:
+    if score > 45:
         return "hold"
-    if score >= 26:
-        return "sell"
-    return "strong sell"
+    return "sell"
 
 
 def category_class(value: str) -> str:
@@ -1250,9 +1246,39 @@ def category_class(value: str) -> str:
 
 
 def action_rank(item: dict) -> tuple[int, float, float]:
-    priority = {"strong buy": 5, "strong sell": 5, "buy": 4, "sell": 4, "hold": 1}
+    priority = {"buy": 4, "sell": 4, "hold": 1}
     conviction = abs(float(item["score"]) - 50)
     return (priority.get(item["category"], 0), conviction, float(item["score"]))
+
+
+def ensure_minimum_signals(rows: list[dict], min_each: int = 5) -> None:
+    """Guarantee at least `min_each` buys and `min_each` sells by relative ranking.
+
+    The system scores 0-100 with 50 = hold. Natural distribution clusters around 50,
+    so we promote the top-scoring stocks to 'buy' and the lowest-scoring to 'sell'
+    even when their absolute score is close to neutral. The score itself remains
+    visible so the user can see how strong the signal really is.
+    """
+    if not rows or len(rows) < min_each * 2:
+        return
+
+    sorted_rows = sorted(rows, key=lambda r: r.get("score", 0))
+    buy_count = sum(1 for r in rows if r.get("category") == "buy")
+    sell_count = sum(1 for r in rows if r.get("category") == "sell")
+
+    if buy_count < min_each:
+        candidates = [r for r in reversed(sorted_rows) if r.get("category") != "buy"]
+        promote = candidates[: max(0, min_each - buy_count)]
+        for row in promote:
+            row["category"] = "buy"
+            row["category_class"] = "buy"
+
+    if sell_count < min_each:
+        candidates = [r for r in sorted_rows if r.get("category") != "sell"]
+        demote = candidates[: max(0, min_each - sell_count)]
+        for row in demote:
+            row["category"] = "sell"
+            row["category_class"] = "sell"
 
 
 def agent(name: str, score: float, thesis: str) -> dict:
@@ -1607,7 +1633,7 @@ def position_size_suggestion(score: float, cat: str, risk_score: float, fund_dat
     is_mid = market_cap is not None and 2e9 <= market_cap < 50e9
     is_small = market_cap is not None and market_cap < 2e9
 
-    if cat in {"sell", "strong sell"}:
+    if cat == "sell":
         return {
             "recommended_pct": 0.0,
             "range_low": 0.0,
@@ -1624,13 +1650,14 @@ def position_size_suggestion(score: float, cat: str, risk_score: float, fund_dat
             "rationale": "Nincs erős hosszabb távú jelzés. Új pozíciót nem érdemes nyitni, amíg a kép tisztázódik (eredmény, célár revízió).",
         }
 
-    if cat == "strong buy" and risk_score >= 60 and is_mega:
+    high_conviction = conviction >= 12
+    if cat == "buy" and high_conviction and risk_score >= 60 and is_mega:
         low, high = 10.0, 15.0
-    elif cat == "strong buy" and risk_score >= 55 and is_large:
+    elif cat == "buy" and high_conviction and risk_score >= 55 and is_large:
         low, high = 7.0, 10.0
-    elif cat == "strong buy" and is_mid:
+    elif cat == "buy" and high_conviction and is_mid:
         low, high = 4.0, 6.0
-    elif cat == "strong buy":
+    elif cat == "buy" and high_conviction:
         low, high = 3.0, 5.0
     elif cat == "buy" and risk_score >= 60 and is_mega:
         low, high = 6.0, 10.0
@@ -1794,16 +1821,17 @@ def score_stock(stock: dict, quote: dict | None, news_items: list[dict], env: di
     position_size = position_size_suggestion(score, cat, risk, fund_data, conviction)
 
     horizon_text = "1-2 éves távon"
-    if cat == "strong buy":
-        decision = f"{horizon_text} erős vételi jelzés - magas konvikcióval vizsgálandó pozíció, részvásárlással."
+    high_conv = conviction >= 12
+    if cat == "buy" and high_conv:
+        decision = f"{horizon_text} erős vételi jelzés ({score:.0f}/100 pont) - magas konvikcióval vizsgálandó pozíció."
     elif cat == "buy":
-        decision = f"{horizon_text} vételi oldalon vizsgálandó ötlet - érdemes belépési pontot keresni."
+        decision = f"{horizon_text} vételi oldalon vizsgálandó ötlet ({score:.0f}/100 pont) - érdemes belépési pontot keresni."
     elif cat == "hold":
-        decision = "Nincs erős hosszabb távú jelzés; figyelőlistán tartandó, eredményközlésig nem érdemes nyitni."
-    elif cat == "sell":
-        decision = f"{horizon_text} gyenge kockázat/hozam profil - meglévő pozíció felülvizsgálata indokolt."
+        decision = f"Semleges jelzés ({score:.0f}/100 pont, 50 = közömbös). Figyelőlistán tartandó, új pozíció nyitása előtt érdemes várni katalizátorra."
+    elif cat == "sell" and high_conv:
+        decision = f"{horizon_text} erős negatív jelzés ({score:.0f}/100 pont) - új pozíció nem indokolt, meglévő csökkentése mérlegelendő."
     else:
-        decision = f"{horizon_text} jelentős negatív jelzés - új pozíció nem indokolt, meglévő csökkentése mérlegelendő."
+        decision = f"{horizon_text} gyenge kockázat/hozam profil ({score:.0f}/100 pont) - meglévő pozíció felülvizsgálata indokolt."
 
     bull_points: list[str] = []
     bear_points: list[str] = []
@@ -2002,14 +2030,14 @@ def signal_fact(cat: str, momentum: float, valuation: float, events: float, risk
     elif risk <= 35:
         negatives.append("romló kockázati profil")
 
-    if cat in {"strong buy", "buy"}:
+    if cat == "buy":
         basis = positives or ["a rangsorban relatíve kedvezőbb kockázat/hozam kép"]
         return f"Buy oldal: {', '.join(basis)} miatt került előre."
-    elif cat in {"strong sell", "sell"}:
+    elif cat == "sell":
         basis = negatives or ["a rangsorban gyengébb kockázat/hozam kép"]
         return f"Sell oldal: {', '.join(basis)} miatt került előre."
     mixed = positives[:2] + negatives[:2]
-    return f"Watchlist ok: {', '.join(mixed) if mixed else 'nincs erős egyirányú katalizátor'}."
+    return f"Hold ok: {', '.join(mixed) if mixed else 'nincs erős egyirányú katalizátor'}."
 
 
 def sector_driver(sector: str) -> str:
@@ -2076,8 +2104,8 @@ def build_article(stock: dict, cat: str, score: float, decision: str, reasons: l
 
 
 def build_report(rows: list[dict], macro_news: list[dict]) -> dict:
-    buy_items = [row for row in rows if row["category"] in {"strong buy", "buy"}][:8]
-    sell_items = [row for row in rows if row["category"] in {"strong sell", "sell"}][:8]
+    buy_items = [row for row in rows if row["category"] == "buy"][:8]
+    sell_items = [row for row in rows if row["category"] == "sell"][:8]
     hold_items = [row for row in rows if row["category"] == "hold"][:8]
     if macro_news:
         macro_intro = (
@@ -2109,7 +2137,7 @@ def build_report(rows: list[dict], macro_news: list[dict]) -> dict:
         for item in macro_news[:5]:
             lines.append(f"- {item['title']} ({item.get('site') or 'hírforrás'})")
         lines.append("")
-    for group in ["strong buy", "buy", "sell", "strong sell", "hold"]:
+    for group in ["buy", "sell", "hold"]:
         items = [row for row in rows if row["category"] == group][:8]
         lines.append(f"## {group}")
         if not items:
@@ -2159,6 +2187,7 @@ def build_state() -> dict:
         )
         row["calendar_events"] = calendar_events.get(symbol, {"earnings": [], "dividends": []})
         rows.append(row)
+    ensure_minimum_signals(rows, min_each=5)
     rows_by_action = sorted(rows, key=action_rank, reverse=True)
     rows_by_score = sorted(rows, key=lambda item: item["score"], reverse=True)
     counts: dict[str, int] = {}

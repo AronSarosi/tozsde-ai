@@ -16,3 +16,5 @@ __pycache__/
 *.pyc
 cache-test.txt
 frontend/dist/
+
+.vercel

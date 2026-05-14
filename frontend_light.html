@@ -770,7 +770,7 @@
           <div class="intro-stats">
             <div class="stat"><strong id="overviewBuyCount">0</strong><span>Buy ötlet</span></div>
             <div class="stat"><strong id="overviewSellCount">0</strong><span>Sell jelzés</span></div>
-            <div class="stat"><strong id="overviewWatchCount">0</strong><span>Watch</span></div>
+            <div class="stat"><strong id="overviewWatchCount">0</strong><span>Hold</span></div>
           </div>
         </section>
 
@@ -778,7 +778,7 @@
           <button class="filter-btn active" data-overview-filter="all" type="button">Minden</button>
           <button class="filter-btn" data-overview-filter="buy" type="button">Buy</button>
           <button class="filter-btn" data-overview-filter="sell" type="button">Sell</button>
-          <button class="filter-btn" data-overview-filter="watch" type="button">Watch</button>
+          <button class="filter-btn" data-overview-filter="watch" type="button">Hold</button>
         </div>
 
         <div class="ticker-tape" aria-label="Friss piaci adatcsík">
@@ -836,7 +836,7 @@
         <button class="filter-btn active" data-filter="priority" type="button">Kiemelt</button>
         <button class="filter-btn" data-filter="buy" type="button">Buy</button>
         <button class="filter-btn" data-filter="sell" type="button">Sell</button>
-        <button class="filter-btn" data-filter="hold" type="button">Watch</button>
+        <button class="filter-btn" data-filter="hold" type="button">Hold</button>
       </div>
 
       <div class="ticker-tape" aria-label="Friss piaci adatcsík">
@@ -953,7 +953,7 @@
     const esc = (value) => String(value ?? "").replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]));
     const fmt = (value, digits = 2) => Number.isFinite(Number(value)) ? Number(value).toLocaleString("hu-HU", {minimumFractionDigits: digits, maximumFractionDigits: digits}) : "nincs adat";
     const pct = (value) => Number.isFinite(Number(value)) ? `${Number(value) >= 0 ? "+" : ""}${fmt(value, 2)}%` : "nincs adat";
-    const catText = (cat) => ({"strong buy":"strong buy", buy:"buy", hold:"hold", sell:"sell", "strong sell":"strong sell"}[cat] || cat || "nincs adat");
+    const catText = (cat) => ({"strong buy":"buy", buy:"buy", hold:"hold", sell:"sell", "strong sell":"sell"}[cat] || cat || "nincs adat");
     const catIcon = (cat) => cat === "hold" ? "⏸" : (String(cat).includes("buy") ? "📈" : "📉");
     const logoSymbol = (symbol) => String(symbol || "").replace(".", "-");
     const logoImg = (symbol, name = "") => `<img class="company-logo" src="https://financialmodelingprep.com/image-stock/${esc(logoSymbol(symbol))}.png" alt="${esc(name || symbol)} logó" loading="lazy" onerror="this.style.display='none'" />`;
@@ -1317,7 +1317,7 @@
           <div class="decision-box">
             <span class="label ${esc(row.category_class)}">${esc(catText(row.category).toUpperCase())}</span>
             <strong>${fmt(row.score, 1)}</strong>
-            <span>pontszám</span>
+            <span>/100 pont · 50 = semleges</span>
             ${renderScoreChange(row)}
           </div>
         </div>
