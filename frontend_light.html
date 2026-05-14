@@ -949,6 +949,10 @@
           <div class="stat"><strong id="investmentAnalystCount">0</strong><span>külső elemzői célár</span></div>
         </section>
 
+        <section class="section">
+          <div id="investmentSummary"></div>
+        </section>
+
         <div class="search-wrap investment-search">
           <input id="investmentSearchInput" type="search" placeholder="Keress részvényre, cégre vagy szektorra" />
           <div id="investmentSearchResults" class="search-results"></div>
@@ -1432,6 +1436,8 @@
       $("investmentSellCount").textContent = rankings.filter(row => String(row.category || "").includes("sell")).length;
       $("investmentRiskCount").textContent = ideas.filter(item => item.risk_level === "magas").length;
       $("investmentAnalystCount").textContent = ideas.filter(item => item.analyst_target_consensus).length;
+      const summaryHolder = $("investmentSummary");
+      if (summaryHolder) summaryHolder.innerHTML = renderResearchSummary();
       const rows = investmentRowsForFilter(investmentFilter);
       $("investmentTable").innerHTML = buildInvestmentTableHTML(rows, true);
       wireInvestmentRows("investmentTable");
