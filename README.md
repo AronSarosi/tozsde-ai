@@ -4,6 +4,25 @@ Helyi tőzsdei dontestamogato rendszer FastAPI backenddel, SQLite adatbazissal e
 
 ## Gyors inditas
 
+## Megosztas Vercelen
+
+Ez a repo Vercel-kompatibilis preview modban is fut.
+
+1. Vercel dashboardon: Add New Project.
+2. Importald ezt a GitHub repot: `AronSarosi/tozsde-ai`.
+3. Root Directory: hagyd a repo gyokeren.
+4. Framework Preset: Other, ha a Vercel nem ismeri fel automatikusan.
+5. Build Command es Output Directory: hagyd uresen/alapertelmezetten.
+6. Deploy.
+
+API kulcsok nelkul is elindul. Ha kesobb elo adatokat akarsz, Vercel Environment Variables alatt add hozza:
+
+```env
+OPENAI_API_KEY=
+ALPHAVANTAGE_API_KEY=
+FMP_API_KEY=
+```
+
 ### Azonnali preview, telepites es API kulcs nelkul
 
 ```powershell
