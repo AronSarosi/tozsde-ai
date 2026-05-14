@@ -1,0 +1,465 @@
+stocks:
+  - symbol: ERO
+    name: Ero Copper Corp
+    sector: Materials
+    exchange: NYSE
+  - symbol: BIRD
+    name: Allbirds Inc
+    sector: Consumer Discretionary
+    exchange: NASDAQ
+  - symbol: ORCL
+    name: Oracle Corporation
+    sector: Technology
+    exchange: NYSE
+  - symbol: EXPE
+    name: Expedia Inc
+    sector: Consumer Discretionary
+    exchange: NASDAQ
+  - symbol: PLTR
+    name: Palantir Technologies Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: UBER
+    name: Uber Technologies Inc
+    sector: Technology
+    exchange: NYSE
+  - symbol: GEN
+    name: Gen Digital Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: AXON
+    name: Axon Enterprise Inc
+    sector: Industrials
+    exchange: NASDAQ
+  - symbol: NE
+    name: Noble Corp
+    sector: Energy
+    exchange: NYSE
+  - symbol: FSLR
+    name: First Solar Inc
+    sector: Energy
+    exchange: NASDAQ
+  - symbol: DHT
+    name: DHT Holdings Inc
+    sector: Energy
+    exchange: NYSE
+  - symbol: KTOS
+    name: Kratos Defense & Security Solutions
+    sector: Industrials
+    exchange: NASDAQ
+  - symbol: LLY
+    name: Eli Lilly and Company
+    sector: Healthcare
+    exchange: NYSE
+  - symbol: QCOM
+    name: Qualcomm Incorporated
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: BA
+    name: Boeing Co
+    sector: Industrials
+    exchange: NYSE
+  - symbol: BE
+    name: Bloom Energy Corp
+    sector: Energy
+    exchange: NYSE
+  - symbol: WDC
+    name: Western Digital Corporation
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: HAL
+    name: Halliburton Company
+    sector: Energy
+    exchange: NYSE
+  - symbol: CLSK
+    name: CleanSpark Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: EOG
+    name: EOG Resources Inc
+    sector: Energy
+    exchange: NYSE
+  - symbol: SLB
+    name: SLB NV
+    sector: Energy
+    exchange: NYSE
+  - symbol: AVGO
+    name: Broadcom Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: META
+    name: Meta Platforms Inc
+    sector: Communication Services
+    exchange: NASDAQ
+  - symbol: SOUN
+    name: SoundHound AI Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: CVX
+    name: Chevron Corp
+    sector: Energy
+    exchange: NYSE
+  - symbol: MSFT
+    name: Microsoft Corporation
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: CRWV
+    name: CoreWeave Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: SNDK
+    name: SanDisk Corporation
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: AAPL
+    name: Apple Inc.
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: NVO
+    name: Novo Nordisk A/S
+    sector: Healthcare
+    exchange: NYSE
+  - symbol: OXY
+    name: Occidental Petroleum Corporation
+    sector: Energy
+    exchange: NYSE
+  - symbol: GOOGL
+    name: Alphabet Inc Class A
+    sector: Communication Services
+    exchange: NASDAQ
+  - symbol: AMZN
+    name: Amazon.com Inc
+    sector: Consumer Discretionary
+    exchange: NASDAQ
+  - symbol: AMD
+    name: Advanced Micro Devices Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: MRVL
+    name: Marvell Technology Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: MU
+    name: Micron Technology Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: NVDA
+    name: NVIDIA Corporation
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: FCX
+    name: Freeport-McMoRan Inc
+    sector: Materials
+    exchange: NYSE
+  - symbol: AEM
+    name: Agnico Eagle Mines Limited
+    sector: Materials
+    exchange: NYSE
+  - symbol: CEG
+    name: Constellation Energy Corp
+    sector: Utilities
+    exchange: NASDAQ
+  - symbol: SPOT
+    name: Spotify Technology SA
+    sector: Communication Services
+    exchange: NYSE
+  - symbol: ALB
+    name: Albemarle Corp
+    sector: Materials
+    exchange: NYSE
+  - symbol: SIMO
+    name: Silicon Motion Technology
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: SKM
+    name: SK Telecom Co Ltd ADR
+    sector: Communication Services
+    exchange: NYSE
+  - symbol: TSM
+    name: Taiwan Semiconductor Manufacturing Co Ltd ADR
+    sector: Technology
+    exchange: NYSE
+  - symbol: ASML
+    name: ASML Holding NV ADR
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: ARM
+    name: Arm Holdings plc ADR
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: ANET
+    name: Arista Networks Inc
+    sector: Technology
+    exchange: NYSE
+  - symbol: VRT
+    name: Vertiv Holdings Co
+    sector: Industrials
+    exchange: NYSE
+  - symbol: DELL
+    name: Dell Technologies Inc
+    sector: Technology
+    exchange: NYSE
+  - symbol: SMCI
+    name: Super Micro Computer Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: CRWD
+    name: CrowdStrike Holdings Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: PANW
+    name: Palo Alto Networks Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: NET
+    name: Cloudflare Inc
+    sector: Technology
+    exchange: NYSE
+  - symbol: DDOG
+    name: Datadog Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: NOW
+    name: ServiceNow Inc
+    sector: Technology
+    exchange: NYSE
+  - symbol: SNOW
+    name: Snowflake Inc
+    sector: Technology
+    exchange: NYSE
+  - symbol: CRM
+    name: Salesforce Inc
+    sector: Technology
+    exchange: NYSE
+  - symbol: SHOP
+    name: Shopify Inc
+    sector: Technology
+    exchange: NYSE
+  - symbol: TTD
+    name: The Trade Desk Inc
+    sector: Communication Services
+    exchange: NASDAQ
+  - symbol: MELI
+    name: MercadoLibre Inc
+    sector: Consumer Discretionary
+    exchange: NASDAQ
+  - symbol: COST
+    name: Costco Wholesale Corporation
+    sector: Consumer Staples
+    exchange: NASDAQ
+  - symbol: V
+    name: Visa Inc
+    sector: Financials
+    exchange: NYSE
+  - symbol: MA
+    name: Mastercard Incorporated
+    sector: Financials
+    exchange: NYSE
+  - symbol: JPM
+    name: JPMorgan Chase & Co
+    sector: Financials
+    exchange: NYSE
+  - symbol: ETN
+    name: Eaton Corporation plc
+    sector: Industrials
+    exchange: NYSE
+  - symbol: CAT
+    name: Caterpillar Inc
+    sector: Industrials
+    exchange: NYSE
+  - symbol: NEE
+    name: NextEra Energy Inc
+    sector: Utilities
+    exchange: NYSE
+  - symbol: LMT
+    name: Lockheed Martin Corporation
+    sector: Industrials
+    exchange: NYSE
+  - symbol: TMO
+    name: Thermo Fisher Scientific Inc
+    sector: Healthcare
+    exchange: NYSE
+  - symbol: TSLA
+    name: Tesla Inc
+    sector: Consumer Discretionary
+    exchange: NASDAQ
+  - symbol: BRK.B
+    name: Berkshire Hathaway Inc Class B
+    sector: Financials
+    exchange: NYSE
+  - symbol: WMT
+    name: Walmart Inc
+    sector: Consumer Staples
+    exchange: NYSE
+  - symbol: XOM
+    name: Exxon Mobil Corporation
+    sector: Energy
+    exchange: NYSE
+  - symbol: UNH
+    name: UnitedHealth Group Inc
+    sector: Healthcare
+    exchange: NYSE
+  - symbol: JNJ
+    name: Johnson & Johnson
+    sector: Healthcare
+    exchange: NYSE
+  - symbol: PG
+    name: Procter & Gamble Co
+    sector: Consumer Staples
+    exchange: NYSE
+  - symbol: HD
+    name: Home Depot Inc
+    sector: Consumer Discretionary
+    exchange: NYSE
+  - symbol: BAC
+    name: Bank of America Corporation
+    sector: Financials
+    exchange: NYSE
+  - symbol: ABBV
+    name: AbbVie Inc
+    sector: Healthcare
+    exchange: NYSE
+  - symbol: KO
+    name: Coca-Cola Company
+    sector: Consumer Staples
+    exchange: NYSE
+  - symbol: NFLX
+    name: Netflix Inc
+    sector: Communication Services
+    exchange: NASDAQ
+  - symbol: GE
+    name: GE Aerospace
+    sector: Industrials
+    exchange: NYSE
+  - symbol: PM
+    name: Philip Morris International Inc
+    sector: Consumer Staples
+    exchange: NYSE
+  - symbol: CSCO
+    name: Cisco Systems Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: IBM
+    name: International Business Machines Corporation
+    sector: Technology
+    exchange: NYSE
+  - symbol: WFC
+    name: Wells Fargo & Company
+    sector: Financials
+    exchange: NYSE
+  - symbol: SAP
+    name: SAP SE ADR
+    sector: Technology
+    exchange: NYSE
+  - symbol: TMUS
+    name: T-Mobile US Inc
+    sector: Communication Services
+    exchange: NASDAQ
+  - symbol: MCD
+    name: McDonald's Corporation
+    sector: Consumer Discretionary
+    exchange: NYSE
+  - symbol: LIN
+    name: Linde plc
+    sector: Materials
+    exchange: NASDAQ
+  - symbol: ABT
+    name: Abbott Laboratories
+    sector: Healthcare
+    exchange: NYSE
+  - symbol: MRK
+    name: Merck & Co Inc
+    sector: Healthcare
+    exchange: NYSE
+  - symbol: ACN
+    name: Accenture plc
+    sector: Technology
+    exchange: NYSE
+  - symbol: ADBE
+    name: Adobe Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: TXN
+    name: Texas Instruments Incorporated
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: INTU
+    name: Intuit Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: ISRG
+    name: Intuitive Surgical Inc
+    sector: Healthcare
+    exchange: NASDAQ
+  - symbol: AZN
+    name: AstraZeneca PLC ADR
+    sector: Healthcare
+    exchange: NASDAQ
+  - symbol: PEP
+    name: PepsiCo Inc
+    sector: Consumer Staples
+    exchange: NASDAQ
+  - symbol: AMAT
+    name: Applied Materials Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: LRCX
+    name: Lam Research Corporation
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: KLAC
+    name: KLA Corporation
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: ADI
+    name: Analog Devices Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: INTC
+    name: Intel Corporation
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: MSI
+    name: Motorola Solutions Inc
+    sector: Technology
+    exchange: NYSE
+  - symbol: APH
+    name: Amphenol Corporation
+    sector: Technology
+    exchange: NYSE
+  - symbol: ADP
+    name: Automatic Data Processing Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: FI
+    name: Fiserv Inc
+    sector: Technology
+    exchange: NYSE
+  - symbol: BABA
+    name: Alibaba Group Holding Limited ADR
+    sector: Consumer Discretionary
+    exchange: NYSE
+  - symbol: SONY
+    name: Sony Group Corporation ADR
+    sector: Technology
+    exchange: NYSE
+  - symbol: BIDU
+    name: Baidu Inc ADR
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: JD
+    name: JD.com Inc ADR
+    sector: Consumer Discretionary
+    exchange: NASDAQ
+  - symbol: SE
+    name: Sea Limited ADR
+    sector: Technology
+    exchange: NYSE
+  - symbol: INFY
+    name: Infosys Limited ADR
+    sector: Technology
+    exchange: NYSE
+  - symbol: NTES
+    name: NetEase Inc ADR
+    sector: Communication Services
+    exchange: NASDAQ

@@ -1,0 +1,16 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Tőzsde AI fresh concept 2 growth horizon</title>
+  <desc id="desc">Smooth growth horizon and protected arc for a safe AI investing brand.</desc>
+  <rect width="1200" height="420" fill="#121F28"/>
+  <g transform="translate(158 98)">
+    <path d="M48 150C48 74 109 14 184 14C224 14 260 31 285 58" stroke="#AAB6C2" stroke-opacity=".46" stroke-width="14" stroke-linecap="round"/>
+    <path d="M54 174C94 172 133 164 171 150C210 135 247 112 284 82" stroke="#22C55E" stroke-width="14" stroke-linecap="round"/>
+    <path d="M64 204C112 224 168 224 216 203C261 184 294 148 309 102" stroke="#22C55E" stroke-opacity=".84" stroke-width="14" stroke-linecap="round"/>
+    <rect x="118" y="164" width="10" height="34" rx="5" fill="#DCE6EE" fill-opacity=".38"/>
+    <rect x="158" y="150" width="10" height="44" rx="5" fill="#DCE6EE" fill-opacity=".48"/>
+    <rect x="198" y="130" width="10" height="56" rx="5" fill="#DCE6EE" fill-opacity=".58"/>
+  </g>
+  <text x="430" y="244" fill="#F8FAFC" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">Tőzsde</text>
+  <text x="808" y="244" fill="#22C55E" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">AI</text>
+  <text x="170" y="356" fill="#91A0AD" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="0">02 / GROWTH HORIZON</text>
+</svg>

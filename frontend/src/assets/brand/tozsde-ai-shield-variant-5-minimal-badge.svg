@@ -1,0 +1,11 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Tőzsde AI shield variant 5 minimal badge</title>
+  <desc id="desc">Minimal solid green shield badge with simple dark prism cut.</desc>
+  <rect width="1200" height="420" fill="#090B0F"/>
+  <g transform="translate(170 102)">
+    <path d="M110 16L202 68V176L110 230L18 176V68L110 16Z" fill="#22C55E"/>
+    <path d="M78 166L110 94L142 166H78Z" fill="#090B0F"/>
+  </g>
+  <text x="430" y="244" fill="#F8FAFC" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">Tőzsde</text>
+  <text x="808" y="244" fill="#22C55E" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">AI</text>
+</svg>

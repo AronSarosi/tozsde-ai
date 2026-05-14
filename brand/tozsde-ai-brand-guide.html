@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="hu">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tőzsde AI Brand Guide</title>
+    <style>
+      :root {
+        --ink: #111827;
+        --graphite: #1f2937;
+        --signal: #22c55e;
+        --cyan: #06b6d4;
+        --paper: #f8fafc;
+        --mist: #e2e8f0;
+        --muted: #64748b;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Inter, system-ui, sans-serif;
+        font-size: 18px;
+        line-height: 1.55;
+        margin: 0;
+      }
+
+      main {
+        margin: 0 auto;
+        max-width: 1160px;
+        padding: 44px 24px 76px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: Sora, Inter, system-ui, sans-serif;
+        letter-spacing: 0;
+        line-height: 1.08;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(46px, 7vw, 84px);
+        max-width: 880px;
+      }
+
+      h2 {
+        font-size: clamp(30px, 4vw, 46px);
+        margin-bottom: 20px;
+      }
+
+      h3 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      p {
+        margin: 0;
+        max-width: 760px;
+      }
+
+      code {
+        background: rgba(17, 24, 39, 0.08);
+        border-radius: 6px;
+        padding: 0.1em 0.35em;
+      }
+
+      .hero {
+        display: grid;
+        gap: 28px;
+        min-height: 470px;
+        padding-top: 12px;
+      }
+
+      .logo-showcase,
+      .panel {
+        background: white;
+        border: 1px solid var(--mist);
+        border-radius: 8px;
+      }
+
+      .logo-showcase {
+        align-items: center;
+        display: flex;
+        min-height: 184px;
+        padding: 30px;
+      }
+
+      .logo-showcase img {
+        height: auto;
+        max-width: min(620px, 100%);
+      }
+
+      .section {
+        border-top: 1px solid var(--mist);
+        padding: 54px 0;
+      }
+
+      .grid {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+
+      .panel {
+        padding: 24px;
+      }
+
+      .panel img {
+        height: auto;
+        max-width: 100%;
+      }
+
+      .dark {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .swatch {
+        border-radius: 8px;
+        min-height: 128px;
+        padding: 18px;
+      }
+
+      .swatch strong,
+      .swatch span {
+        display: block;
+      }
+
+      .swatch strong {
+        font-size: 20px;
+      }
+
+      .swatch span {
+        font-size: 16px;
+        margin-top: 8px;
+      }
+
+      .ink { background: var(--ink); color: var(--paper); }
+      .graphite { background: var(--graphite); color: var(--paper); }
+      .signal { background: var(--signal); color: var(--ink); }
+      .cyan { background: var(--cyan); color: var(--ink); }
+      .paper { background: white; border: 1px solid var(--mist); color: var(--ink); }
+      .warning { background: var(--warning); color: var(--ink); }
+      .danger { background: var(--danger); color: white; }
+
+      .two-col {
+        display: grid;
+        gap: 28px;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+
+      .list {
+        margin: 0;
+        padding-left: 1.1em;
+      }
+
+      .list li {
+        margin: 8px 0;
+      }
+
+      .sample {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .metric {
+        align-items: baseline;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .metric strong {
+        color: var(--signal);
+        font-size: 38px;
+      }
+
+      .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      button {
+        border: 0;
+        border-radius: 6px;
+        font: inherit;
+        font-size: 17px;
+        font-weight: 800;
+        min-height: 46px;
+        padding: 0 18px;
+      }
+
+      .primary {
+        background: var(--signal);
+        color: var(--ink);
+      }
+
+      .secondary {
+        background: var(--graphite);
+        color: var(--paper);
+      }
+
+      @media (max-width: 760px) {
+        main {
+          padding: 28px 18px 56px;
+        }
+
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <div class="logo-showcase">
+          <img src="../frontend/src/assets/brand/tozsde-ai-logo.svg" alt="Tőzsde AI logo" />
+        </div>
+        <h1>Tiszta tőzsdei jelzések. Magyarul. AI-val.</h1>
+        <p>
+          A Tőzsde AI vizuális iránya letisztult fintech. Kevesebb részlet, nagyobb olvashatóság,
+          erősebb webes használhatóság.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Logóváltozatok</h2>
+        <div class="grid">
+          <div class="panel">
+            <h3>1. Signal</h3>
+            <img src="../frontend/src/assets/brand/tozsde-ai-logo-signal.svg" alt="Tőzsde AI Signal logo" />
+            <p>Ajánlott főverzió. A legtisztább és legjobban skálázható.</p>
+          </div>
+          <div class="panel">
+            <h3>2. Pillar</h3>
+            <img src="../frontend/src/assets/brand/tozsde-ai-logo-pillar.svg" alt="Tőzsde AI Pillar logo" />
+            <p>Erősebb pénzügyi jelleg. Jó dashboard ikonként.</p>
+          </div>
+          <div class="panel">
+            <h3>3. Focus</h3>
+            <img src="../frontend/src/assets/brand/tozsde-ai-logo-focus.svg" alt="Tőzsde AI Focus logo" />
+            <p>Szoftvertermékesebb, apposabb irány.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Sötét háttér</h2>
+        <div class="panel dark">
+          <img src="../frontend/src/assets/brand/tozsde-ai-logo-reverse.svg" alt="Tőzsde AI dark logo" />
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Színek</h2>
+        <div class="grid">
+          <div class="swatch ink"><strong>Ink</strong><span>#111827</span></div>
+          <div class="swatch graphite"><strong>Graphite</strong><span>#1F2937</span></div>
+          <div class="swatch signal"><strong>Signal green</strong><span>#22C55E</span></div>
+          <div class="swatch cyan"><strong>Cyan</strong><span>#06B6D4</span></div>
+          <div class="swatch paper"><strong>Paper</strong><span>#F8FAFC</span></div>
+          <div class="swatch warning"><strong>Warning</strong><span>#F59E0B</span></div>
+          <div class="swatch danger"><strong>Danger</strong><span>#EF4444</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>UI irány</h2>
+        <div class="two-col">
+          <div>
+            <p>
+              A felület legyen döntési pult: nagy számok, rövid magyarázatok, kevés dekoráció.
+              A részvényadatoknak kell vezetniük, nem a dizájnnak.
+            </p>
+            <ul class="list">
+              <li>Minimum 16px body text, inkább 17-18px.</li>
+              <li>6-8px radius.</li>
+              <li>Zöld a pozitív jel és fő akció.</li>
+              <li>Cyan az AI-fókusz és aktív állapot.</li>
+              <li>Nincs nyíl a gombokban.</li>
+            </ul>
+          </div>
+          <div class="panel sample">
+            <h3>Mai jelzés</h3>
+            <div class="metric"><span>Modell bizalom</span><strong>82%</strong></div>
+            <p style="color: #e2e8f0; margin-top: 12px;">Erős jel, de magas kockázattal.</p>
+            <div class="buttons">
+              <button class="primary">Elemzés indítása</button>
+              <button class="secondary">Részletek</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

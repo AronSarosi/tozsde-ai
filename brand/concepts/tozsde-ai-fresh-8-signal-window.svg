@@ -1,0 +1,20 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Tőzsde AI fresh concept 8 signal window</title>
+  <desc id="desc">Clean signal window icon with a green investment plane.</desc>
+  <rect width="1200" height="420" fill="#14212A"/>
+  <g transform="translate(178 104)">
+    <rect x="22" y="22" width="216" height="176" rx="30" stroke="#6F7F8C" stroke-width="18"/>
+    <path d="M80 178V112C80 101 86 91 96 86L178 42V178H80Z" fill="#22C55E"/>
+    <path d="M80 178V112C80 101 86 91 96 86L178 42V178H80Z" fill="url(#signal-window-fade)"/>
+    <path d="M82 178H208" stroke="#DCE6EE" stroke-opacity=".26" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <text x="430" y="244" fill="#F8FAFC" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">Tőzsde</text>
+  <text x="808" y="244" fill="#22C55E" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">AI</text>
+  <text x="170" y="356" fill="#91A0AD" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="0">08 / SIGNAL WINDOW</text>
+  <defs>
+    <linearGradient id="signal-window-fade" x1="129" y1="42" x2="129" y2="178" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5AFA89" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#061018" stop-opacity=".42"/>
+    </linearGradient>
+  </defs>
+</svg>

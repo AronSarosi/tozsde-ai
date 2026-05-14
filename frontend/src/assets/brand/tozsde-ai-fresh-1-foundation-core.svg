@@ -1,0 +1,16 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Tőzsde AI fresh concept 1 foundation core</title>
+  <desc id="desc">Layered foundation icon with green AI core on a refined dark background.</desc>
+  <rect width="1200" height="420" fill="#111B24"/>
+  <g transform="translate(168 96)">
+    <path d="M126 20L228 80L126 140L24 80L126 20Z" fill="#3A4652"/>
+    <path d="M24 80L126 140L228 80V112L126 172L24 112V80Z" fill="#25313B"/>
+    <path d="M126 84L166 108L126 132L86 108L126 84Z" fill="#22C55E"/>
+    <path d="M54 142L126 184L198 142V170L126 212L54 170V142Z" fill="#1F2A33"/>
+    <path d="M70 190L126 222L182 190V216L126 248L70 216V190Z" fill="#18232C"/>
+    <path d="M96 110C96 94 109 81 126 81C143 81 156 94 156 110C156 126 143 139 126 139C109 139 96 126 96 110Z" fill="#22C55E" fill-opacity=".18"/>
+  </g>
+  <text x="430" y="244" fill="#F8FAFC" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">Tőzsde</text>
+  <text x="808" y="244" fill="#22C55E" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">AI</text>
+  <text x="170" y="356" fill="#91A0AD" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="0">01 / FOUNDATION CORE</text>
+</svg>

@@ -1,0 +1,20 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Tőzsde AI fresh concept 10 insight stack</title>
+  <desc id="desc">Layered insight cards with a green AI decision plane.</desc>
+  <rect width="1200" height="420" fill="#14212A"/>
+  <g transform="translate(174 78)">
+    <path d="M132 28L248 96L132 164L16 96L132 28Z" fill="#DCE6EE" fill-opacity=".18" stroke="#9AA8B5" stroke-width="8"/>
+    <path d="M132 108L244 174L132 240L20 174L132 108Z" fill="#22C55E"/>
+    <path d="M132 108L244 174L132 240L20 174L132 108Z" fill="url(#insight-stack-fade)"/>
+    <path d="M132 188L234 248L132 308L30 248L132 188Z" fill="#26333E" stroke="#5F6E7A" stroke-width="8"/>
+  </g>
+  <text x="430" y="244" fill="#F8FAFC" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">Tőzsde</text>
+  <text x="808" y="244" fill="#22C55E" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">AI</text>
+  <text x="170" y="356" fill="#91A0AD" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="0">10 / INSIGHT STACK</text>
+  <defs>
+    <linearGradient id="insight-stack-fade" x1="132" y1="108" x2="132" y2="240" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#67FF91" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#0B2013" stop-opacity=".35"/>
+    </linearGradient>
+  </defs>
+</svg>

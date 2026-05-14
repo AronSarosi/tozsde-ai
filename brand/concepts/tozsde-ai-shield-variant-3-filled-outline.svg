@@ -1,0 +1,13 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Tőzsde AI shield variant 3 filled outline</title>
+  <desc id="desc">Dark filled shield with thick green outline and green prism core.</desc>
+  <rect width="1200" height="420" fill="#090B0F"/>
+  <g transform="translate(170 102)">
+    <path d="M110 14L208 70V182L110 238L12 182V70L110 14Z" fill="#101820" stroke="#22C55E" stroke-width="18" stroke-linejoin="round"/>
+    <path d="M70 168L110 92L150 168H70Z" fill="#22C55E"/>
+    <path d="M110 92L190 78V172L150 168L110 92Z" fill="#22C55E" fill-opacity=".36"/>
+    <path d="M70 168L30 172V78L110 92L70 168Z" fill="#F8FAFC" fill-opacity=".12"/>
+  </g>
+  <text x="430" y="244" fill="#F8FAFC" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">Tőzsde</text>
+  <text x="808" y="244" fill="#22C55E" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">AI</text>
+</svg>

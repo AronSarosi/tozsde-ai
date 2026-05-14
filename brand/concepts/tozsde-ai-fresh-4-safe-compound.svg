@@ -1,0 +1,16 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Tőzsde AI fresh concept 4 safe compound</title>
+  <desc id="desc">Stable compound-growth mark with a protected green investment path.</desc>
+  <rect width="1200" height="420" fill="#13212A"/>
+  <g transform="translate(164 92)">
+    <path d="M40 204C40 116 111 45 199 45" stroke="#9BA9B5" stroke-opacity=".38" stroke-width="16" stroke-linecap="round"/>
+    <path d="M199 45C255 45 302 78 324 126" stroke="#9BA9B5" stroke-opacity=".38" stroke-width="16" stroke-linecap="round"/>
+    <path d="M64 202C116 202 151 184 177 152C199 125 223 104 278 104" stroke="#22C55E" stroke-width="16" stroke-linecap="round"/>
+    <path d="M88 238H288" stroke="#F8FAFC" stroke-opacity=".72" stroke-width="14" stroke-linecap="round"/>
+    <path d="M116 210H260" stroke="#22C55E" stroke-opacity=".24" stroke-width="54" stroke-linecap="round"/>
+    <circle cx="278" cy="104" r="14" fill="#22C55E"/>
+  </g>
+  <text x="430" y="244" fill="#F8FAFC" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">Tőzsde</text>
+  <text x="808" y="244" fill="#22C55E" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">AI</text>
+  <text x="170" y="356" fill="#91A0AD" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="0">04 / SAFE COMPOUND</text>
+</svg>

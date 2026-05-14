@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="hu">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tőzsde AI Shield Variants</title>
+    <style>
+      :root {
+        --bg: #05090d;
+        --panel: #0a1016;
+        --line: #17222d;
+        --text: #f8fafc;
+        --muted: #8b98a5;
+        --green: #22c55e;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, system-ui, sans-serif;
+        font-size: 18px;
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      main {
+        margin: 0 auto;
+        max-width: 1240px;
+        padding: 44px 24px 72px;
+      }
+
+      h1,
+      h2 {
+        font-family: Sora, Inter, system-ui, sans-serif;
+        letter-spacing: 0;
+        line-height: 1.08;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(42px, 7vw, 78px);
+        max-width: 1000px;
+      }
+
+      h2 {
+        font-size: 26px;
+      }
+
+      p {
+        color: var(--muted);
+        margin: 14px 0 0;
+        max-width: 830px;
+      }
+
+      .hero {
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 44px;
+      }
+
+      .hero strong {
+        color: var(--green);
+      }
+
+      .grid {
+        display: grid;
+        gap: 22px;
+        padding-top: 34px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .card img {
+        display: block;
+        height: auto;
+        width: 100%;
+      }
+
+      .meta {
+        align-items: baseline;
+        display: flex;
+        gap: 16px;
+        justify-content: space-between;
+        padding: 18px 20px 20px;
+      }
+
+      .meta span {
+        color: var(--muted);
+      }
+
+      @media (max-width: 760px) {
+        main {
+          padding: 28px 16px 56px;
+        }
+
+        .meta {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 6px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <h1>Pajzsvariációk a <strong>Tőzsde AI</strong> sötét logóhoz.</h1>
+        <p>Mindegyik a harmadik irányból indul ki. A fókusz: zöld pajzs, profibb mark, kevesebb apró részlet, fehér Tőzsde és zöld AI.</p>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <img src="concepts/tozsde-ai-shield-variant-1-solid-green.svg" alt="Solid green shield variant" />
+          <div class="meta">
+            <h2>01 / Solid Green</h2>
+            <span>Tömör zöld pajzs, belső negatív térrel. Erős, modern.</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <img src="concepts/tozsde-ai-shield-variant-2-thick-outline.svg" alt="Thick outline shield variant" />
+          <div class="meta">
+            <h2>02 / Thick Outline</h2>
+            <span>Vastagabb kontúr, levegősebb belső. Elegánsabb, kevésbé masszív.</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <img src="concepts/tozsde-ai-shield-variant-3-filled-outline.svg" alt="Filled outline shield variant" />
+          <div class="meta">
+            <h2>03 / Filled Outline</h2>
+            <span>Sötét kitöltés, zöld pajzskontúr. A legkomolyabb, legfintechesebb.</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <img src="concepts/tozsde-ai-shield-variant-4-faceted-green.svg" alt="Faceted green shield variant" />
+          <div class="meta">
+            <h2>04 / Faceted Green</h2>
+            <span>Teljesen zöld, több síkból álló pajzs. Látványosabb, kicsit prémiumabb.</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <img src="concepts/tozsde-ai-shield-variant-5-minimal-badge.svg" alt="Minimal badge shield variant" />
+          <div class="meta">
+            <h2>05 / Minimal Badge</h2>
+            <span>A legtisztább verzió. Jó faviconnak és app ikonnak.</span>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Tőzsde AI fresh concept 3 evidence lens</title>
+  <desc id="desc">Information lens icon with balanced data bands and green AI signal.</desc>
+  <rect width="1200" height="420" fill="#111B24"/>
+  <g transform="translate(174 92)">
+    <path d="M126 20C192 20 246 74 246 140C246 206 192 260 126 260C60 260 6 206 6 140C6 74 60 20 126 20Z" fill="#182530"/>
+    <path d="M126 32C186 32 234 80 234 140C234 200 186 248 126 248C66 248 18 200 18 140C18 80 66 32 126 32Z" stroke="#AAB6C2" stroke-opacity=".52" stroke-width="12"/>
+    <rect x="72" y="104" width="28" height="88" rx="8" fill="#33424F"/>
+    <rect x="112" y="76" width="28" height="116" rx="8" fill="#22C55E"/>
+    <rect x="152" y="120" width="28" height="72" rx="8" fill="#33424F"/>
+    <path d="M54 204H198" stroke="#DCE6EE" stroke-opacity=".38" stroke-width="10" stroke-linecap="round"/>
+    <path d="M198 76L226 46" stroke="#22C55E" stroke-width="12" stroke-linecap="round"/>
+  </g>
+  <text x="430" y="244" fill="#F8FAFC" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">Tőzsde</text>
+  <text x="808" y="244" fill="#22C55E" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">AI</text>
+  <text x="170" y="356" fill="#91A0AD" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="0">03 / EVIDENCE LENS</text>
+</svg>

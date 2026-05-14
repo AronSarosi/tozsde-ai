@@ -1,0 +1,52 @@
+:root {
+  --tozsde-ink: #111827;
+  --tozsde-graphite: #1f2937;
+  --tozsde-signal: #22c55e;
+  --tozsde-cyan: #06b6d4;
+  --tozsde-paper: #f8fafc;
+  --tozsde-mist: #e2e8f0;
+  --tozsde-muted: #64748b;
+  --tozsde-warning: #f59e0b;
+  --tozsde-danger: #ef4444;
+
+  --tozsde-font-display: "Sora", "Inter", system-ui, sans-serif;
+  --tozsde-font-body: "Inter", system-ui, sans-serif;
+
+  --tozsde-radius-sm: 6px;
+  --tozsde-radius-md: 8px;
+  --tozsde-shadow-panel: 0 18px 48px rgba(17, 24, 39, 0.12);
+}
+
+.tozsde-logo {
+  display: inline-block;
+  height: 48px;
+  width: auto;
+}
+
+.tozsde-mark {
+  display: inline-block;
+  height: 44px;
+  width: 44px;
+}
+
+.tozsde-heading {
+  color: var(--tozsde-ink);
+  font-family: var(--tozsde-font-display);
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.tozsde-button {
+  align-items: center;
+  background: var(--tozsde-signal);
+  border: 0;
+  border-radius: var(--tozsde-radius-sm);
+  color: var(--tozsde-ink);
+  display: inline-flex;
+  font-family: var(--tozsde-font-body);
+  font-size: 1rem;
+  font-weight: 800;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+}

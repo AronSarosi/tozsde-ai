@@ -1,0 +1,11 @@
+<svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Tőzsde AI Pillar mark</title>
+  <desc id="desc">Three ascending bars with a simple signal line.</desc>
+  <rect x="18" y="54" width="14" height="24" rx="4" fill="#111827"/>
+  <rect x="41" y="42" width="14" height="36" rx="4" fill="#22C55E"/>
+  <rect x="64" y="26" width="14" height="52" rx="4" fill="#06B6D4"/>
+  <path d="M25 64L48 52L71 38" stroke="#F8FAFC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="25" cy="64" r="5" fill="#F8FAFC"/>
+  <circle cx="48" cy="52" r="5" fill="#F8FAFC"/>
+  <circle cx="71" cy="38" r="5" fill="#F8FAFC"/>
+</svg>

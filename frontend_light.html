@@ -1,0 +1,1580 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tőzsde AI</title>
+  <style>
+    :root {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color: #111827;
+      background: #f7f8fa;
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --surface-soft: #f1f4f7;
+      --line: #dfe5ec;
+      --text: #111827;
+      --muted: #64748b;
+      --green: #18a957;
+      --red: #d9495f;
+      --blue: #2563eb;
+      --shadow: 0 22px 60px rgba(15, 23, 42, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #ffffff 0%, #f6f8fb 44%, #eef2f6 100%);
+      color: var(--text);
+    }
+    button, input { font: inherit; }
+    button { border: 0; cursor: pointer; }
+    a { color: #0f7b42; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .landing {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+    .landing-card {
+      width: min(940px, 100%);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      animation: enter .65s ease-out both;
+    }
+    .logo-hero {
+      width: min(560px, 86vw);
+      height: auto;
+      display: block;
+      margin: 0 auto 24px;
+      filter: drop-shadow(0 20px 45px rgba(15,23,42,.09));
+      animation: logoFloat 5s ease-in-out infinite;
+    }
+    .intro-title {
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: .96;
+      margin: 0 0 34px;
+      font-weight: 860;
+      letter-spacing: 0;
+    }
+    .intro-text {
+      font-size: 22px;
+      line-height: 1.48;
+      color: #42526a;
+      max-width: 760px;
+      margin: 0 auto 30px;
+    }
+    .intro-note {
+      font-size: 17px;
+      color: #637083;
+      margin: 0 auto 34px;
+      max-width: 760px;
+      line-height: 1.55;
+    }
+    .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 58px;
+      padding: 0 26px;
+      border-radius: 999px;
+      background: #101827;
+      color: white;
+      font-weight: 820;
+      font-size: 18px;
+      box-shadow: 0 14px 34px rgba(16,24,39,.18);
+      transition: .18s transform, .18s box-shadow, .18s background;
+    }
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      background: #0b1220;
+      box-shadow: 0 18px 45px rgba(16,24,39,.22);
+    }
+    .primary-btn:disabled { opacity: .76; cursor: default; transform: none; }
+    .loading-panel {
+      display: none;
+      margin: 34px auto 0;
+      width: min(680px, 100%);
+      background: rgba(255,255,255,.86);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 18px;
+      text-align: left;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+    .landing.loading .loading-panel { display: block; }
+    .scan-row { display: flex; align-items: center; gap: 14px; }
+    .scan-orb {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: conic-gradient(from 120deg, var(--green), #b7f4cc, #e8eef4, var(--green));
+      animation: spin 1.2s linear infinite;
+      position: relative;
+      flex: 0 0 auto;
+    }
+    .scan-orb:after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border-radius: inherit;
+      background: white;
+    }
+    .scan-title { font-size: 18px; font-weight: 820; margin: 0 0 4px; }
+    .scan-stage { margin: 0; color: #64748b; font-size: 15px; }
+    .progress { height: 8px; border-radius: 999px; background: #e7edf3; margin-top: 16px; overflow: hidden; }
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 36%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #111827, var(--green));
+      animation: progress 2.2s ease-in-out infinite;
+    }
+    .shell { display: none; min-height: 100vh; }
+    .shell.ready { display: block; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(223,229,236,.78);
+    }
+    .topbar-inner {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 10px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+    .brand-logo { width: 218px; height: 56px; object-fit: contain; object-position: left center; display: block; }
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex: 1;
+    }
+    .nav-link {
+      background: transparent;
+      color: #667085;
+      font-size: 16px;
+      font-weight: 760;
+      padding: 10px 0;
+      border-bottom: 2px solid transparent;
+    }
+    .nav-link.active {
+      color: #111827;
+      border-bottom-color: #111827;
+    }
+    .top-actions { display: flex; gap: 10px; align-items: center; color: #64748b; font-size: 15px; }
+    .refresh-btn {
+      border-radius: 999px;
+      background: #111827;
+      color: white;
+      min-height: 42px;
+      padding: 0 16px;
+      font-weight: 780;
+    }
+    .status-dot {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: #edf8f1;
+      color: #168a49;
+      display: grid;
+      place-items: center;
+      font-size: 21px;
+      position: relative;
+      font-weight: 900;
+    }
+    .status-dot.bad { background: #fff0f2; color: #c73349; }
+    .status-pop {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 50px;
+      width: 340px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+      text-align: left;
+      color: #111827;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .status-dot:hover .status-pop { display: block; }
+    .page { max-width: 1480px; margin: 0 auto; padding: 30px 28px 56px; }
+    .app-page { display: none; }
+    .app-page.active { display: block; animation: enter .45s ease both; }
+    .app-intro {
+      display: grid;
+      grid-template-columns: minmax(0,1.15fr) minmax(260px,.85fr);
+      gap: 34px;
+      align-items: end;
+      margin: 10px 0 24px;
+    }
+    .app-intro h1 {
+      font-size: clamp(34px, 4.8vw, 62px);
+      line-height: 1;
+      margin: 0 0 14px;
+      letter-spacing: 0;
+      font-weight: 860;
+    }
+    .app-intro p { font-size: 20px; line-height: 1.5; color: #526071; margin: 0; max-width: 830px; }
+    .intro-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .intro-stats.news-count-only { grid-template-columns: minmax(180px, 240px); justify-content: end; }
+    .stat { background: rgba(255,255,255,.78); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+    .stat strong { display: block; font-size: 28px; color: #111827; }
+    .stat span { display: block; margin-top: 4px; color: #64748b; font-size: 14px; }
+    .search-wrap { position: relative; margin: 22px 0 18px; }
+    .search-wrap input {
+      width: 100%;
+      height: 66px;
+      border-radius: 999px;
+      border: 1px solid #d9e1ea;
+      background: #fff;
+      padding: 0 24px;
+      font-size: 21px;
+      outline: none;
+      box-shadow: 0 12px 34px rgba(15,23,42,.06);
+    }
+    .search-wrap input:focus { border-color: #a7b4c2; box-shadow: 0 16px 40px rgba(15,23,42,.09); }
+    .search-results {
+      display: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 76px;
+      z-index: 25;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 22px 60px rgba(15,23,42,.13);
+      padding: 8px;
+      max-height: 430px;
+      overflow: auto;
+    }
+    .search-results.open { display: grid; gap: 4px; }
+    .search-result {
+      display: grid;
+      grid-template-columns: 44px 86px minmax(0,1fr) 80px;
+      gap: 14px;
+      align-items: center;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: inherit;
+    }
+    .search-result:hover { background: #f3f6f9; }
+    .search-result b { font-size: 21px; }
+    .search-result span { color: #64748b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .company-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      object-fit: contain;
+      background: #fff;
+      border: 1px solid #e5ebf1;
+      padding: 4px;
+      box-shadow: 0 8px 18px rgba(15,23,42,.05);
+    }
+    .filter-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
+    .filter-btn {
+      background: transparent;
+      color: #566474;
+      font-weight: 780;
+      font-size: 16px;
+      padding: 9px 2px;
+      border-bottom: 2px solid transparent;
+      margin-right: 18px;
+    }
+    .filter-btn.active { color: #111827; border-bottom-color: #111827; }
+    .ticker-tape {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.84);
+      border-radius: 999px;
+      box-shadow: 0 12px 34px rgba(15,23,42,.06);
+      margin: 12px 0 22px;
+      white-space: nowrap;
+    }
+    .ticker-track {
+      display: inline-flex;
+      gap: 22px;
+      min-width: 200%;
+      padding: 12px 0;
+      animation: tapeMove 42s linear infinite;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      color: #475569;
+      font-weight: 700;
+    }
+    .ticker-item b { color: #111827; font-size: 16px; }
+    .ticker-item .pos { color: #0f7b42; }
+    .ticker-item .neg { color: #b42338; }
+    .action-board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin: 0 0 24px;
+    }
+    .action-column {
+      background: rgba(255,255,255,.84);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .action-column h2 { margin: 0 0 12px; font-size: 25px; }
+    .news-brief-panel {
+      background: rgba(255,255,255,.84);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin: 0 0 22px;
+    }
+    .news-brief-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 14px; }
+    .news-brief-head h2 { margin: 0; font-size: 27px; }
+    .news-brief-head span { color: #64748b; font-size: 15px; }
+    .news-brief-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 12px;
+    }
+    .news-brief-card {
+      width: 100%;
+      text-align: left;
+      border: 1px solid #e5ebf1;
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: .18s transform, .18s box-shadow, .18s border-color;
+    }
+    .news-brief-card:hover {
+      transform: translateY(-1px);
+      border-color: #cbd5e1;
+      box-shadow: 0 16px 34px rgba(15,23,42,.08);
+      text-decoration: none;
+    }
+    .news-brief-card.featured { grid-row: span 2; }
+    .news-brief-card a { color: inherit; }
+    .news-brief-card b { font-size: 19px; line-height: 1.28; }
+    .news-brief-card p { margin: 0; color: #4c5969; line-height: 1.45; font-size: 15px; }
+    .news-brief-card.featured p { font-size: 16px; }
+    .news-brief-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; color: #64748b; font-size: 13px; }
+    .news-open { margin-top: auto; color: #0f7b42; font-size: 14px; font-weight: 860; }
+    .news-item:hover, .news-brief-card:hover { text-decoration: none; }
+    .news-chip { border-radius: 999px; padding: 5px 9px; background: #111827; color: #fff; font-weight: 800; }
+    .source-line { display:flex; gap:8px; align-items:center; flex-wrap:wrap; color:#64748b; font-size:13px; margin-bottom:2px; }
+    .investment-toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 18px; }
+    .investment-metrics {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin: 10px 0 20px;
+    }
+    .investment-search { margin-top: 0; }
+    .investment-table {
+      display: grid;
+      gap: 10px;
+    }
+    .investment-row {
+      display: grid;
+      grid-template-columns: 132px minmax(180px, 1.1fr) repeat(5, minmax(118px, .7fr)) minmax(220px, 1.2fr);
+      gap: 10px;
+      align-items: stretch;
+      background: rgba(255,255,255,.86);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 12px 30px rgba(15,23,42,.055);
+      padding: 12px;
+    }
+    .investment-row.header {
+      background: transparent;
+      box-shadow: none;
+      border: 0;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 840;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    .investment-row > div { min-width: 0; }
+    .investment-row.clickable { cursor: pointer; transition: .16s background, .16s transform, .16s border-color; }
+    .investment-row.clickable:hover { background: #f8fafc; border-color: #cbd5e1; transform: translateY(-1px); }
+    .investment-status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 82px;
+      border-radius: 7px;
+      padding: 7px 10px;
+      font-size: 13px;
+      font-weight: 920;
+      text-transform: uppercase;
+    }
+    .investment-status.buy { background: #e7f8ec; color: #0f7b42; }
+    .investment-status.sell { background: #fff0f2; color: #b42338; }
+    .investment-status.watch { background: #eef5ff; color: #2457a6; }
+    .investment-name .investment-status { display: inline-flex; margin: 8px 0 2px; }
+    .investment-symbol { display: flex; align-items: center; gap: 10px; }
+    .investment-symbol b { display: block; font-size: 23px; color: #111827; }
+    .investment-symbol span,
+    .investment-name span,
+    .investment-cell span { display: block; color: #64748b; font-size: 13px; margin-top: 3px; }
+    .investment-name b { display: block; font-size: 17px; color: #111827; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .investment-cell {
+      border-radius: 8px;
+      background: #f7f9fb;
+      border: 1px solid #edf1f5;
+      padding: 10px;
+    }
+    .investment-cell strong { display: block; font-size: 19px; color: #111827; }
+    .risk-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 86px;
+      border-radius: 7px;
+      padding: 7px 9px;
+      font-weight: 900;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+    .risk-low { background: #e7f8ec; color: #0f7b42; }
+    .risk-medium { background: #fff7e8; color: #92610d; }
+    .risk-high { background: #fff0f2; color: #b42338; }
+    .investment-warning { color: #4c5969; line-height: 1.35; font-size: 14px; }
+    .action-mini-list { display: grid; gap: 8px; }
+    .action-mini {
+      display: grid;
+      grid-template-columns: 42px 76px minmax(0,1fr) 58px;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      text-align: left;
+      background: #f7f9fb;
+      border: 1px solid #edf1f5;
+      border-radius: 10px;
+      padding: 12px;
+      color: inherit;
+    }
+    .action-mini:hover { background: #f1f5f9; }
+    .action-mini b { font-size: 20px; }
+    .action-mini span { display: block; color: #64748b; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .action-mini strong, .search-result strong {
+      justify-self: end;
+      font-size: 18px;
+      border-radius: 7px;
+      padding: 7px 10px;
+      min-width: 52px;
+      text-align: center;
+      background: #f0f3f6;
+      color: #111827;
+    }
+    .score-buy { background: #e7f8ec !important; color: #0f7b42 !important; }
+    .score-sell { background: #fff0f2 !important; color: #b42338 !important; }
+    .score-hold { background: #eef5ff !important; color: #2457a6 !important; }
+    .tape-note { margin: -12px 0 18px; color: #64748b; font-size: 13px; }
+    .workspace { display: block; }
+    .detail-panel {
+      background: rgba(255,255,255,.84);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+    .score-pill { justify-self: end; border-radius: 7px; background: #f0f3f6; color: #111827; font-size: 17px; font-weight: 860; padding: 8px 10px; min-width: 58px; text-align: center; }
+    .label { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 7px; padding: 8px 12px; font-size: 14px; font-weight: 900; text-transform: uppercase; background: #eef2f6; color: #334155; min-width: 126px; }
+    .label.strong-buy, .label.buy { background: #eaf8ef; color: #0f7b42; }
+    .label.strong-sell, .label.sell { background: #fff0f2; color: #b42338; }
+    .label.hold { background: #eef5ff; color: #2457a6; }
+    .detail-panel { min-height: 560px; padding: 34px; position: relative; top: auto; }
+    .overview-detail { margin: 0 0 22px; }
+    .empty-detail { min-height: 480px; display: grid; place-items: center; text-align: center; color: #64748b; padding: 40px; }
+    .empty-detail h2 { font-size: 30px; color: #111827; margin: 0 0 10px; }
+    .detail-head { display: flex; justify-content: space-between; gap: 24px; align-items: start; border-bottom: 1px solid #edf1f5; padding-bottom: 20px; margin-bottom: 22px; }
+    .detail-head h2 { font-size: 46px; line-height: 1; margin: 0 0 8px; }
+    .detail-head p { font-size: 18px; color: #5b6878; margin: 0; }
+    .decision-box { display: grid; gap: 8px; text-align: center; justify-items: center; min-width: 180px; }
+    .decision-box strong { font-size: 34px; line-height: 1; color: #111827; }
+    .decision-box span { font-size: 15px; color: #64748b; }
+    .price-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin: 0 0 24px; }
+    .price-cell { background: #f6f8fa; border: 1px solid #e8edf2; border-radius: 10px; padding: 14px; }
+    .price-cell span { display: block; color: #64748b; font-size: 14px; margin-bottom: 5px; }
+    .price-cell strong { display: block; color: #111827; font-size: 26px; line-height: 1.1; }
+    .price-cell small { display: block; margin-top: 7px; color: #64748b; font-size: 13px; line-height: 1.35; }
+    .hint-label {
+      display: inline;
+      border-bottom: 1px dotted #94a3b8;
+      cursor: help;
+    }
+    .section { border-top: 1px solid #edf1f5; padding-top: 22px; margin-top: 22px; }
+    .section:first-of-type { border-top: 0; padding-top: 0; }
+    .section h3 { font-size: 24px; margin: 0 0 12px; }
+    .executive-grid {
+      display: grid;
+      grid-template-columns: minmax(0,1.25fr) minmax(320px,.75fr);
+      gap: 18px;
+      margin: 0 0 24px;
+    }
+    .exec-card {
+      background: #f7f9fb;
+      border: 1px solid #e5ebf1;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .exec-card h3 { margin: 0 0 10px; font-size: 24px; }
+    .exec-card p { color: #303b49; font-size: 19px; line-height: 1.5; margin: 0; }
+    .thesis-list { margin: 0; padding-left: 20px; color: #303b49; font-size: 17px; line-height: 1.5; }
+    .thesis-list li { margin-bottom: 8px; }
+    .consensus { font-size: 20px; line-height: 1.5; color: #303b49; margin: 0; }
+    .agent-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+    .agent-card, .news-item, .event-card { border: 1px solid #e5ebf1; background: #fff; border-radius: 10px; padding: 16px; }
+    .agent-card header { display: flex; justify-content: space-between; gap: 12px; align-items: start; margin-bottom: 9px; }
+    .agent-card b { font-size: 17px; }
+    .agent-card .agent-score { font-weight: 850; color: #111827; }
+    .agent-card p, .news-item p { margin: 0; color: #4c5969; line-height: 1.46; font-size: 16px; }
+    .news-list { display: grid; gap: 12px; }
+    .news-title { font-size: 20px; font-weight: 840; line-height: 1.28; margin: 0 0 8px; display: block; color: #111827; }
+    .news-item p { margin-bottom: 10px; }
+    .news-source { display: flex; gap: 8px; flex-wrap: wrap; color: #64748b; font-size: 13px; }
+    .source-badge { border-radius: 999px; padding: 4px 8px; background: #eef2f6; color: #334155; font-weight: 760; }
+    .source-primary { background: #eaf8ef; color: #0f7b42; }
+    .source-established { background: #eef5ff; color: #2457a6; }
+    .source-opinion { background: #fff7e8; color: #92610d; }
+    .event-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .event-card b { display: block; font-size: 17px; margin-bottom: 5px; }
+    .event-card span { color: #64748b; font-size: 15px; display: block; line-height: 1.45; }
+    .method-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; }
+    .method-cell { background: #f6f8fa; border: 1px solid #e8edf2; border-radius: 10px; padding: 12px; }
+    .method-cell span { display: block; color: #64748b; font-size: 13px; }
+    .method-cell strong { font-size: 22px; color: #111827; }
+    .priority-method { margin: 0 0 20px; }
+    .priority-method h3 { font-size: 24px; margin: 0 0 12px; }
+    .chart { height: 118px; display: flex; align-items: end; gap: 2px; border-bottom: 1px solid #dfe5ec; padding-top: 10px; }
+    .bar { flex: 1 1 0; min-width: 2px; border-radius: 3px 3px 0 0; background: #94a3b8; position: relative; }
+    .bar.up { background: linear-gradient(180deg,#38c46f,#168a49); }
+    .bar.down { background: linear-gradient(180deg,#e75d70,#c73349); }
+    .bar:hover:after {
+      content: attr(data-tip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 8px);
+      transform: translateX(-50%);
+      white-space: nowrap;
+      background: #111827;
+      color: white;
+      border-radius: 8px;
+      padding: 7px 9px;
+      font-size: 13px;
+      font-weight: 760;
+      z-index: 5;
+      box-shadow: 0 10px 28px rgba(15,23,42,.2);
+    }
+    .chart-caption { display: flex; justify-content: space-between; color: #64748b; font-size: 14px; margin-top: 8px; }
+    .warning { border: 1px solid #f0c7ce; background: #fff6f7; border-radius: 10px; padding: 12px; color: #8f1f31; margin-top: 14px; }
+    .small { font-size: 14px; color: #64748b; line-height: 1.45; }
+    .analyst-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .analyst-cell {
+      background: #f6f8fa;
+      border: 1px solid #e8edf2;
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .analyst-cell span { display: block; color: #64748b; font-size: 13px; }
+    .analyst-cell strong { display: block; margin-top: 4px; font-size: 24px; color: #111827; }
+    .consensus-card {
+      width: 100%;
+      text-align: left;
+      background: #f7f9fb;
+      border: 1px solid #e5ebf1;
+      border-radius: 12px;
+      padding: 18px;
+      color: inherit;
+    }
+    .consensus-card strong { display: block; font-size: 21px; margin-bottom: 6px; }
+    .agent-map {
+      display: none;
+      margin-top: 16px;
+      min-height: 430px;
+      position: relative;
+      border: 1px solid #e5ebf1;
+      border-radius: 14px;
+      background: radial-gradient(circle at center, #ffffff 0%, #ffffff 31%, #eef4f8 32%, #eef4f8 33%, #ffffff 34%);
+      overflow: hidden;
+    }
+    .agent-map.open { display: block; }
+    .agent-node {
+      position: absolute;
+      width: 168px;
+      min-height: 96px;
+      background: white;
+      border: 1px solid #dfe5ec;
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: 0 12px 30px rgba(15,23,42,.08);
+      transform: translate(-50%, -50%);
+    }
+    .agent-node b { display: block; font-size: 14px; }
+    .agent-node span { color: #64748b; font-size: 13px; }
+    .agent-node p { margin: 7px 0 0; color: #4c5969; font-size: 13px; line-height: 1.25; }
+    .agent-center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 210px;
+      min-height: 150px;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      background: #111827;
+      color: white;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(15,23,42,.18);
+    }
+    .agent-center strong { display: block; font-size: 34px; }
+    .agent-center span { display: block; margin-top: 6px; color: #dbeafe; }
+    .chat-panel {
+      margin-top: 24px;
+      background: rgba(255,255,255,.84);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .chat-panel h2 { margin: 0 0 8px; font-size: 25px; }
+    .chat-log { display: grid; gap: 10px; max-height: 360px; overflow: auto; padding: 10px 0; }
+    .chat-message { border-radius: 14px; padding: 12px 14px; line-height: 1.45; font-size: 16px; }
+    .chat-message.user { justify-self: end; max-width: 78%; background: #111827; color: white; }
+    .chat-message.ai { justify-self: start; max-width: 88%; background: #f3f6f9; color: #263241; }
+    .chat-form { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; margin-top: 10px; }
+    .chat-form input { min-height: 52px; border: 1px solid #d9e1ea; border-radius: 999px; padding: 0 18px; font-size: 18px; outline: none; }
+    .chat-form button { border-radius: 999px; background: #111827; color: white; min-height: 52px; padding: 0 20px; font-weight: 800; }
+    @keyframes enter { from { opacity: 0; transform: translateY(18px) scale(.985); } to { opacity: 1; transform: none; } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes logoFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes progress { 0% { transform: translateX(-80%); width: 32%; } 50% { width: 68%; } 100% { transform: translateX(310%); width: 32%; } }
+    @keyframes tapeMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @media (max-width: 1100px) {
+      .workspace, .app-intro, .action-board, .executive-grid, .news-brief-grid, .investment-metrics { grid-template-columns: 1fr; }
+      .investment-row { grid-template-columns: 1fr 1fr; }
+      .investment-row.header { display: none; }
+      .detail-panel { position: static; }
+      .price-grid, .method-grid, .agent-grid, .event-grid, .intro-stats, .analyst-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 720px) {
+      .landing { padding: 24px 18px; }
+      .intro-title { font-size: 42px; }
+      .intro-text { font-size: 19px; }
+      .topbar-inner { flex-wrap: wrap; gap: 12px; }
+      .main-nav { order: 3; flex-basis: 100%; }
+      .topbar-inner, .page { padding-left: 18px; padding-right: 18px; }
+      .brand-logo { width: 162px; }
+      .top-actions .checked { display: none; }
+      .price-grid, .method-grid, .agent-grid, .event-grid, .intro-stats, .analyst-grid, .chat-form { grid-template-columns: 1fr; }
+      .agent-map { display: none !important; }
+      .detail-head { display: block; }
+      .decision-box { text-align: left; margin-top: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <section id="landing" class="landing">
+    <div class="landing-card">
+      <img class="logo-hero" src="/brand/logo-hero.png" alt="Tőzsde AI" />
+      <h1 class="intro-title">Portfóliókutatás</h1>
+      <p class="intro-text">A Tőzsde AI hosszabb távú befektetési ötleteket keres: becsült beszállóárat, célárat, kockázati szintet és a fontos hírek rövid értelmezését adja meg.</p>
+      <p class="intro-note">A fókusz 2-5 éves szemlélet. Nem napi kereskedési rendszer, hanem döntéstámogató kutatás.</p>
+      <button id="startBtn" class="primary-btn" type="button">Kutatás indítása</button>
+      <div class="loading-panel" aria-live="polite">
+        <div class="scan-row">
+          <div class="scan-orb"></div>
+          <div>
+            <p class="scan-title">Friss kutatás fut</p>
+            <p id="stageText" class="scan-stage">Hosszabb távú befektetési adatok ellenőrzése...</p>
+          </div>
+        </div>
+        <div class="progress"><span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="shell" class="shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <img class="brand-logo" src="/brand/logo.png" alt="Tőzsde AI" />
+        <nav class="main-nav" aria-label="Fő nézetek">
+          <button class="nav-link active" data-page="investments" type="button">Befektetések</button>
+          <button class="nav-link" data-page="research" type="button">Részvénykutatás</button>
+        </nav>
+        <div class="top-actions">
+          <span id="checkedAt" class="checked">Nincs friss adat</span>
+          <button id="homeBtn" class="refresh-btn" type="button">Kezdőoldal</button>
+          <button id="refreshBtn" class="refresh-btn" type="button">Új kutatás</button>
+          <div id="statusDot" class="status-dot" role="button" tabindex="0">✓<div id="statusPop" class="status-pop"></div></div>
+        </div>
+      </div>
+    </header>
+    <main class="page">
+      <section id="overviewPage" class="app-page">
+        <section class="app-intro">
+          <div>
+            <h1>Döntési nézet</h1>
+            <p>Egy helyen látod a legfontosabb 2-5 éves befektetési ötleteket: Buy/Sell irány, beszállóár, célár, elemzői kontroll, kockázat és a rövid indoklás.</p>
+          </div>
+          <div class="intro-stats">
+            <div class="stat"><strong id="overviewBuyCount">0</strong><span>Buy ötlet</span></div>
+            <div class="stat"><strong id="overviewSellCount">0</strong><span>Sell jelzés</span></div>
+            <div class="stat"><strong id="overviewWatchCount">0</strong><span>Watch</span></div>
+          </div>
+        </section>
+
+        <div class="filter-row">
+          <button class="filter-btn active" data-overview-filter="all" type="button">Minden</button>
+          <button class="filter-btn" data-overview-filter="buy" type="button">Buy</button>
+          <button class="filter-btn" data-overview-filter="sell" type="button">Sell</button>
+          <button class="filter-btn" data-overview-filter="watch" type="button">Watch</button>
+        </div>
+
+        <div class="ticker-tape" aria-label="Friss piaci adatcsík">
+          <div id="overviewTickerTrack" class="ticker-track"></div>
+        </div>
+
+        <section class="action-board">
+          <div class="action-column">
+            <h2>Buy oldal</h2>
+            <div id="overviewBuyList" class="action-mini-list"></div>
+          </div>
+          <div class="action-column">
+            <h2>Sell oldal</h2>
+            <div id="overviewSellList" class="action-mini-list"></div>
+          </div>
+        </section>
+
+        <section id="overviewDetailPanel" class="detail-panel overview-detail">
+          <div class="empty-detail">
+            <div>
+              <h2>Válassz egy részvényt.</h2>
+              <p>A beszállóár, célár, kockázat és indoklás itt jelenik meg.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="news-brief-panel">
+          <div class="news-brief-head">
+            <h2>Befektetési árszintek</h2>
+            <span>rendezhető döntési lista</span>
+          </div>
+          <div id="overviewInvestmentTable" class="investment-table"></div>
+        </section>
+      </section>
+
+      <section id="researchPage" class="app-page">
+      <section class="app-intro">
+        <div>
+          <h1>Részvénykutatás</h1>
+          <p>Kattints egy részvényre, és alatta azonnal látod a becsült beszállóárat, a célárat, a kockázatot, a híreket és a Tőzsde AI indoklását.</p>
+        </div>
+        <div class="intro-stats">
+          <div class="stat"><strong id="statTickers">0</strong><span>részvény figyelve</span></div>
+          <div class="stat"><strong id="statReal">0</strong><span>valós adatforrás</span></div>
+          <div class="stat"><strong id="statSignals">0</strong><span>erős jelzés</span></div>
+        </div>
+      </section>
+
+      <div class="search-wrap">
+        <input id="searchInput" type="search" placeholder="Keress részvényre, cégre vagy szektorra" />
+        <div id="searchResults" class="search-results"></div>
+      </div>
+
+      <div class="filter-row" id="filters">
+        <button class="filter-btn active" data-filter="priority" type="button">Kiemelt</button>
+        <button class="filter-btn" data-filter="buy" type="button">Buy</button>
+        <button class="filter-btn" data-filter="sell" type="button">Sell</button>
+        <button class="filter-btn" data-filter="hold" type="button">Watch</button>
+      </div>
+
+      <div class="ticker-tape" aria-label="Friss piaci adatcsík">
+        <div id="tickerTrack" class="ticker-track"></div>
+      </div>
+      <p id="tapeNote" class="tape-note">Az adatcsík csak piaci háttér. A fő döntési nézet a 2-5 éves beszállóár, célár és kockázat.</p>
+
+      <section class="action-board">
+        <div class="action-column">
+          <h2>2-5 éves Buy ötletek</h2>
+          <div id="buyList" class="action-mini-list"></div>
+        </div>
+        <div class="action-column">
+          <h2>Felülvizsgálandó Sell ötletek</h2>
+          <div id="sellList" class="action-mini-list"></div>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <section id="detailPanel" class="detail-panel">
+          <div class="empty-detail">
+            <div>
+              <h2>Válassz egy részvényt.</h2>
+              <p>Az elemzés itt nyílik meg, nem az oldal alján.</p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="chat-panel">
+        <h2>Kérdezz a kutatásról</h2>
+        <p class="small">Például: “Apple-t vennék, jó döntésnek tűnik?” vagy “Miért került le Apple a buy listáról?”</p>
+        <div id="chatLog" class="chat-log">
+          <div class="chat-message ai">Indítás után a friss adatokból válaszolok. Nem kereskedem helyetted, hanem segítek értelmezni a tényeket.</div>
+        </div>
+        <form id="chatForm" class="chat-form">
+          <input id="chatInput" type="text" placeholder="Kérdezz egy részvényről vagy befektetési ötletről" />
+          <button type="submit">Kérdés küldése</button>
+        </form>
+      </section>
+      </section>
+
+      <section id="newsPage" class="app-page">
+        <section class="app-intro">
+          <div>
+            <h1>Hírek</h1>
+            <p>Szűrt piaci és részvényhírek, forrással és rövid értelmezéssel. A cél itt nem zajt gyártani, hanem megmutatni, mi változtathatja a kockázatot, a növekedési képet vagy az árazást.</p>
+          </div>
+          <div class="intro-stats news-count-only">
+            <div class="stat"><strong id="newsBriefCount">0 hír</strong><span>kiemelt hír</span></div>
+          </div>
+        </section>
+
+        <section class="news-brief-panel">
+          <div class="news-brief-head">
+            <h2>Főbb piacmozgató hírek</h2>
+            <span>válogatott források</span>
+          </div>
+          <div id="newsBriefGrid" class="news-brief-grid"></div>
+        </section>
+      </section>
+
+      <section id="investmentsPage" class="app-page active">
+        <section class="investment-metrics">
+          <div class="stat"><strong id="investmentCount">0</strong><span>értékelt részvény</span></div>
+          <div class="stat"><strong id="investmentBuyCount">0</strong><span>Buy oldal</span></div>
+          <div class="stat"><strong id="investmentSellCount">0</strong><span>Sell oldal</span></div>
+          <div class="stat"><strong id="investmentRiskCount">0</strong><span>magas kockázat</span></div>
+          <div class="stat"><strong id="investmentAnalystCount">0</strong><span>külső elemzői célár</span></div>
+        </section>
+
+        <div class="search-wrap investment-search">
+          <input id="investmentSearchInput" type="search" placeholder="Keress részvényre, cégre vagy szektorra" />
+          <div id="investmentSearchResults" class="search-results"></div>
+        </div>
+
+        <div class="investment-toolbar">
+          <button class="filter-btn active" data-invest-filter="all" type="button">Watchlist</button>
+          <button class="filter-btn" data-invest-filter="buy" type="button">Buy</button>
+          <button class="filter-btn" data-invest-filter="sell" type="button">Sell</button>
+          <button class="filter-btn" data-invest-filter="risky" type="button">Magas kockázat</button>
+          <button class="filter-btn" data-invest-filter="analyst" type="button">Elemzői célár</button>
+        </div>
+
+        <div class="ticker-tape" aria-label="Friss piaci adatcsík">
+          <div id="investmentTickerTrack" class="ticker-track"></div>
+        </div>
+
+        <section id="investmentDetailPanel" class="detail-panel overview-detail">
+          <div class="empty-detail">
+            <div>
+              <h2>Válassz egy részvényt.</h2>
+              <p>A beszállóár, célár, kockázat, pontozási bontás és indoklás itt jelenik meg.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="news-brief-panel">
+          <div class="news-brief-head">
+            <h2>Befektetési árszintek</h2>
+          </div>
+          <div id="investmentTable" class="investment-table"></div>
+        </section>
+      </section>
+    </main>
+  </section>
+
+  <script>
+    let state = null;
+    let selectedSymbol = null;
+    let filter = "priority";
+    let investmentFilter = "all";
+    let investmentSearch = "";
+    let overviewFilter = "all";
+    let activePage = "investments";
+    const stages = [
+      "Hosszabb távú befektetési adatok ellenőrzése...",
+      "Friss hírek megbízhatósági szűrése...",
+      "Osztalék és jelentési naptár lekérése...",
+      "Beszállóárak és célárak becslése...",
+      "2-5 éves rangsor készítése..."
+    ];
+    let stageTimer = null;
+    const $ = (id) => document.getElementById(id);
+    const esc = (value) => String(value ?? "").replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]));
+    const fmt = (value, digits = 2) => Number.isFinite(Number(value)) ? Number(value).toLocaleString("hu-HU", {minimumFractionDigits: digits, maximumFractionDigits: digits}) : "nincs adat";
+    const pct = (value) => Number.isFinite(Number(value)) ? `${Number(value) >= 0 ? "+" : ""}${fmt(value, 2)}%` : "nincs adat";
+    const catText = (cat) => ({"strong buy":"strong buy", buy:"buy", hold:"hold", sell:"sell", "strong sell":"strong sell"}[cat] || cat || "nincs adat");
+    const catIcon = (cat) => cat === "hold" ? "⏸" : (String(cat).includes("buy") ? "📈" : "📉");
+    const logoSymbol = (symbol) => String(symbol || "").replace(".", "-");
+    const logoImg = (symbol, name = "") => `<img class="company-logo" src="https://financialmodelingprep.com/image-stock/${esc(logoSymbol(symbol))}.png" alt="${esc(name || symbol)} logó" loading="lazy" onerror="this.style.display='none'" />`;
+    const hintLabel = (label, text) => `<span class="hint-label" title="${esc(text)}">${esc(label)}</span>`;
+    function investmentIdea(symbol) {
+      return (state?.investment_ideas || []).find(item => item.symbol === symbol) || null;
+    }
+
+    function sourceText(n) {
+      const pieces = [];
+      if (n.site) pieces.push(n.site);
+      if (n.published_at) pieces.push(n.published_at);
+      return pieces.join(" · ") || "forrás nincs megadva";
+    }
+    function beginStageLoop() {
+      let idx = 0;
+      $("stageText").textContent = stages[0];
+      clearInterval(stageTimer);
+      stageTimer = setInterval(() => {
+        idx = (idx + 1) % stages.length;
+        $("stageText").textContent = stages[idx];
+      }, 1450);
+    }
+    async function startResearch() {
+      const landing = $("landing");
+      const startBtn = $("startBtn");
+      landing.classList.add("loading");
+      startBtn.disabled = true;
+      startBtn.textContent = "Kutatás fut";
+      beginStageLoop();
+      try {
+        const response = await fetch("/api/refresh", {method: "POST"});
+        if (!response.ok) throw new Error("A helyi szerver nem adott választ.");
+        state = await response.json();
+        clearInterval(stageTimer);
+        selectedSymbol = null;
+        renderApp();
+        landing.style.display = "none";
+        $("shell").classList.add("ready");
+      } catch (error) {
+        clearInterval(stageTimer);
+        $("stageText").textContent = `Hiba történt: ${error.message}`;
+        startBtn.disabled = false;
+        startBtn.textContent = "Újrapróbálom";
+      }
+    }
+    function visibleRows() {
+      if (!state) return [];
+      const q = $("searchInput").value.trim().toLowerCase();
+      return state.rankings.filter(row => {
+        const cat = row.category || "";
+        const filterOk =
+          (filter === "hold") ||
+          (filter === "priority" && cat !== "hold") ||
+          (filter === "buy" && cat.includes("buy")) ||
+          (filter === "sell" && cat.includes("sell"));
+        const text = `${row.symbol} ${row.name} ${row.sector}`.toLowerCase();
+        return filterOk && (!q || text.includes(q));
+      });
+    }
+    function renderApp() {
+      const rows = state.rankings || [];
+      const actionable = rows.filter(row => row.category !== "hold").length;
+      $("checkedAt").textContent = state.status?.checked_at ? `Frissítve: ${state.status.checked_at}` : "Frissítve";
+      $("statTickers").textContent = rows.length;
+      $("statReal").textContent = state.status?.history_real_count ?? 0;
+      $("statSignals").textContent = actionable;
+      renderStatus();
+      renderTape();
+      renderNewsBrief();
+      renderInvestmentIdeas();
+      renderActionBoards();
+      renderOverviewPage();
+      renderSearchResults();
+      renderDetail();
+      renderOverviewDetail();
+      renderInvestmentDetail();
+      switchPage(activePage);
+    }
+    function switchPage(page) {
+      activePage = page || "research";
+      document.querySelectorAll(".app-page").forEach(section => {
+        section.classList.toggle("active", section.id === `${activePage}Page`);
+      });
+      document.querySelectorAll(".nav-link").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.page === activePage);
+      });
+    }
+    function renderTape() {
+      const rows = (state.market_tape && state.market_tape.length ? state.market_tape : [...(state.rankings || [])]
+        .sort((a, b) => Math.abs(Number(b.latest_change_pct || 0)) - Math.abs(Number(a.latest_change_pct || 0)))
+        .slice(0, 12));
+      const html = rows.map(row => {
+        const change = Number(row.latest_change_pct || 0);
+        const klass = change >= 0 ? "pos" : "neg";
+        const label = row.kind === "index" ? row.name : row.symbol;
+        return `<span class="ticker-item"><b>${esc(label)}</b> ${fmt(row.latest_price, 2)} <span class="${klass}">${pct(change)}</span></span>`;
+      }).join("");
+      $("tickerTrack").innerHTML = html + html;
+      const overviewTrack = $("overviewTickerTrack");
+      if (overviewTrack) overviewTrack.innerHTML = html + html;
+      const investmentTrack = $("investmentTickerTrack");
+      if (investmentTrack) investmentTrack.innerHTML = html + html;
+    }
+    function scoreClass(row) {
+      const cat = String(row.category || "");
+      if (cat.includes("buy")) return "score-buy";
+      if (cat.includes("sell")) return "score-sell";
+      return "score-hold";
+    }
+    function collectTopNews() {
+      const macro = ((state.report || {}).macro_news || []).map(item => ({
+        symbol: "Piac",
+        title: item.title_hu || item.title,
+        site: item.site,
+        published_at: item.published_at,
+        url: item.url,
+        interpretation: item.interpretation || "Általános piaci hír; a hatása a kockázati étvágyon, hozamokon, devizán vagy szektorszintű árazáson keresztül jelenhet meg.",
+        source_label: "piaci hír"
+      }));
+      const stockNews = [];
+      for (const row of state.rankings || []) {
+        for (const item of (row.news || []).slice(0, 3)) {
+          stockNews.push({
+            symbol: row.symbol,
+            title: item.title_hu || item.title,
+            site: item.site,
+            published_at: item.published_at,
+            url: item.url,
+            interpretation: item.summary_hu || item.interpretation || row.consensus_summary,
+            source_label: item.source_label || row.category,
+            source_tier: item.source_tier || 1,
+            score: row.score,
+            category: row.category,
+          });
+        }
+      }
+      const merged = [...macro, ...stockNews];
+      const credible = merged.filter(item => item.symbol === "Piac" || Number(item.source_tier || 0) >= 1.4);
+      return (credible.length >= 5 ? credible : merged)
+        .filter(item => item.title)
+        .sort((a, b) => {
+          const aWeight = (a.symbol === "Piac" ? 20 : 0) + Number(a.source_tier || 1) * 8 + Math.abs(Number(a.score || 50) - 50);
+          const bWeight = (b.symbol === "Piac" ? 20 : 0) + Number(b.source_tier || 1) * 8 + Math.abs(Number(b.score || 50) - 50);
+          return bWeight - aWeight;
+        })
+        .slice(0, 18);
+    }
+    function renderNewsBrief() {
+      const items = collectTopNews();
+      $("newsBriefCount").textContent = `${items.length} hír`;
+      if (!items.length) {
+        $("newsBriefGrid").innerHTML = `<p class="small">Most nincs friss strukturált hír. A Buy/Sell jelzések ilyenkor árfolyam, célár és kockázati adatokból készülnek.</p>`;
+        return;
+      }
+      $("newsBriefGrid").innerHTML = items.map((item, idx) => {
+        const title = esc(item.title || "Cím nélküli hír");
+        const body = esc(item.interpretation || "Nincs külön hírértelmezés.");
+        const tag = item.url ? "a" : "article";
+        const attrs = item.url ? `href="${esc(item.url)}" target="_blank" rel="noopener noreferrer" title="Hír megnyitása új lapon"` : "";
+        return `
+          <${tag} class="news-brief-card ${idx === 0 ? "featured" : ""}" ${attrs}>
+            <div class="source-line"><span class="news-chip">${esc(item.symbol || "Piac")}</span><span>${esc(item.site || item.source_label || "forrás")}</span><span>${esc(item.published_at || "")}</span></div>
+            <b>${title}</b>
+            <p>${body}</p>
+            ${item.url ? `<span class="news-open">Hír megnyitása</span>` : ""}
+          </${tag}>
+        `;
+      }).join("");
+    }
+    function riskClass(level) {
+      if (level === "magas") return "risk-high";
+      if (level === "közepes") return "risk-medium";
+      return "risk-low";
+    }
+    function investmentRowsForFilter(activeFilter) {
+      const ideas = state.investment_ideas || [];
+      return ideas.filter(item => {
+        if (activeFilter === "buy") return String(item.category || "").includes("buy");
+        if (activeFilter === "sell") return String(item.category || "").includes("sell");
+        if (activeFilter === "watch") return String(item.category || "") === "hold";
+        if (activeFilter === "risky") return item.risk_level === "magas";
+        if (activeFilter === "analyst") return !!item.analyst_target_consensus;
+        return true;
+      }).filter(item => {
+        if (!investmentSearch) return true;
+        const text = `${item.symbol} ${item.name} ${item.sector}`.toLowerCase();
+        return text.includes(investmentSearch);
+      }).slice(0, 80);
+    }
+    function investmentSideClass(category) {
+      const cat = String(category || "");
+      if (cat.includes("buy")) return "buy";
+      if (cat.includes("sell")) return "sell";
+      return "watch";
+    }
+    function investmentSideText(category) {
+      const side = investmentSideClass(category);
+      if (side === "buy") return "BUY";
+      if (side === "sell") return "SELL";
+      return "WATCH";
+    }
+    function buildInvestmentTableHTML(rows, clickable = false) {
+      if (!rows.length) {
+        return `<p class="small">Nincs találat ebben a szűrőben.</p>`;
+      }
+      return `
+        <div class="investment-row header">
+          <div>Részvény</div><div>Állapot</div><div>Aktuális ár</div><div>Beszállóár</div><div>Célár / kiszálló</div><div>Elemzői / AI kontroll</div><div>Kockázat</div><div>Miért érdekes?</div>
+        </div>
+        ${rows.map(item => `
+          <article class="investment-row ${clickable ? "clickable" : ""}" ${clickable ? `data-symbol="${esc(item.symbol)}"` : ""}>
+            <div class="investment-symbol">${logoImg(item.symbol, item.name)}<div><b>${esc(item.symbol)}</b><span>${esc(item.sector || "")}</span></div></div>
+            <div class="investment-name"><b>${esc(item.name)}</b><span class="investment-status ${investmentSideClass(item.category)}">${investmentSideText(item.category)}</span><span>${esc(item.stance)} · ${fmt(item.score, 0)} pont</span></div>
+            <div class="investment-cell"><span>aktuális</span><strong>${fmt(item.latest_price, 2)} USD</strong></div>
+            <div class="investment-cell"><span>${hintLabel("beszállóár", "A becsült felső ár, ahol a rendszer szerint a belépés már értelmezhető. Nem vételi megbízás.")}</span><strong>${fmt(item.entry_price || item.entry_high, 2)} USD</strong><span>zóna: ${fmt(item.entry_low, 2)}-${fmt(item.entry_high, 2)}</span></div>
+            <div class="investment-cell"><span>${hintLabel("célár / kiszálló", "A Tőzsde AI becsült célára. Ezen az árszinten érdemes lehet újraértékelni a pozíciót vagy részleges profitot realizálni.")}</span><strong>${fmt(item.exit_price || item.target_price, 2)} USD</strong><span>${pct(item.target_upside_pct)}</span></div>
+            <div class="investment-cell"><span>${esc(item.analyst_display_label || "elemzői átlag")}</span><strong>${fmt(item.analyst_display_price || item.analyst_target_consensus || item.ai_target_price, 2)} USD</strong></div>
+            <div class="investment-cell"><span class="risk-pill ${riskClass(item.risk_level)}">${esc(item.risk_level)}</span><span>${fmt(item.risk_score, 0)}/100 kockázat</span></div>
+            <div class="investment-warning">${esc(item.reason || "Nincs külön indoklás.")}</div>
+          </article>
+        `).join("")}
+      `;
+    }
+    function wireInvestmentRows(containerId) {
+      document.querySelectorAll(`#${containerId} .investment-row[data-symbol]`).forEach(row => row.addEventListener("click", () => {
+        const symbol = row.dataset.symbol;
+        selectedSymbol = selectedSymbol === symbol ? null : symbol;
+        renderOverviewDetail();
+        renderDetail();
+        renderInvestmentDetail();
+        if (selectedSymbol) $(activePage === "investments" ? "investmentDetailPanel" : "overviewDetailPanel").scrollIntoView({behavior: "smooth", block: "start"});
+      }));
+    }
+    function renderInvestmentIdeas() {
+      const ideas = state.investment_ideas || [];
+      const rankings = state.rankings || [];
+      $("investmentCount").textContent = ideas.length;
+      $("investmentBuyCount").textContent = rankings.filter(row => String(row.category || "").includes("buy")).length;
+      $("investmentSellCount").textContent = rankings.filter(row => String(row.category || "").includes("sell")).length;
+      $("investmentRiskCount").textContent = ideas.filter(item => item.risk_level === "magas").length;
+      $("investmentAnalystCount").textContent = ideas.filter(item => item.analyst_target_consensus).length;
+      const rows = investmentRowsForFilter(investmentFilter);
+      $("investmentTable").innerHTML = buildInvestmentTableHTML(rows, true);
+      wireInvestmentRows("investmentTable");
+    }
+    function renderActionBoards() {
+      const buyRows = (state.rankings || []).filter(row => String(row.category).includes("buy")).slice(0, 6);
+      const sellRows = (state.rankings || []).filter(row => String(row.category).includes("sell")).slice(0, 6);
+      $("buyList").innerHTML = renderActionMiniList(buyRows, "Nincs erős buy jelzés.");
+      $("sellList").innerHTML = renderActionMiniList(sellRows, "Nincs erős sell jelzés.");
+      if ($("overviewBuyList")) $("overviewBuyList").innerHTML = renderActionMiniList(buyRows, "Nincs erős buy jelzés.");
+      if ($("overviewSellList")) $("overviewSellList").innerHTML = renderActionMiniList(sellRows, "Nincs erős sell jelzés.");
+      document.querySelectorAll(".action-mini").forEach(btn => btn.addEventListener("click", () => {
+        const shouldOpen = selectedSymbol !== btn.dataset.symbol;
+        selectedSymbol = shouldOpen ? btn.dataset.symbol : null;
+        renderSearchResults(false);
+        renderDetail();
+        renderOverviewDetail();
+        renderInvestmentDetail();
+        if (shouldOpen) $(activePage === "investments" ? "investmentDetailPanel" : activePage === "overview" ? "overviewDetailPanel" : "detailPanel").scrollIntoView({behavior: "smooth", block: "start"});
+      }));
+    }
+    function renderActionMiniList(rows, emptyText) {
+      if (!rows.length) return `<p class="small">${emptyText}</p>`;
+      return rows.map(row => `
+        <button class="action-mini" type="button" data-symbol="${esc(row.symbol)}">
+          ${logoImg(row.symbol, row.name)}
+          <b>${esc(row.symbol)}</b>
+          <span>${esc(row.name)} · ${catText(row.category)}</span>
+          <strong class="${scoreClass(row)}">${fmt(row.score, 0)}</strong>
+        </button>
+      `).join("");
+    }
+    function renderOverviewPage() {
+      const rankings = state.rankings || [];
+      $("overviewBuyCount").textContent = rankings.filter(row => String(row.category || "").includes("buy")).length;
+      $("overviewSellCount").textContent = rankings.filter(row => String(row.category || "").includes("sell")).length;
+      $("overviewWatchCount").textContent = rankings.filter(row => String(row.category || "") === "hold").length;
+      const rows = investmentRowsForFilter(overviewFilter);
+      $("overviewInvestmentTable").innerHTML = buildInvestmentTableHTML(rows, true);
+      wireInvestmentRows("overviewInvestmentTable");
+    }
+    function renderOverviewDetail() {
+      const holder = $("overviewDetailPanel");
+      if (!holder) return;
+      const row = selectedRow();
+      if (!row) {
+        holder.innerHTML = `<div class="empty-detail"><div><h2>Válassz egy részvényt.</h2><p>A beszállóár, célár, kockázat és indoklás itt jelenik meg.</p></div></div>`;
+        return;
+      }
+      holder.innerHTML = renderDetailHTML(row, true);
+    }
+    function renderInvestmentDetail() {
+      const holder = $("investmentDetailPanel");
+      if (!holder) return;
+      const row = selectedRow();
+      if (!row) {
+        holder.innerHTML = `<div class="empty-detail"><div><h2>Válassz egy részvényt.</h2><p>A beszállóár, célár, kockázat, pontozási bontás és indoklás itt jelenik meg.</p></div></div>`;
+        return;
+      }
+      holder.innerHTML = renderInvestmentDetailHTML(row);
+    }
+    function renderStatus() {
+      const status = state.status || {};
+      const issues = status.issues || [];
+      const dot = $("statusDot");
+      dot.classList.toggle("bad", issues.length > 0);
+      dot.firstChild.nodeValue = issues.length ? "!" : "✓";
+      $("statusPop").innerHTML = issues.length ?
+        `<strong>Rendszerjelzés</strong>${issues.map(issue => `<div class="warning"><b>${esc(issue.source || "Rendszer")}: ${esc(issue.title || "Figyelmeztetés")}</b><br>${esc(issue.detail || "")}</div>`).join("")}` :
+        `<strong>Minden rendben.</strong><p class="small">A kulcsokat nem jelenítjük meg. Valós napi idősor: ${esc(status.history_real_count ?? 0)}. Fallback idősor: ${esc(status.history_fallback_count ?? 0)}.</p>`;
+    }
+    function renderSearchResults(forceOpen = true) {
+      const holder = $("searchResults");
+      const q = $("searchInput").value.trim();
+      if (!q) {
+        holder.classList.remove("open");
+        holder.innerHTML = "";
+        return;
+      }
+      const lower = q.toLowerCase();
+      const rows = (state.rankings || []).filter(row => {
+        const text = `${row.symbol} ${row.name} ${row.sector}`.toLowerCase();
+        return text.includes(lower);
+      }).slice(0, 12);
+      holder.innerHTML = rows.map(row => `
+        <button class="search-result" type="button" data-symbol="${esc(row.symbol)}">
+          ${logoImg(row.symbol, row.name)}
+          <b>${esc(row.symbol)}</b>
+          <span>${esc(row.name)} · ${esc(row.sector || "szektor nincs megadva")} · ${catText(row.category)}</span>
+          <strong class="${scoreClass(row)}">${fmt(row.score, 0)}</strong>
+        </button>
+      `).join("") || `<div class="search-result"><span>Nincs találat erre a keresésre.</span></div>`;
+      holder.classList.toggle("open", forceOpen);
+      document.querySelectorAll(".search-result[data-symbol]").forEach(btn => btn.addEventListener("click", () => {
+        const symbol = btn.dataset.symbol;
+        const shouldOpen = selectedSymbol !== symbol;
+        selectedSymbol = shouldOpen ? symbol : null;
+        $("searchInput").value = "";
+        renderSearchResults(false);
+        renderDetail();
+        renderOverviewDetail();
+        renderInvestmentDetail();
+        if (shouldOpen) $(activePage === "investments" ? "investmentDetailPanel" : activePage === "overview" ? "overviewDetailPanel" : "detailPanel").scrollIntoView({behavior: "smooth", block: "start"});
+      }));
+    }
+    function selectedRow() {
+      if (!state || !selectedSymbol) return null;
+      return state.rankings.find(row => row.symbol === selectedSymbol) || null;
+    }
+    function renderDetailHTML(row, compact = false) {
+      const idea = investmentIdea(row.symbol);
+      return `
+        <div class="detail-head">
+          <div>
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">${logoImg(row.symbol, row.name)}<h2 style="margin:0">${esc(row.symbol)}</h2></div>
+            <p>${esc(row.name)} · ${esc(row.sector || "szektor nincs megadva")}</p>
+          </div>
+          <div class="decision-box">
+            <span class="label ${esc(row.category_class)}">${esc(catText(row.category).toUpperCase())}</span>
+            <strong>${fmt(row.score, 1)}</strong>
+            <span>pontszám</span>
+          </div>
+        </div>
+        ${renderInvestmentSummary(idea)}
+        <section class="executive-grid">
+          <div class="exec-card">
+            <h3>Vezetői összefoglaló</h3>
+            <p>${esc(row.decision || "Nincs összefoglaló.")}</p>
+          </div>
+          <div class="exec-card">
+            <h3>Döntési tézis</h3>
+            <ol class="thesis-list">
+              ${(row.evidence_items || row.reasons || []).slice(0, 4).map(item => `<li>${esc(item)}</li>`).join("")}
+            </ol>
+          </div>
+        </section>
+        ${compact ? "" : `
+        <section class="section">
+          <h3>Tőzsde AI ajánlat</h3>
+          <button class="consensus-card" type="button" onclick="toggleAgentMap()">
+            <strong>${esc(row.category)} · ${fmt(row.score, 1)} pont</strong>
+            <span>Kattintásra megnyílik a rendszer részpontszámokra bontott indoklása.</span>
+          </button>
+          <div id="agentMap" class="agent-map">${renderAgentMap(row)}</div>
+        </section>
+        `}
+        <section class="section">
+          <h3>Friss hírek</h3>
+          <div class="news-list">${renderNews(row)}</div>
+        </section>
+        ${compact ? "" : `
+        <section class="section">
+          <h3>Következő események</h3>
+          <div class="event-grid">${renderEvents(row)}</div>
+        </section>
+        <section class="section">
+          <h3>Pontozási bontás</h3>
+          <div class="method-grid">${renderComponents(row)}</div>
+          <p class="small">A pontszám 2-5 éves döntéstámogató rangsor. Nem automatikus vételi vagy eladási utasítás.</p>
+        </section>
+        `}
+      `;
+    }
+    function renderInvestmentDetailHTML(row) {
+      const idea = investmentIdea(row.symbol);
+      return `
+        <div class="detail-head">
+          <div>
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">${logoImg(row.symbol, row.name)}<h2 style="margin:0">${esc(row.symbol)}</h2></div>
+            <p>${esc(row.name)} · ${esc(row.sector || "szektor nincs megadva")}</p>
+          </div>
+          <div class="decision-box">
+            <span class="investment-status ${investmentSideClass(row.category)}">${investmentSideText(row.category)}</span>
+            <strong>${fmt(row.score, 1)}</strong>
+            <span>pontszám</span>
+          </div>
+        </div>
+        ${renderInvestmentSummary(idea)}
+        <section class="priority-method section">
+          <h3>Pontozási bontás</h3>
+          <div class="method-grid">${renderComponents(row)}</div>
+        </section>
+        <section class="executive-grid">
+          <div class="exec-card">
+            <h3>Vezetői összefoglaló</h3>
+            <p>${esc(row.decision || "Nincs összefoglaló.")}</p>
+          </div>
+          <div class="exec-card">
+            <h3>Döntési tézis</h3>
+            <ol class="thesis-list">
+              ${(row.evidence_items || row.reasons || []).slice(0, 4).map(item => `<li>${esc(item)}</li>`).join("")}
+            </ol>
+          </div>
+        </section>
+        <section class="section">
+          <h3>Friss hírek</h3>
+          <div class="news-list">${renderNews(row)}</div>
+        </section>
+      `;
+    }
+    function renderDetail() {
+      const row = selectedRow();
+      if (!row) {
+        $("detailPanel").innerHTML = `<div class="empty-detail"><div><h2>Válassz egy részvényt.</h2><p>Keresőből, Buy/Sell jelzésből vagy a mozgó adatcsíkból nyisd meg. A teljes felület az elemzésé lesz.</p></div></div>`;
+        return;
+      }
+      $("detailPanel").innerHTML = renderDetailHTML(row, false);
+    }
+    function renderInvestmentSummary(idea) {
+      if (!idea) return "";
+      return `
+        <section class="section">
+          <h3>Befektetési árszintek</h3>
+          <div class="price-grid">
+            <div class="price-cell"><span>Aktuális ár</span><strong>${fmt(idea.latest_price, 2)} USD</strong></div>
+            <div class="price-cell"><span>${hintLabel("Beszállóár", "A becsült felső ár, ahol a rendszer szerint a belépés már értelmezhető. Nem vételi megbízás.")}</span><strong>${fmt(idea.entry_price || idea.entry_high, 2)} USD</strong><small>zóna: ${fmt(idea.entry_low, 2)}-${fmt(idea.entry_high, 2)}</small></div>
+            <div class="price-cell"><span>${hintLabel("Célár / kiszálló", "A Tőzsde AI becsült célára. Ennél az árszintnél érdemes lehet újraértékelni vagy profitot realizálni.")}</span><strong>${fmt(idea.exit_price || idea.target_price, 2)} USD</strong><small>${pct(idea.target_upside_pct)} a jelenlegi árhoz képest</small></div>
+            <div class="price-cell"><span>Kockázat</span><strong>${esc(idea.risk_level)}</strong><small>${fmt(idea.risk_score, 0)}/100 kockázati érték</small></div>
+          </div>
+          <div class="price-grid">
+            <div class="price-cell"><span>${hintLabel("Elemzői / AI kontroll", "Ha van külső elemzői konszenzus, azt mutatja. Ha nincs, a Tőzsde AI saját célárbecslése jelenik meg, külön jelölve.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
+            <div class="price-cell"><span>${hintLabel("Elemzői sáv", "Az elérhető legalacsonyabb és legmagasabb elemzői célár.")}</span><strong>${idea.analyst_target_low && idea.analyst_target_high ? `${fmt(idea.analyst_target_low, 2)}-${fmt(idea.analyst_target_high, 2)} USD` : "nincs adat"}</strong></div>
+            <div class="price-cell"><span>Célár típusa</span><strong>${esc(idea.analyst_target_consensus ? "elemzői kontrollal" : "modellbecslés")}</strong></div>
+            <div class="price-cell"><span>Kontrollár</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
+          </div>
+          <p class="small"><span class="risk-pill ${riskClass(idea.risk_level)}">${esc(idea.risk_level)}</span> ${esc(idea.warning)}</p>
+        </section>
+      `;
+    }
+    function renderAgents(row) {
+      return (row.agent_debate || []).map(agent => `
+        <article class="agent-card">
+          <header><b>${esc(agent.agent)}</b><span class="agent-score">${fmt(agent.score, 0)}</span></header>
+          <p>${esc(agent.thesis)}</p>
+        </article>
+      `).join("") || `<p class="small">Nincs részpontszám.</p>`;
+    }
+    function renderAgentMap(row) {
+      const agents = row.agent_debate || [];
+      const positions = [
+        [50, 10], [80, 25], [88, 58], [68, 84], [32, 84], [12, 58], [20, 25]
+      ];
+      const nodes = agents.map((agent, idx) => {
+        const [left, top] = positions[idx % positions.length];
+        return `<article class="agent-node" style="left:${left}%;top:${top}%"><b>${esc(agent.agent)}</b><span>${fmt(agent.score, 0)} pont · ${catText(agent.stance)}</span><p>${esc(agent.thesis)}</p></article>`;
+      }).join("");
+      return `${nodes}<div class="agent-center"><div><strong>${fmt(row.score, 1)}</strong><span>Tőzsde AI ajánlat<br>${catText(row.category)}</span></div></div>`;
+    }
+    function toggleAgentMap() {
+      const map = $("agentMap");
+      if (map) map.classList.toggle("open");
+    }
+    async function loadAnalystTargets(symbol, latestPrice) {
+      const holder = $("analystTargets");
+      if (!holder) return;
+      try {
+        const response = await fetch(`/api/analyst-targets/${encodeURIComponent(symbol)}`);
+        const target = await response.json();
+        const consensus = Number(target.target_consensus);
+        const upside = Number.isFinite(consensus) && Number.isFinite(Number(latestPrice)) && Number(latestPrice) > 0
+          ? ((consensus / Number(latestPrice)) - 1) * 100
+          : null;
+        holder.innerHTML = `
+          <div class="analyst-cell"><span>Elemzői átlag</span><strong>${Number.isFinite(consensus) ? `${fmt(consensus, 2)} USD` : "nincs adat"}</strong></div>
+          <div class="analyst-cell"><span>Legmagasabb célár</span><strong>${target.target_high ? `${fmt(target.target_high, 2)} USD` : "nincs adat"}</strong></div>
+          <div class="analyst-cell"><span>Legalacsonyabb célár</span><strong>${target.target_low ? `${fmt(target.target_low, 2)} USD` : "nincs adat"}</strong></div>
+          <div class="analyst-cell"><span>${hintLabel("Upside / downside", "A célár és a jelenlegi ár közötti százalékos különbség. Pozitív érték: a célár magasabb. Negatív: a célár alacsonyabb.")}</span><strong>${upside === null ? "nincs adat" : pct(upside)}</strong></div>
+        `;
+      } catch (error) {
+        holder.innerHTML = `<div class="analyst-cell"><span>Elemzői célár</span><strong>nem elérhető</strong></div>`;
+      }
+    }
+    function renderNews(row) {
+      const items = row.news || [];
+      if (!items.length) return `<p class="small">Ehhez a részvényhez most nincs friss, strukturált hír. Ilyenkor a rendszer ezt jelzi, nem talál ki történetet.</p>`;
+      return items.map(n => {
+        const title = esc(n.title_hu || n.title || "Cím nélküli hír");
+        const body = n.summary_hu || n.interpretation || "A hírhez nincs külön összefoglaló.";
+        const sourceClass = n.source_class || "";
+        const open = n.url ? `<a class="news-open" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">Hír megnyitása</a>` : "";
+        return `<article class="news-item"><div class="source-line"><span class="source-badge ${esc(sourceClass)}">${esc(n.source_label || "forrás")}</span><span>${esc(sourceText(n))}</span></div><span class="news-title">${title}</span><p>${esc(body)}</p>${open}</article>`;
+      }).join("");
+    }
+    function renderEvents(row) {
+      const events = row.calendar_events || {earnings: [], dividends: []};
+      const earnings = (events.earnings || [])[0];
+      const dividend = (events.dividends || [])[0];
+      const earningsHtml = earnings ? `<div class="event-card"><b>${esc(earnings.title || "Eredményjelentés")}</b><span>Dátum: ${esc(earnings.date || "nincs adat")}</span><span>EPS becslés: ${esc(earnings.eps_estimated ?? "nincs adat")}</span><span>Bevétel becslés: ${esc(earnings.revenue_estimated ?? "nincs adat")}</span></div>` : `<div class="event-card"><b>Eredményjelentés</b><span>Nincs lekért naptári dátum ehhez a részvényhez.</span></div>`;
+      const dividendHtml = dividend ? `<div class="event-card"><b>${esc(dividend.title || "Osztalék")}</b><span>Dátum: ${esc(dividend.date || "nincs adat")}</span><span>Osztalék: ${esc(dividend.dividend ?? "nincs adat")}</span><span>Fizetési nap: ${esc(dividend.payment_date || "nincs adat")}</span></div>` : `<div class="event-card"><b>Osztalék</b><span>Nincs lekért osztalékesemény a következő 120 napra.</span></div>`;
+      return earningsHtml + dividendHtml;
+    }
+    function renderComponents(row) {
+      const labels = {momentum: "Momentum", fundamentals: "Fundamentum", valuation: "Értékeltség", events: "Esemény", risk: "Kockázat"};
+      return Object.entries(labels).map(([key, label]) => `<div class="method-cell"><span>${label}</span><strong>${fmt(row.components?.[key], 0)}</strong></div>`).join("");
+    }
+    function renderChart(row) {
+      const prices = (row.prices || []).slice(-64);
+      if (prices.length < 3) return `<p class="small">Nincs elég árfolyamadat chart készítéséhez.</p>`;
+      const closes = prices.map(p => Number(p.close)).filter(Number.isFinite);
+      const min = Math.min(...closes);
+      const max = Math.max(...closes);
+      const bars = prices.map((p, idx) => {
+        const close = Number(p.close);
+        const prev = idx > 0 ? Number(prices[idx - 1].close) : close;
+        const h = max === min ? 45 : 12 + ((close - min) / (max - min)) * 88;
+        const klass = close > prev ? "up" : close < prev ? "down" : "flat";
+        return `<div class="bar ${klass}" style="height:${h}%" data-tip="${esc(p.date)} · ${fmt(close, 2)} USD"></div>`;
+      }).join("");
+      return `<div class="chart">${bars}</div><div class="chart-caption"><span>${esc(prices[0].date)}</span><span>${esc(prices[prices.length - 1].date)}</span></div>`;
+    }
+
+    $("startBtn").addEventListener("click", startResearch);
+    $("homeBtn").addEventListener("click", () => {
+      $("shell").classList.remove("ready");
+      $("landing").style.display = "grid";
+      $("landing").classList.remove("loading");
+      $("startBtn").disabled = false;
+      $("startBtn").textContent = "Kutatás indítása";
+      window.scrollTo({top: 0, behavior: "smooth"});
+    });
+    $("refreshBtn").addEventListener("click", async () => {
+      $("refreshBtn").textContent = "Frissítés...";
+      $("refreshBtn").disabled = true;
+      try {
+        const response = await fetch("/api/refresh", {method: "POST"});
+        state = await response.json();
+        renderApp();
+      } finally {
+        $("refreshBtn").textContent = "Új kutatás";
+        $("refreshBtn").disabled = false;
+      }
+    });
+    $("searchInput").addEventListener("input", () => renderSearchResults(true));
+    $("searchInput").addEventListener("focus", () => renderSearchResults(true));
+    document.querySelectorAll(".nav-link").forEach(btn => btn.addEventListener("click", () => switchPage(btn.dataset.page)));
+    document.querySelectorAll("[data-invest-filter]").forEach(btn => btn.addEventListener("click", () => {
+      investmentFilter = btn.dataset.investFilter;
+      document.querySelectorAll("[data-invest-filter]").forEach(item => item.classList.toggle("active", item === btn));
+      renderInvestmentIdeas();
+    }));
+    $("investmentSearchInput").addEventListener("input", () => {
+      investmentSearch = $("investmentSearchInput").value.trim().toLowerCase();
+      renderInvestmentIdeas();
+    });
+    document.querySelectorAll("[data-overview-filter]").forEach(btn => btn.addEventListener("click", () => {
+      overviewFilter = btn.dataset.overviewFilter;
+      document.querySelectorAll("[data-overview-filter]").forEach(item => item.classList.toggle("active", item === btn));
+      renderOverviewPage();
+    }));
+    document.querySelectorAll(".filter-btn").forEach(btn => btn.addEventListener("click", () => {
+      if (!btn.dataset.filter) return;
+      filter = btn.dataset.filter;
+      document.querySelectorAll(".filter-btn").forEach(item => item.classList.toggle("active", item === btn));
+      renderSearchResults(true);
+    }));
+    $("chatForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const input = $("chatInput");
+      const message = input.value.trim();
+      if (!message) return;
+      input.value = "";
+      addChatMessage(message, "user");
+      const loading = addChatMessage("Gondolkodom a friss adatok alapján...", "ai");
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({message})
+        });
+        const data = await response.json();
+        loading.textContent = data.answer || "Nem kaptam választ.";
+      } catch (error) {
+        loading.textContent = "Most nem sikerült választ kérni. Próbáld újra rövidebb, konkrétabb kérdéssel.";
+      }
+    });
+    function addChatMessage(text, role) {
+      const node = document.createElement("div");
+      node.className = `chat-message ${role}`;
+      node.textContent = text;
+      $("chatLog").appendChild(node);
+      $("chatLog").scrollTop = $("chatLog").scrollHeight;
+      return node;
+    }
+  </script>
+</body>
+</html>

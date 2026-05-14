@@ -1,0 +1,23 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Tőzsde AI fresh concept 5 calm grid</title>
+  <desc id="desc">Information grid icon with a green AI insight tile.</desc>
+  <rect width="1200" height="420" fill="#14212A"/>
+  <g transform="translate(184 108)">
+    <rect x="0" y="0" width="64" height="64" rx="16" fill="#354450"/>
+    <rect x="82" y="0" width="64" height="64" rx="16" fill="#354450"/>
+    <rect x="164" y="0" width="64" height="64" rx="16" fill="#354450"/>
+    <rect x="0" y="82" width="64" height="64" rx="16" fill="#354450"/>
+    <rect x="82" y="82" width="64" height="64" rx="16" fill="#22C55E"/>
+    <rect x="164" y="82" width="64" height="64" rx="16" fill="#354450"/>
+    <rect x="0" y="164" width="64" height="64" rx="16" fill="#354450"/>
+    <rect x="82" y="164" width="64" height="64" rx="16" fill="#354450"/>
+    <rect x="164" y="164" width="64" height="64" rx="16" fill="#354450"/>
+    <path d="M114 82V64" stroke="#DCE6EE" stroke-opacity=".42" stroke-width="10" stroke-linecap="round"/>
+    <path d="M82 114H64" stroke="#DCE6EE" stroke-opacity=".42" stroke-width="10" stroke-linecap="round"/>
+    <path d="M146 114H164" stroke="#DCE6EE" stroke-opacity=".42" stroke-width="10" stroke-linecap="round"/>
+    <path d="M114 146V164" stroke="#DCE6EE" stroke-opacity=".42" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <text x="430" y="244" fill="#F8FAFC" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">Tőzsde</text>
+  <text x="808" y="244" fill="#22C55E" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">AI</text>
+  <text x="170" y="356" fill="#91A0AD" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="0">05 / CALM GRID</text>
+</svg>

@@ -1,0 +1,14 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Tőzsde AI dark concept 1 aperture</title>
+  <desc id="desc">Dark Tőzsde AI logo concept with a clean aperture market signal.</desc>
+  <rect width="1200" height="420" fill="#080D12"/>
+  <rect x="1" y="1" width="1198" height="418" rx="0" stroke="#14202A" stroke-width="2"/>
+  <g transform="translate(164 118)">
+    <path d="M142 26A86 86 0 1 0 170 107" stroke="#EEF6F2" stroke-opacity=".9" stroke-width="16" stroke-linecap="round"/>
+    <path d="M54 120L98 80L132 106L174 52" stroke="#22C55E" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M122 28H166" stroke="#22C55E" stroke-width="16" stroke-linecap="round"/>
+  </g>
+  <text x="430" y="244" fill="#F8FAFC" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">Tőzsde</text>
+  <text x="808" y="244" fill="#22C55E" font-family="Sora, Inter, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="0">AI</text>
+  <text x="166" y="356" fill="#7C8A96" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="0">01 / APERTURE SIGNAL</text>
+</svg>
