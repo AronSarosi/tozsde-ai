@@ -206,6 +206,44 @@ def live_quotes(symbols: list[str], api_key: str | None, issues: list[dict]) -> 
     return {}
 
 
+def live_full_quotes(symbols: list[str], api_key: str | None) -> dict[str, dict]:
+    """Fetch full FMP quotes including P/E, EPS, market cap, 52-week range, next earnings date.
+
+    Cached for 6 hours; this data shifts slowly intraday but earnings dates are stable.
+    Falls back to the legacy /api/v3/quote/{symbols} endpoint if /stable/quote is restricted.
+    """
+    if not api_key:
+        return {}
+    cached = cache_get("fmp_batch_full_quotes_v1", 360)
+    if isinstance(cached, dict):
+        return cached
+
+    quotes: dict[str, dict] = {}
+    for idx in range(0, len(symbols), 25):
+        chunk = symbols[idx : idx + 25]
+        symbols_str = ",".join(chunk)
+        payload = fetch_json(
+            f"https://financialmodelingprep.com/api/v3/quote/{symbols_str}?apikey={api_key}",
+            timeout=12,
+        )
+        if not isinstance(payload, list) or not payload:
+            params = urlencode({"symbols": symbols_str, "apikey": api_key})
+            payload = fetch_json(
+                f"https://financialmodelingprep.com/stable/quote?{params}",
+                timeout=12,
+            )
+        if isinstance(payload, list):
+            for item in payload:
+                if not isinstance(item, dict):
+                    continue
+                symbol = str(item.get("symbol") or "").upper()
+                if symbol:
+                    quotes[symbol] = item
+    if quotes:
+        cache_set("fmp_batch_full_quotes_v1", quotes)
+    return quotes
+
+
 def safe_cache_name(prefix: str, symbol: str) -> str:
     clean = re.sub(r"[^A-Z0-9_-]+", "_", symbol.upper())
     return f"{prefix}_{clean}"
@@ -1222,21 +1260,422 @@ def agent(name: str, score: float, thesis: str) -> dict:
     return {"agent": name, "score": clean_score, "stance": category(clean_score), "thesis": thesis}
 
 
-def agent_debate(symbol: str, momentum: float, fundamentals: float, valuation: float, events: float, risk: float, missing_data: list[str]) -> list[dict]:
+def _safe_float(value) -> float | None:
+    if value in (None, "", "None"):
+        return None
+    try:
+        cleaned = float(str(value).replace("%", "").replace(",", ""))
+        if math.isnan(cleaned) or math.isinf(cleaned):
+            return None
+        return cleaned
+    except (ValueError, TypeError):
+        return None
+
+
+def extract_fundamentals_data(full_quote: dict | None, latest_price: float) -> dict:
+    """Pull real fundamentals from FMP full-quote payload with safe fallbacks.
+
+    Returns a dict with: pe, eps, market_cap, year_high, year_low, price_avg_50, price_avg_200,
+    avg_volume, year_range_position, earnings_date, days_to_earnings, shares_outstanding.
+    All values may be None if the underlying API didn't return them.
+    """
+    fq = full_quote or {}
+    pe = _safe_float(fq.get("pe"))
+    eps = _safe_float(fq.get("eps"))
+    market_cap = _safe_float(fq.get("marketCap") or fq.get("marketCapitalization"))
+    year_high = _safe_float(fq.get("yearHigh"))
+    year_low = _safe_float(fq.get("yearLow"))
+    price_avg_50 = _safe_float(fq.get("priceAvg50"))
+    price_avg_200 = _safe_float(fq.get("priceAvg200"))
+    avg_volume = _safe_float(fq.get("avgVolume"))
+    shares = _safe_float(fq.get("sharesOutstanding"))
+
+    year_range_position = None
+    if year_high is not None and year_low is not None and year_high > year_low:
+        year_range_position = max(0.0, min(1.0, (latest_price - year_low) / (year_high - year_low)))
+
+    earnings_date_raw = fq.get("earningsAnnouncement")
+    earnings_date_iso = None
+    days_to_earnings = None
+    if earnings_date_raw:
+        try:
+            text = str(earnings_date_raw).replace("Z", "+00:00")
+            parsed = datetime.fromisoformat(text)
+            earnings_date_iso = parsed.date().isoformat()
+            days_to_earnings = (parsed.date() - date.today()).days
+        except (ValueError, TypeError):
+            earnings_date_iso = None
+
+    return {
+        "pe": pe,
+        "eps": eps,
+        "market_cap": market_cap,
+        "year_high": year_high,
+        "year_low": year_low,
+        "price_avg_50": price_avg_50,
+        "price_avg_200": price_avg_200,
+        "avg_volume": avg_volume,
+        "year_range_position": year_range_position,
+        "earnings_date": earnings_date_iso,
+        "days_to_earnings": days_to_earnings,
+        "shares_outstanding": shares,
+    }
+
+
+SECTOR_PE_BASELINE = {
+    "Semiconductors": 28,
+    "Software": 35,
+    "Cloud / AI infrastructure": 38,
+    "AI / Cloud": 38,
+    "Technology": 30,
+    "Communication Services": 22,
+    "Healthcare": 22,
+    "Pharma": 20,
+    "Financials": 13,
+    "Energy": 12,
+    "Consumer": 24,
+    "Consumer Discretionary": 28,
+    "Consumer Staples": 22,
+    "Industrials": 22,
+    "Defense": 22,
+    "Materials": 16,
+    "Utilities": 18,
+    "Real Estate": 20,
+}
+
+
+def sector_pe_baseline(sector: str | None) -> float:
+    if not sector:
+        return 22.0
+    if sector in SECTOR_PE_BASELINE:
+        return float(SECTOR_PE_BASELINE[sector])
+    lower = sector.lower()
+    for key, value in SECTOR_PE_BASELINE.items():
+        if key.lower() in lower:
+            return float(value)
+    return 22.0
+
+
+def compute_fundamentals_score(fund_data: dict, stock: dict, latest_price: float) -> tuple[float, list[str]]:
+    """Real-data fundamentals score (0-100). Returns (score, reasoning_bullets).
+
+    Inputs used: P/E vs sector baseline, EPS sign, price vs 50/200d MA (trend quality).
+    """
+    score = 50.0
+    notes: list[str] = []
+    sector = stock.get("sector") or ""
+
+    pe = fund_data.get("pe")
+    if pe is not None:
+        baseline = sector_pe_baseline(sector)
+        if pe <= 0:
+            score -= 12
+            notes.append(f"Veszteséges (P/E {pe:.1f}).")
+        else:
+            ratio = pe / baseline
+            if ratio < 0.7:
+                score += 14
+                notes.append(f"P/E {pe:.1f} a szektor átlag alatt ({baseline:.0f}).")
+            elif ratio < 1.0:
+                score += 8
+                notes.append(f"P/E {pe:.1f} a szektor átlaga alatt ({baseline:.0f}).")
+            elif ratio < 1.3:
+                score += 2
+                notes.append(f"P/E {pe:.1f} a szektor átlag közelében ({baseline:.0f}).")
+            elif ratio < 1.8:
+                score -= 5
+                notes.append(f"P/E {pe:.1f} drágább a szektor átlagánál ({baseline:.0f}).")
+            else:
+                score -= 12
+                notes.append(f"P/E {pe:.1f} jelentősen drága a szektorhoz képest ({baseline:.0f}).")
+    else:
+        notes.append("Nincs publikált P/E adat.")
+
+    eps = fund_data.get("eps")
+    if eps is not None:
+        if eps > 0:
+            score += 6
+            notes.append(f"Pozitív EPS: {eps:.2f}.")
+        else:
+            score -= 8
+            notes.append(f"Negatív EPS: {eps:.2f} - profitabilitás nyomás alatt.")
+
+    price_avg_50 = fund_data.get("price_avg_50")
+    price_avg_200 = fund_data.get("price_avg_200")
+    if price_avg_50 and price_avg_200 and latest_price:
+        if latest_price > price_avg_50 > price_avg_200:
+            score += 8
+            notes.append("Ár > 50d MA > 200d MA: tartós feltrend, minőségi jel.")
+        elif latest_price > price_avg_200 and price_avg_50 < price_avg_200:
+            score += 2
+            notes.append("Ár 200d MA felett, de a rövid trend gyengül.")
+        elif latest_price < price_avg_50 < price_avg_200:
+            score -= 8
+            notes.append("Ár < 50d MA < 200d MA: tartós letrend.")
+        elif latest_price < price_avg_200:
+            score -= 4
+            notes.append("Ár 200d MA alatt: gyenge hosszú távú trend.")
+
+    return max(5.0, min(95.0, score)), notes
+
+
+def compute_valuation_score(fund_data: dict, latest_price: float, stock: dict) -> tuple[float, list[str]]:
+    """Real-data valuation score (0-100). Higher = better value entry. Returns (score, notes)."""
+    score = 50.0
+    notes: list[str] = []
+
+    pos = fund_data.get("year_range_position")
+    if pos is not None:
+        if pos < 0.2:
+            score += 18
+            notes.append(f"Az árfolyam az 52-hetes mélypont közelében ({pos*100:.0f}%): erős értékeltségi szint, de fundamentummal validálni.")
+        elif pos < 0.4:
+            score += 10
+            notes.append(f"Az árfolyam az 52-hetes sáv alsó harmadában ({pos*100:.0f}%): kedvező belépési zóna.")
+        elif pos < 0.6:
+            score += 2
+            notes.append(f"Az árfolyam az 52-hetes sáv közepén ({pos*100:.0f}%).")
+        elif pos < 0.85:
+            score -= 5
+            notes.append(f"Az árfolyam a sáv felső felében ({pos*100:.0f}%): drágább belépő.")
+        else:
+            score -= 12
+            notes.append(f"Az árfolyam az 52-hetes csúcs közelében ({pos*100:.0f}%): túlfeszített belépő.")
+    else:
+        notes.append("Nincs 52-hetes árfolyam-sáv adat.")
+
+    pe = fund_data.get("pe")
+    sector = stock.get("sector") or ""
+    if pe is not None and pe > 0:
+        baseline = sector_pe_baseline(sector)
+        ratio = pe / baseline
+        if ratio < 0.8:
+            score += 10
+            notes.append("P/E olcsó a szektorhoz képest: értékeltségi bónusz.")
+        elif ratio > 1.5:
+            score -= 8
+            notes.append("P/E drága a szektorhoz képest: értékeltségi büntetés.")
+
+    price_avg_200 = fund_data.get("price_avg_200")
+    if price_avg_200 and latest_price:
+        gap = (latest_price / price_avg_200) - 1.0
+        if gap > 0.25:
+            score -= 6
+            notes.append(f"Az ár {gap*100:.0f}%-kal a 200d MA felett: trendi prémium.")
+        elif gap < -0.15:
+            score += 5
+            notes.append(f"Az ár {abs(gap)*100:.0f}%-kal a 200d MA alatt: lehetséges visszateszt.")
+
+    return max(5.0, min(95.0, score)), notes
+
+
+def compute_events_score(news_items: list[dict], fund_data: dict, has_filings: bool = False) -> tuple[float, list[str]]:
+    """Events/catalyst score (0-100). Includes news strength + earnings proximity. Returns (score, notes)."""
+    score = 50.0
+    notes: list[str] = []
+
+    news_strength = sum(float(item.get("source_tier", 1.0)) for item in (news_items or [])[:3])
+    if news_strength >= 5:
+        score += 12
+        notes.append("Magas minőségű friss hírforrás-keverék.")
+    elif news_strength >= 3:
+        score += 6
+        notes.append("Megbízható forrásokból érkező hírek.")
+    elif news_strength > 0:
+        score += 2
+    else:
+        score -= 6
+        notes.append("Nincs friss strukturált hír; gyenge esemény-jelzés.")
+
+    days_to_earnings = fund_data.get("days_to_earnings")
+    if days_to_earnings is not None:
+        if 0 <= days_to_earnings <= 7:
+            score += 8
+            notes.append(f"Eredményközlés {days_to_earnings} napon belül - közvetlen katalizátor.")
+        elif 0 <= days_to_earnings <= 21:
+            score += 4
+            notes.append(f"Eredményközlés {days_to_earnings} napon belül - közelgő katalizátor.")
+        elif days_to_earnings < 0 and days_to_earnings >= -7:
+            score += 2
+            notes.append(f"Eredményközlés volt {abs(days_to_earnings)} napja - friss eredmény-háttér.")
+
+    return max(10.0, min(90.0, score)), notes
+
+
+def agent_debate(
+    symbol: str,
+    momentum: float,
+    fundamentals: float,
+    valuation: float,
+    events: float,
+    risk: float,
+    fund_data: dict,
+    fund_notes: list[str],
+    val_notes: list[str],
+    events_notes: list[str],
+    missing_data: list[str],
+) -> list[dict]:
+    """Genuine agent divergence - each agent weights different real inputs."""
+
+    def short(notes: list[str], default: str) -> str:
+        if not notes:
+            return default
+        return " ".join(str(n) for n in notes[:2])
+
+    trend_score = momentum * 0.85 + risk * 0.15
+    trend_thesis = (
+        f"Csak az árfolyam-trend és a volatilitás számít. "
+        f"Momentum komponens: {momentum:.0f}, kockázati háttér: {risk:.0f}. "
+    )
+    price_avg_50 = fund_data.get("price_avg_50")
+    price_avg_200 = fund_data.get("price_avg_200")
+    if price_avg_50 and price_avg_200:
+        if price_avg_50 > price_avg_200:
+            trend_thesis += "Az 50d MA a 200d felett: feltrend érvényben."
+        else:
+            trend_thesis += "Az 50d MA a 200d alatt: lefelé tartó középtáv."
+
+    fundamentalist_score = fundamentals * 0.8 + (events * 0.2 if fund_data.get("days_to_earnings") is None or fund_data["days_to_earnings"] > 21 else events * 0.1 + fundamentals * 0.1)
+    fundamentalist_thesis = f"Csak a profitabilitás és a növekedés. {short(fund_notes, 'Nincs elég publikált adat')}."
+
+    value_score = valuation * 0.9 + (10 if fund_data.get("year_range_position") is not None and fund_data["year_range_position"] < 0.3 else 0)
+    value_thesis = f"Csak a belépési ár és értékeltség. {short(val_notes, 'Nincs elég ár-sáv adat')}."
+
+    sentiment_score = events * 0.7 + momentum * 0.3
+    sentiment_thesis = f"Friss hírek és piaci hangulat. {short(events_notes, 'Nincs erős hír-jelzés')}."
+
+    bear_inputs = [valuation, risk, fundamentals]
+    bear_score = min(bear_inputs) * 0.6 + (50 - abs(fmean(bear_inputs) - 50)) * 0.4
+    bear_score = max(0, min(100, 100 - bear_score))  # Bear score = how strong the bear case is
+    bear_notes_text = []
+    if fund_data.get("year_range_position") is not None and fund_data["year_range_position"] > 0.85:
+        bear_notes_text.append("52-hetes csúcs közelében - korrekció kockázata.")
+    if fund_data.get("pe") is not None and fund_data["pe"] > 0:
+        baseline = sector_pe_baseline(symbol)
+        if fund_data["pe"] / baseline > 1.5:
+            bear_notes_text.append("P/E drága a szektorhoz képest.")
+    if risk < 40:
+        bear_notes_text.append(f"Gyenge kockázati pont ({risk:.0f}): volatilitás vagy drawdown.")
+    if not bear_notes_text:
+        bear_notes_text.append("A jelenlegi adatokban nincs domináns bear érv.")
+    bear_thesis = "Csak a kockázatok és túlárazás. " + " ".join(bear_notes_text[:2])
+    # Convert bear score: high bear-case strength = LOW agent score (because agent_score is bullishness)
+    bear_agent_score = max(0, min(100, 100 - bear_score))
+
+    risk_score = risk * 0.85 + (50 - abs(momentum - 50)) * 0.15
+    risk_thesis = f"Csak a volatilitás, drawdown, hiányzó adatok. Kockázati pont: {risk:.0f}; hiányzó komponens: {len(missing_data)}."
+
     agents = [
-        agent("Trend Analyst", momentum * 0.55 + risk * 0.45, f"{symbol}: a trend csak kontrolljel; a hosszabb távú döntésben a stabilitás is számít."),
-        agent("Fundamental Analyst", fundamentals * 0.65 + valuation * 0.35, f"Fundamentum/értékeltség együtt: {fundamentals:.1f}/{valuation:.1f}."),
-        agent("SEC / News Analyst", events, f"Esemény- és hírkomponens: {events:.1f}."),
-        agent("Bull Researcher", max(fundamentals, valuation, events), "A pozitív nézőpont főleg minőségből, értékeltségből és konkrét katalizátorból indul."),
-        agent("Bear Researcher", min(momentum, valuation, risk), "A bear nézőpont a leggyengébb komponenseket és az adatminőséget figyeli."),
-        agent("Risk Manager", risk, f"Kockázati pont: {risk:.1f}; hiányzó adatok: {len(missing_data)}."),
+        agent("Trend Analyst", trend_score, trend_thesis.strip()),
+        agent("Fundamental Analyst", fundamentalist_score, fundamentalist_thesis.strip()),
+        agent("Value Hunter", value_score, value_thesis.strip()),
+        agent("Sentiment Analyst", sentiment_score, sentiment_thesis.strip()),
+        agent("Bear Researcher", bear_agent_score, bear_thesis.strip()),
+        agent("Risk Manager", risk_score, risk_thesis.strip()),
     ]
-    pm_score = fmean(item["score"] for item in agents)
-    agents.append(agent("Portfolio Manager", pm_score, f"Végső agent konszenzus: {category(pm_score)}."))
+
+    scores = [a["score"] for a in agents]
+    pm_score = fmean(scores)
+    divergence = max(scores) - min(scores)
+    if divergence > 25:
+        pm_thesis = (
+            f"Az agentek véleménye jelentősen eltér ({divergence:.0f} pont szórás). "
+            f"Konszenzus: {category(pm_score)}; az eltérés miatt kis pozícióval érdemes kezdeni."
+        )
+    elif divergence > 12:
+        pm_thesis = (
+            f"Mérsékelt eltérés az agentek között ({divergence:.0f} pont). "
+            f"Konszenzus: {category(pm_score)}."
+        )
+    else:
+        pm_thesis = (
+            f"Az agentek nagyrészt egyetértenek (eltérés {divergence:.0f} pont). "
+            f"Egységes jelzés: {category(pm_score)}."
+        )
+    agents.append(agent("Portfolio Manager", pm_score, pm_thesis))
     return agents
 
 
-def score_stock(stock: dict, quote: dict | None, news_items: list[dict], env: dict[str, str], historical_prices: list[dict] | None = None) -> dict:
+def position_size_suggestion(score: float, cat: str, risk_score: float, fund_data: dict, conviction: float) -> dict:
+    """Position size recommendation tailored to a 10-20 holding portfolio, min 2%.
+
+    Returns: {recommended_pct, range_low, range_high, rationale, label}
+    """
+    market_cap = fund_data.get("market_cap")
+    is_mega = market_cap is not None and market_cap >= 500e9
+    is_large = market_cap is not None and 50e9 <= market_cap < 500e9
+    is_mid = market_cap is not None and 2e9 <= market_cap < 50e9
+    is_small = market_cap is not None and market_cap < 2e9
+
+    if cat in {"sell", "strong sell"}:
+        return {
+            "recommended_pct": 0.0,
+            "range_low": 0.0,
+            "range_high": 0.0,
+            "label": "Kerülendő / trimmel",
+            "rationale": "A jelzés a kockázat/hozam profilt kedvezőtlennek mutatja. Új pozíció nem indokolt; meglévő esetén csökkentés mérlegelendő.",
+        }
+    if cat == "hold":
+        return {
+            "recommended_pct": 0.0,
+            "range_low": 0.0,
+            "range_high": 0.0,
+            "label": "Csak figyelőlista",
+            "rationale": "Nincs erős hosszabb távú jelzés. Új pozíciót nem érdemes nyitni, amíg a kép tisztázódik (eredmény, célár revízió).",
+        }
+
+    if cat == "strong buy" and risk_score >= 60 and is_mega:
+        low, high = 10.0, 15.0
+    elif cat == "strong buy" and risk_score >= 55 and is_large:
+        low, high = 7.0, 10.0
+    elif cat == "strong buy" and is_mid:
+        low, high = 4.0, 6.0
+    elif cat == "strong buy":
+        low, high = 3.0, 5.0
+    elif cat == "buy" and risk_score >= 60 and is_mega:
+        low, high = 6.0, 10.0
+    elif cat == "buy" and risk_score >= 55 and is_large:
+        low, high = 4.0, 7.0
+    elif cat == "buy" and is_mid:
+        low, high = 3.0, 5.0
+    elif cat == "buy":
+        low, high = 2.0, 4.0
+    else:
+        low, high = 2.0, 3.0
+
+    if risk_score < 40:
+        low = max(2.0, low - 1.0)
+        high = max(low + 1.0, high - 2.0)
+    if conviction < 10:
+        high = max(low + 0.5, high - 1.0)
+
+    recommended = round((low + high) / 2, 1)
+    low_r = round(low, 1)
+    high_r = round(high, 1)
+
+    if recommended >= 10:
+        label = "Mag pozíció (core)"
+        rationale = "Mega-cap minőség, erős jelzés és alacsony adatkockázat. Portfolio mag-pozíciónak jelölhető, de fokozatos beszállással."
+    elif recommended >= 5:
+        label = "Standard pozíció"
+        rationale = "Megbízható minőség és kedvező belépés. Standard méretű pozícióként kezelhető a portfolió diverzifikált részeként."
+    elif recommended >= 3:
+        label = "Kisebb pozíció"
+        rationale = "Még tartható jelzés, de magasabb kockázattal vagy gyengébb adatháttérrel. Csak kisebb sizinggel."
+    else:
+        label = "Minimális próba"
+        rationale = "Csak induló próbapozíció. Ha 2% alá esne a méret, inkább érdemes kihagyni és más ötletre koncentrálni."
+
+    return {
+        "recommended_pct": recommended,
+        "range_low": low_r,
+        "range_high": high_r,
+        "label": label,
+        "rationale": rationale,
+    }
+
+
+def score_stock(stock: dict, quote: dict | None, news_items: list[dict], env: dict[str, str], historical_prices: list[dict] | None = None, full_quote: dict | None = None, previous_score: float | None = None) -> dict:
     news_items = prepare_news(stock, news_items)
     if historical_prices and len(historical_prices) >= 60:
         prices = [dict(row) for row in historical_prices]
@@ -1320,26 +1759,11 @@ def score_stock(stock: dict, quote: dict | None, news_items: list[dict], env: di
     ma200 = fmean(closes[-200:]) if len(closes) >= 200 else fmean(closes)
     momentum = max(0, min(100, 50 + pct(latest, ma20) * 95 + pct(ma20, ma50) * 105 + pct(ma50, ma200) * 75))
 
-    seed = int(hashlib.sha256((stock["symbol"] + stock["sector"]).encode("utf-8")).hexdigest()[:8], 16)
-    sector_quality = {
-        "Semiconductors": 8,
-        "Software": 6,
-        "Cloud / AI infrastructure": 7,
-        "Energy": 1,
-        "Healthcare": 5,
-        "Defense": 5,
-        "Financials": 2,
-        "Consumer": 0,
-    }
-    fundamentals = max(20, min(85, 48 + (seed % 25) - 10 + sector_quality.get(stock["sector"], 0)))
-    valuation = max(5, min(95, 50 + (((seed // 17) % 61) - 30) * 1.25))
-    if quote and quote.get("changesPercentage") not in (None, ""):
-        try:
-            valuation = max(5, min(95, valuation - float(str(quote["changesPercentage"]).replace("%", "")) * 1.4))
-        except ValueError:
-            pass
-    news_strength = sum(float(item.get("source_tier", 1.0)) for item in news_items[:3])
-    events = max(35, min(82, 47 + news_strength * 4.0 + ((seed // 31) % 9) - 4))
+    fund_data = extract_fundamentals_data(full_quote, latest)
+    fundamentals, fund_notes = compute_fundamentals_score(fund_data, stock, latest)
+    valuation, val_notes = compute_valuation_score(fund_data, latest, stock)
+    events, events_notes = compute_events_score(news_items, fund_data)
+
     returns = [(closes[i] / closes[i - 1]) - 1 for i in range(1, len(closes)) if closes[i - 1]]
     vol = pstdev(returns[-60:]) if len(returns) > 2 else 0
     peak = max(closes[-120:])
@@ -1351,34 +1775,67 @@ def score_stock(stock: dict, quote: dict | None, news_items: list[dict], env: di
     if "modellált" in price_source:
         missing_data.append("Nincs teljes valós történeti napi árfolyam-idősor; fallback modellált idősorral számol.")
     if not env.get("FMP_API_KEY"):
-        missing_data.append("FMP kulcs hiányzik; hír/célár komponens fallback módban van.")
+        missing_data.append("FMP kulcs hiányzik; fundamentum/célár komponens fallback módban van.")
     if not news_items:
         missing_data.append("Nincs friss strukturált hír ehhez a tickerhez.")
+    if fund_data.get("pe") is None and fund_data.get("eps") is None:
+        missing_data.append("Nincs publikált P/E vagy EPS adat; fundamentum-jel csak ár-alapú.")
 
-    agents = agent_debate(stock["symbol"], momentum, fundamentals, valuation, events, risk, missing_data)
+    agents = agent_debate(stock["symbol"], momentum, fundamentals, valuation, events, risk, fund_data, fund_notes, val_notes, events_notes, missing_data)
     agent_score = fmean(item["score"] for item in agents)
     score = round(max(0, min(100, weighted * 0.72 + agent_score * 0.28)), 1)
     cat = category(score)
     conviction = round(abs(score - 50), 1)
-    if cat in {"strong buy", "buy"}:
-        decision = "1-2 éves távon vételi oldalon vizsgálandó befektetési ötlet."
-    elif cat in {"strong sell", "sell"}:
-        decision = "1-2 éves távon gyenge kockázat/hozam jelzés, ezért felülvizsgálatra jelölt pozíció."
-    else:
-        decision = "Nincs erős hosszabb távú jelzés; figyelőlistán tartandó."
 
+    score_change = None
+    if previous_score is not None:
+        score_change = round(score - previous_score, 1)
+
+    position_size = position_size_suggestion(score, cat, risk, fund_data, conviction)
+
+    horizon_text = "1-2 éves távon"
+    if cat == "strong buy":
+        decision = f"{horizon_text} erős vételi jelzés - magas konvikcióval vizsgálandó pozíció, részvásárlással."
+    elif cat == "buy":
+        decision = f"{horizon_text} vételi oldalon vizsgálandó ötlet - érdemes belépési pontot keresni."
+    elif cat == "hold":
+        decision = "Nincs erős hosszabb távú jelzés; figyelőlistán tartandó, eredményközlésig nem érdemes nyitni."
+    elif cat == "sell":
+        decision = f"{horizon_text} gyenge kockázat/hozam profil - meglévő pozíció felülvizsgálata indokolt."
+    else:
+        decision = f"{horizon_text} jelentős negatív jelzés - új pozíció nem indokolt, meglévő csökkentése mérlegelendő."
+
+    bull_points: list[str] = []
+    bear_points: list[str] = []
+    for note in fund_notes + val_notes + events_notes:
+        if any(token in note.lower() for token in ["alatt", "alsó", "pozitív", "feltrend", "kedvező", "katalizátor", "minőségi", "olcsó", "bónusz", "friss eredmény"]):
+            bull_points.append(note)
+        elif any(token in note.lower() for token in ["drága", "drágább", "felső", "csúcs", "letrend", "gyengül", "veszteséges", "büntetés", "túlfeszített", "negatív", "nincs"]):
+            bear_points.append(note)
     reasons = [
-        f"{cat}: {score:.1f} pont.",
-        f"Fundamentum {fundamentals:.1f}, értékeltségi/proxy pont {valuation:.1f}, kockázati pont {risk:.1f}.",
-        f"Adatforrás: {price_source}.",
+        f"Jelzés: {cat} ({score:.1f} pont, konvikció {conviction:.1f}). Komponensek - momentum {momentum:.0f}, fundamentum {fundamentals:.0f}, értékeltség {valuation:.0f}, esemény {events:.0f}, kockázat {risk:.0f}.",
     ]
+    if bull_points:
+        reasons.append("Vételi érvek: " + " ".join(bull_points[:3]))
+    if bear_points:
+        reasons.append("Óvatossági érvek: " + " ".join(bear_points[:3]))
+    reasons.append(f"Adatforrás: {price_source}.")
+
     risks = []
     if vol > 0.035:
-        risks.append("Magas rövid távú volatilitás.")
+        risks.append(f"Magas rövid távú volatilitás ({vol*100:.1f}% napi szórás).")
     if drawdown < -0.2:
         risks.append(f"Jelentős visszaesés a közelmúlt csúcsától: {drawdown:.1%}.")
+    if fund_data.get("year_range_position") is not None and fund_data["year_range_position"] > 0.9:
+        risks.append("52-hetes csúcs közelében: korrekciós kockázat.")
+    if fund_data.get("pe") is not None and fund_data["pe"] > 0:
+        baseline = sector_pe_baseline(stock.get("sector") or "")
+        if fund_data["pe"] / baseline > 1.6:
+            risks.append(f"P/E {fund_data['pe']:.1f} jelentősen drága a szektorhoz ({baseline:.0f}) képest.")
     if not news_items:
         risks.append("Friss hír nélkül az eseménykomponens óvatosabb.")
+    if "modellált" in price_source:
+        risks.append("FIGYELEM: az árfolyam-történet modellált, nem valós adatokon alapul.")
     if not risks:
         risks.append("Nincs kiugró kockázati jel a jelenlegi adatok alapján.")
 
@@ -1402,6 +1859,7 @@ def score_stock(stock: dict, quote: dict | None, news_items: list[dict], env: di
     return {
         **stock,
         "score": score,
+        "score_change": score_change,
         "category": cat,
         "category_class": category_class(cat),
         "conviction": conviction,
@@ -1415,9 +1873,11 @@ def score_stock(stock: dict, quote: dict | None, news_items: list[dict], env: di
             "events": round(events, 1),
             "risk": round(risk, 1),
         },
+        "fundamentals_data": fund_data,
+        "position_size": position_size,
         "agent_debate": agents,
         "reasons": reasons,
-        "risks": risks[:3],
+        "risks": risks[:4],
         "missing_data": missing_data,
         "data_quality": data_quality,
         "data_quality_label": data_quality_label,
@@ -1430,6 +1890,7 @@ def score_stock(stock: dict, quote: dict | None, news_items: list[dict], env: di
         "price_updated_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
         "news": news_items[:3],
         "article": article,
+        "modelled_data_warning": "modellált" in price_source,
     }
 
 
@@ -1669,14 +2130,36 @@ def build_state() -> dict:
     issues = validate_sources(env)
     symbols = [stock["symbol"] for stock in stocks]
     quotes = live_quotes(symbols, env.get("FMP_API_KEY"), issues)
+    full_quotes = live_full_quotes(symbols, env.get("FMP_API_KEY"))
     histories = live_price_history(symbols, env.get("FMP_API_KEY"), issues)
     news = live_news(symbols, env.get("FMP_API_KEY"), issues)
     macro_news = live_macro_news(env.get("FMP_API_KEY"))
     calendar_events = live_calendar_events(symbols, env.get("FMP_API_KEY"))
+
+    previous_scores: dict[str, float] = {}
+    previous_state = cache_get(LATEST_STATE_CACHE, max_age_minutes=10080)
+    if isinstance(previous_state, dict):
+        for row in previous_state.get("rankings", []) or []:
+            sym = str(row.get("symbol") or "").upper()
+            if sym and row.get("score") is not None:
+                try:
+                    previous_scores[sym] = float(row["score"])
+                except (TypeError, ValueError):
+                    pass
+
     rows = []
     for stock in stocks:
-        row = score_stock(stock, quotes.get(stock["symbol"]), news.get(stock["symbol"], []), env, histories.get(stock["symbol"]))
-        row["calendar_events"] = calendar_events.get(stock["symbol"], {"earnings": [], "dividends": []})
+        symbol = stock["symbol"]
+        row = score_stock(
+            stock,
+            quotes.get(symbol),
+            news.get(symbol, []),
+            env,
+            histories.get(symbol),
+            full_quote=full_quotes.get(symbol),
+            previous_score=previous_scores.get(symbol),
+        )
+        row["calendar_events"] = calendar_events.get(symbol, {"earnings": [], "dividends": []})
         rows.append(row)
     rows_by_action = sorted(rows, key=action_rank, reverse=True)
     rows_by_score = sorted(rows, key=lambda item: item["score"], reverse=True)

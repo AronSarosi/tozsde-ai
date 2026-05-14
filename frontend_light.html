@@ -572,6 +572,42 @@
     .method-cell { background: #f6f8fa; border: 1px solid #e8edf2; border-radius: 10px; padding: 12px; }
     .method-cell span { display: block; color: #64748b; font-size: 13px; }
     .method-cell strong { font-size: 22px; color: #111827; }
+    .modelled-warning {
+      background: #fff5e0; border: 1px solid #f0c269; color: #7a4a05;
+      border-radius: 10px; padding: 12px 16px; margin-bottom: 14px;
+      font-size: 15px; line-height: 1.5; font-weight: 600;
+    }
+    .score-change {
+      display: inline-block; margin-left: 8px; padding: 3px 9px;
+      border-radius: 999px; font-size: 13px; font-weight: 700;
+    }
+    .score-change.up { background: #e6f8ec; color: #0a7a3a; }
+    .score-change.down { background: #fde9e9; color: #a31d1d; }
+    .score-change.neutral { background: #eef2f6; color: #475569; }
+    .position-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px 18px; }
+    .position-card { display: grid; gap: 8px; }
+    .position-main { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .position-main strong { font-size: 18px; color: #0f172a; }
+    .pos-size-pill {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      font-size: 18px; font-weight: 800; letter-spacing: 0.3px;
+    }
+    .pos-size-pill.pos-size-core { background: #d8f5e1; color: #075c2a; }
+    .pos-size-pill.pos-size-std { background: #dcedff; color: #15407a; }
+    .pos-size-pill.pos-size-small { background: #fff0d9; color: #7a4a05; }
+    .pos-size-pill.pos-size-skip { background: #f1f5f9; color: #475569; font-size: 16px; }
+    .fundamentals-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    }
+    .fund-cell {
+      background: #ffffff; border: 1px solid var(--line);
+      border-radius: 10px; padding: 12px 14px;
+    }
+    .fund-cell span { display: block; color: #64748b; font-size: 13px; margin-bottom: 4px; }
+    .fund-cell strong { font-size: 20px; color: #0f172a; display: block; }
+    @media (max-width: 720px) {
+      .fundamentals-grid { grid-template-columns: 1fr 1fr; }
+    }
     .priority-method { margin: 0 0 20px; }
     .priority-method h3 { font-size: 24px; margin: 0 0 12px; }
     .chart { height: 118px; display: flex; align-items: end; gap: 2px; border-bottom: 1px solid #dfe5ec; padding-top: 10px; }
@@ -698,7 +734,7 @@
       <img class="logo-hero" src="/brand/logo-hero.png" alt="Tőzsde AI" />
       <h1 class="intro-title">Portfóliókutatás</h1>
       <p class="intro-text">A Tőzsde AI hosszabb távú befektetési ötleteket keres: becsült beszállóárat, célárat, kockázati szintet és a fontos hírek rövid értelmezését adja meg.</p>
-      <p class="intro-note">A fókusz 2-5 éves szemlélet. Nem napi kereskedési rendszer, hanem döntéstámogató kutatás.</p>
+      <p class="intro-note">A fókusz 1-2 éves szemlélet. Nem napi kereskedési rendszer, hanem döntéstámogató kutatás.</p>
       <button id="startBtn" class="primary-btn" type="button">Kutatás indítása</button>
       <div class="loading-panel" aria-live="polite">
         <div class="scan-row">
@@ -734,7 +770,7 @@
         <section class="app-intro">
           <div>
             <h1>Döntési nézet</h1>
-            <p>Egy helyen látod a legfontosabb 2-5 éves befektetési ötleteket: Buy/Sell irány, beszállóár, célár, elemzői kontroll, kockázat és a rövid indoklás.</p>
+            <p>Egy helyen látod a legfontosabb 1-2 éves befektetési ötleteket: Buy/Sell irány, beszállóár, célár, elemzői kontroll, kockázat és a rövid indoklás.</p>
           </div>
           <div class="intro-stats">
             <div class="stat"><strong id="overviewBuyCount">0</strong><span>Buy ötlet</span></div>
@@ -811,11 +847,11 @@
       <div class="ticker-tape" aria-label="Friss piaci adatcsík">
         <div id="tickerTrack" class="ticker-track"></div>
       </div>
-      <p id="tapeNote" class="tape-note">Az adatcsík csak piaci háttér. A fő döntési nézet a 2-5 éves beszállóár, célár és kockázat.</p>
+      <p id="tapeNote" class="tape-note">Az adatcsík csak piaci háttér. A fő döntési nézet a 1-2 éves beszállóár, célár és kockázat.</p>
 
       <section class="action-board">
         <div class="action-column">
-          <h2>2-5 éves Buy ötletek</h2>
+          <h2>1-2 éves Buy ötletek</h2>
           <div id="buyList" class="action-mini-list"></div>
         </div>
         <div class="action-column">
@@ -915,7 +951,7 @@
       "Friss hírek megbízhatósági szűrése...",
       "Osztalék és jelentési naptár lekérése...",
       "Beszállóárak és célárak becslése...",
-      "2-5 éves rangsor készítése..."
+      "1-2 éves rangsor készítése..."
     ];
     let stageTimer = null;
     const $ = (id) => document.getElementById(id);
@@ -1277,6 +1313,7 @@
     function renderDetailHTML(row, compact = false) {
       const idea = investmentIdea(row.symbol);
       return `
+        ${renderModelledWarning(row)}
         <div class="detail-head">
           <div>
             <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">${logoImg(row.symbol, row.name)}<h2 style="margin:0">${esc(row.symbol)}</h2></div>
@@ -1286,6 +1323,7 @@
             <span class="label ${esc(row.category_class)}">${esc(catText(row.category).toUpperCase())}</span>
             <strong>${fmt(row.score, 1)}</strong>
             <span>pontszám</span>
+            ${renderScoreChange(row)}
           </div>
         </div>
         ${renderInvestmentSummary(idea)}
@@ -1297,16 +1335,18 @@
           <div class="exec-card">
             <h3>Döntési tézis</h3>
             <ol class="thesis-list">
-              ${(row.evidence_items || row.reasons || []).slice(0, 4).map(item => `<li>${esc(item)}</li>`).join("")}
+              ${(row.reasons || row.evidence_items || []).slice(0, 4).map(item => `<li>${esc(item)}</li>`).join("")}
             </ol>
           </div>
         </section>
+        ${renderPositionSize(row)}
+        ${renderFundamentals(row)}
         ${compact ? "" : `
         <section class="section">
-          <h3>Tőzsde AI ajánlat</h3>
+          <h3>Tőzsde AI ajánlat - agent bontás</h3>
           <button class="consensus-card" type="button" onclick="toggleAgentMap()">
             <strong>${esc(row.category)} · ${fmt(row.score, 1)} pont</strong>
-            <span>Kattintásra megnyílik a rendszer részpontszámokra bontott indoklása.</span>
+            <span>Kattintásra megnyílik az egyes agentek különálló indoklása. Eltérő pontszám = valós nézetkülönbség.</span>
           </button>
           <div id="agentMap" class="agent-map">${renderAgentMap(row)}</div>
         </section>
@@ -1317,15 +1357,103 @@
         </section>
         ${compact ? "" : `
         <section class="section">
-          <h3>Következő események</h3>
+          <h3>Következő események és katalizátorok</h3>
           <div class="event-grid">${renderEvents(row)}</div>
+        </section>
+        <section class="section">
+          <h3>Kockázatok</h3>
+          <ul class="thesis-list">${(row.risks || []).slice(0,4).map(r => `<li>${esc(r)}</li>`).join("") || "<li>Nincs kiemelt kockázat.</li>"}</ul>
         </section>
         <section class="section">
           <h3>Pontozási bontás</h3>
           <div class="method-grid">${renderComponents(row)}</div>
-          <p class="small">A pontszám 2-5 éves döntéstámogató rangsor. Nem automatikus vételi vagy eladási utasítás.</p>
+          <p class="small">A pontszám 1-2 éves döntéstámogató rangsor valós fundamentum-, érték- és kockázati adatok alapján. Nem automatikus vételi vagy eladási utasítás.</p>
         </section>
         `}
+      `;
+    }
+
+    function renderModelledWarning(row) {
+      if (!row.modelled_data_warning) return "";
+      return `<div class="modelled-warning">⚠ Modellált árfolyam-történet. A momentum/kockázat komponens nem valós napi adatokon alapul, ezért a jelzés óvatosan kezelendő.</div>`;
+    }
+
+    function renderScoreChange(row) {
+      if (row.score_change === null || row.score_change === undefined) return "";
+      const change = Number(row.score_change);
+      if (Math.abs(change) < 0.5) return `<span class="score-change neutral">Δ ${change >= 0 ? "+" : ""}${change.toFixed(1)}</span>`;
+      const cls = change > 0 ? "score-change up" : "score-change down";
+      return `<span class="${cls}">Δ ${change > 0 ? "+" : ""}${change.toFixed(1)}</span>`;
+    }
+
+    function renderPositionSize(row) {
+      const ps = row.position_size;
+      if (!ps) return "";
+      let pillClass = "pos-size-pill";
+      if (ps.recommended_pct === 0) pillClass += " pos-size-skip";
+      else if (ps.recommended_pct >= 8) pillClass += " pos-size-core";
+      else if (ps.recommended_pct >= 4) pillClass += " pos-size-std";
+      else pillClass += " pos-size-small";
+
+      const sizeText = ps.recommended_pct === 0
+        ? esc(ps.label)
+        : `${ps.range_low.toFixed(1)}-${ps.range_high.toFixed(1)}%`;
+
+      return `
+        <section class="section position-section">
+          <h3>Javasolt pozícióméret</h3>
+          <div class="position-card">
+            <div class="position-main">
+              <span class="${pillClass}">${sizeText}</span>
+              <strong>${esc(ps.label)}</strong>
+            </div>
+            <p class="small">${esc(ps.rationale)}</p>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderFundamentals(row) {
+      const fd = row.fundamentals_data || {};
+      if (!fd) return "";
+      const fmtMcap = (v) => {
+        if (!v) return "-";
+        if (v >= 1e12) return `${(v/1e12).toFixed(2)}T USD`;
+        if (v >= 1e9) return `${(v/1e9).toFixed(1)}Md USD`;
+        if (v >= 1e6) return `${(v/1e6).toFixed(0)}M USD`;
+        return `${v.toLocaleString()} USD`;
+      };
+      const fmtNum = (v, d = 2) => (v === null || v === undefined) ? "-" : Number(v).toFixed(d);
+      const fmtRangePos = (v) => v === null || v === undefined ? "-" : `${(v * 100).toFixed(0)}%`;
+      let earningsLine = "Nincs adat";
+      if (fd.earnings_date) {
+        const days = fd.days_to_earnings;
+        if (days !== null && days !== undefined) {
+          if (days > 0) earningsLine = `${fd.earnings_date} (${days} nap múlva)`;
+          else if (days === 0) earningsLine = `${fd.earnings_date} (MA)`;
+          else earningsLine = `${fd.earnings_date} (${Math.abs(days)} napja)`;
+        } else {
+          earningsLine = fd.earnings_date;
+        }
+      }
+      const rangeText = (fd.year_low && fd.year_high)
+        ? `${fmtNum(fd.year_low, 2)} - ${fmtNum(fd.year_high, 2)} USD (jelenleg ${fmtRangePos(fd.year_range_position)})`
+        : "-";
+
+      return `
+        <section class="section">
+          <h3>Fundamentum és katalizátorok</h3>
+          <div class="fundamentals-grid">
+            <div class="fund-cell"><span>P/E (TTM)</span><strong>${fmtNum(fd.pe, 1)}</strong></div>
+            <div class="fund-cell"><span>EPS (TTM)</span><strong>${fmtNum(fd.eps, 2)}</strong></div>
+            <div class="fund-cell"><span>Piaci tőkeérték</span><strong>${fmtMcap(fd.market_cap)}</strong></div>
+            <div class="fund-cell"><span>52-hetes sáv</span><strong style="font-size:16px">${rangeText}</strong></div>
+            <div class="fund-cell"><span>50-napos átlag</span><strong>${fmtNum(fd.price_avg_50, 2)} USD</strong></div>
+            <div class="fund-cell"><span>200-napos átlag</span><strong>${fmtNum(fd.price_avg_200, 2)} USD</strong></div>
+            <div class="fund-cell"><span>Következő eredményközlés</span><strong style="font-size:16px">${esc(earningsLine)}</strong></div>
+            <div class="fund-cell"><span>Átlagos napi forgalom</span><strong>${fd.avg_volume ? (fd.avg_volume/1e6).toFixed(1) + "M" : "-"}</strong></div>
+          </div>
+        </section>
       `;
     }
     function renderInvestmentDetailHTML(row) {
