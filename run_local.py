@@ -806,10 +806,10 @@ def build_investment_ideas(rows: list[dict], env: dict[str, str]) -> list[dict]:
         ai_target = price * (1 + model_upside)
         if consensus:
             fair_target = (float(consensus) * 0.45) + (ai_target * 0.55)
-            target_source = "Tőzsde AI 2-5 éves célár elemzői kontrollal"
+            target_source = "Tőzsde AI 1-2 éves célár elemzői kontrollal"
         else:
             fair_target = ai_target
-            target_source = "Tőzsde AI 2-5 éves célár"
+            target_source = "Tőzsde AI 1-2 éves célár"
 
         upside_pct = ((fair_target / price) - 1) * 100 if price else None
         risk_score = investment_risk_score(row, upside_pct)
@@ -843,7 +843,7 @@ def build_investment_ideas(rows: list[dict], env: dict[str, str]) -> list[dict]:
         if upside_pct is not None and upside_pct < -5:
             stance = "Célár alapján óvatos"
         elif "buy" in cat:
-            stance = "2-5 éves vételi ötlet"
+            stance = "1-2 éves vételi ötlet"
         elif "sell" in cat:
             stance = "Gyenge hosszabb távú jelzés"
         else:
@@ -1361,9 +1361,9 @@ def score_stock(stock: dict, quote: dict | None, news_items: list[dict], env: di
     cat = category(score)
     conviction = round(abs(score - 50), 1)
     if cat in {"strong buy", "buy"}:
-        decision = "2-5 éves távon vételi oldalon vizsgálandó befektetési ötlet."
+        decision = "1-2 éves távon vételi oldalon vizsgálandó befektetési ötlet."
     elif cat in {"strong sell", "sell"}:
-        decision = "2-5 éves távon gyenge kockázat/hozam jelzés, ezért felülvizsgálatra jelölt pozíció."
+        decision = "1-2 éves távon gyenge kockázat/hozam jelzés, ezért felülvizsgálatra jelölt pozíció."
     else:
         decision = "Nincs erős hosszabb távú jelzés; figyelőlistán tartandó."
 

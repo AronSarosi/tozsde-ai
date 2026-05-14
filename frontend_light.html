@@ -663,22 +663,6 @@
     }
     .agent-center strong { display: block; font-size: 34px; }
     .agent-center span { display: block; margin-top: 6px; color: #dbeafe; }
-    .chat-panel {
-      margin-top: 24px;
-      background: rgba(255,255,255,.84);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      box-shadow: var(--shadow);
-      padding: 18px;
-    }
-    .chat-panel h2 { margin: 0 0 8px; font-size: 25px; }
-    .chat-log { display: grid; gap: 10px; max-height: 360px; overflow: auto; padding: 10px 0; }
-    .chat-message { border-radius: 14px; padding: 12px 14px; line-height: 1.45; font-size: 16px; }
-    .chat-message.user { justify-self: end; max-width: 78%; background: #111827; color: white; }
-    .chat-message.ai { justify-self: start; max-width: 88%; background: #f3f6f9; color: #263241; }
-    .chat-form { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; margin-top: 10px; }
-    .chat-form input { min-height: 52px; border: 1px solid #d9e1ea; border-radius: 999px; padding: 0 18px; font-size: 18px; outline: none; }
-    .chat-form button { border-radius: 999px; background: #111827; color: white; min-height: 52px; padding: 0 20px; font-weight: 800; }
     @keyframes enter { from { opacity: 0; transform: translateY(18px) scale(.985); } to { opacity: 1; transform: none; } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes logoFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
@@ -701,7 +685,7 @@
       .topbar-inner, .page { padding-left: 18px; padding-right: 18px; }
       .brand-logo { width: 162px; }
       .top-actions .checked { display: none; }
-      .price-grid, .method-grid, .agent-grid, .event-grid, .intro-stats, .analyst-grid, .chat-form { grid-template-columns: 1fr; }
+      .price-grid, .method-grid, .agent-grid, .event-grid, .intro-stats, .analyst-grid { grid-template-columns: 1fr; }
       .agent-map { display: none !important; }
       .detail-head { display: block; }
       .decision-box { text-align: left; margin-top: 18px; }
@@ -851,17 +835,6 @@
         </section>
       </section>
 
-      <section class="chat-panel">
-        <h2>Kérdezz a kutatásról</h2>
-        <p class="small">Például: “Apple-t vennék, jó döntésnek tűnik?” vagy “Miért került le Apple a buy listáról?”</p>
-        <div id="chatLog" class="chat-log">
-          <div class="chat-message ai">Indítás után a friss adatokból válaszolok. Nem kereskedem helyetted, hanem segítek értelmezni a tényeket.</div>
-        </div>
-        <form id="chatForm" class="chat-form">
-          <input id="chatInput" type="text" placeholder="Kérdezz egy részvényről vagy befektetési ötletről" />
-          <button type="submit">Kérdés küldése</button>
-        </form>
-      </section>
       </section>
 
       <section id="newsPage" class="app-page">
@@ -1547,34 +1520,6 @@
       document.querySelectorAll(".filter-btn").forEach(item => item.classList.toggle("active", item === btn));
       renderSearchResults(true);
     }));
-    $("chatForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const input = $("chatInput");
-      const message = input.value.trim();
-      if (!message) return;
-      input.value = "";
-      addChatMessage(message, "user");
-      const loading = addChatMessage("Gondolkodom a friss adatok alapján...", "ai");
-      try {
-        const response = await fetch("/api/chat", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({message})
-        });
-        const data = await response.json();
-        loading.textContent = data.answer || "Nem kaptam választ.";
-      } catch (error) {
-        loading.textContent = "Most nem sikerült választ kérni. Próbáld újra rövidebb, konkrétabb kérdéssel.";
-      }
-    });
-    function addChatMessage(text, role) {
-      const node = document.createElement("div");
-      node.className = `chat-message ${role}`;
-      node.textContent = text;
-      $("chatLog").appendChild(node);
-      $("chatLog").scrollTop = $("chatLog").scrollHeight;
-      return node;
-    }
   </script>
 </body>
 </html>
