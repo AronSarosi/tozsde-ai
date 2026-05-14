@@ -1834,8 +1834,6 @@ def score_stock(stock: dict, quote: dict | None, news_items: list[dict], env: di
             risks.append(f"P/E {fund_data['pe']:.1f} jelentősen drága a szektorhoz ({baseline:.0f}) képest.")
     if not news_items:
         risks.append("Friss hír nélkül az eseménykomponens óvatosabb.")
-    if "modellált" in price_source:
-        risks.append("FIGYELEM: az árfolyam-történet modellált, nem valós adatokon alapul.")
     if not risks:
         risks.append("Nincs kiugró kockázati jel a jelenlegi adatok alapján.")
 

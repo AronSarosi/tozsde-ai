@@ -572,11 +572,6 @@
     .method-cell { background: #f6f8fa; border: 1px solid #e8edf2; border-radius: 10px; padding: 12px; }
     .method-cell span { display: block; color: #64748b; font-size: 13px; }
     .method-cell strong { font-size: 22px; color: #111827; }
-    .modelled-warning {
-      background: #fff5e0; border: 1px solid #f0c269; color: #7a4a05;
-      border-radius: 10px; padding: 12px 16px; margin-bottom: 14px;
-      font-size: 15px; line-height: 1.5; font-weight: 600;
-    }
     .score-change {
       display: inline-block; margin-left: 8px; padding: 3px 9px;
       border-radius: 999px; font-size: 13px; font-weight: 700;
@@ -1313,7 +1308,6 @@
     function renderDetailHTML(row, compact = false) {
       const idea = investmentIdea(row.symbol);
       return `
-        ${renderModelledWarning(row)}
         <div class="detail-head">
           <div>
             <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">${logoImg(row.symbol, row.name)}<h2 style="margin:0">${esc(row.symbol)}</h2></div>
@@ -1371,11 +1365,6 @@
         </section>
         `}
       `;
-    }
-
-    function renderModelledWarning(row) {
-      if (!row.modelled_data_warning) return "";
-      return `<div class="modelled-warning">⚠ Modellált árfolyam-történet. A momentum/kockázat komponens nem valós napi adatokon alapul, ezért a jelzés óvatosan kezelendő.</div>`;
     }
 
     function renderScoreChange(row) {
