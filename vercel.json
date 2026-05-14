@@ -8,9 +8,8 @@
   ],
   "functions": {
     "api/index.py": {
-      "runtime": "python3.12",
       "maxDuration": 60,
-      "excludeFiles": "{.venv/**,.deps/**,.pip-cache/**,.pip-tmp/**,.tmp/**,npm_cache_test/**,frontend/**,brand/**,backend/tests/**,__pycache__/**,**/*.pyc}"
+      "excludeFiles": "{.venv/**,.deps/**,.pip-cache/**,.pip-tmp/**,.tmp/**,npm_cache_test/**,frontend/**,backend/tests/**,__pycache__/**,**/*.pyc}"
     }
   }
 }
