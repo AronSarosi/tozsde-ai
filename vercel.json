@@ -8,6 +8,7 @@
   ],
   "functions": {
     "api/index.py": {
+      "maxDuration": 60,
       "excludeFiles": "{.venv/**,.deps/**,.pip-cache/**,.pip-tmp/**,.tmp/**,npm_cache_test/**,frontend/node_modules/**,frontend/.npm-cache/**,frontend/dist/**,backend/tests/**,__pycache__/**,**/*.pyc}"
     }
   }
