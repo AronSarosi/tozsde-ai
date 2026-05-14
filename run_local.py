@@ -839,11 +839,23 @@ def build_investment_ideas(rows: list[dict], env: dict[str, str]) -> list[dict]:
         risk_component = float((row.get("components") or {}).get("risk") or 50)
         fundamentals = float((row.get("components") or {}).get("fundamentals") or 50)
         long_term_quality = fundamentals * 0.38 + valuation * 0.28 + risk_component * 0.22 + momentum * 0.12
-        model_upside = ((long_term_quality - 50) * 0.0075) + ((score - 50) * 0.0035) - max(0, 45 - risk_component) * 0.0025
-        model_upside = max(-0.32, min(0.52, model_upside))
+        # Target a 1-2 year horizon with patient long-only investor in mind.
+        # Score 60 -> ~18% upside; Score 70 -> ~32%; Score 80 -> ~46%.
+        # Quality is a secondary multiplier; risk only penalizes when truly poor.
+        score_upside = (score - 50) * 0.018
+        quality_upside = (long_term_quality - 50) * 0.0065
+        risk_penalty = max(0, 40 - risk_component) * 0.003
+        model_upside = score_upside + quality_upside - risk_penalty
+        model_upside = max(-0.40, min(0.90, model_upside))
         ai_target = price * (1 + model_upside)
         if consensus:
-            fair_target = (float(consensus) * 0.45) + (ai_target * 0.55)
+            cons_target = float(consensus)
+            # If our model is more optimistic than consensus (typical for patient long-term view),
+            # keep most of our view; only blend toward consensus when consensus is more optimistic.
+            if ai_target >= cons_target:
+                fair_target = cons_target * 0.20 + ai_target * 0.80
+            else:
+                fair_target = cons_target * 0.60 + ai_target * 0.40
             target_source = "Tőzsde AI 1-2 éves célár elemzői kontrollal"
         else:
             fair_target = ai_target
@@ -909,6 +921,7 @@ def build_investment_ideas(rows: list[dict], env: dict[str, str]) -> list[dict]:
                 "target_price": round(fair_target, 2),
                 "ai_target_price": round(ai_target, 2),
                 "target_upside_pct": round(upside_pct, 2) if upside_pct is not None else None,
+                "entry_to_target_pct": round(((fair_target / entry_price) - 1) * 100, 2) if entry_price else None,
                 "target_source": target_source,
                 "analyst_target_consensus": round(float(consensus), 2) if consensus else None,
                 "analyst_target_high": round(float(analyst_high), 2) if analyst_high else None,

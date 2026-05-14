@@ -597,6 +597,7 @@
     .summary-card .summary-name { font-size: 13px; color: #64748b; margin: 0; }
     .summary-card .summary-prices { font-size: 13px; color: #1f2937; margin: 0; line-height: 1.5; }
     .summary-card .summary-prices span { color: #64748b; }
+    .summary-card .summary-upside { color: #0f7b42; font-weight: 700; }
     .summary-card .summary-foot { font-size: 13px; color: #475569; margin: 0; }
     .summary-pill {
       display: inline-block; padding: 2px 9px; border-radius: 999px;
@@ -1531,8 +1532,9 @@
       const renderCard = (row, side) => {
         const idea = investmentIdea(row.symbol);
         const sideClass = side === "buy" ? "summary-buy" : "summary-sell";
+        const upsideStr = idea?.entry_to_target_pct != null ? ` <span class="summary-upside">(${idea.entry_to_target_pct > 0 ? "+" : ""}${idea.entry_to_target_pct.toFixed(1)}%)</span>` : "";
         const priceLine = side === "buy"
-          ? `<span>Aktuális:</span> <strong>${fmt(row.latest_price, 2)} USD</strong> &middot; <span>Beszálló:</span> <strong>${fmt(idea?.entry_price || idea?.entry_high || row.latest_price, 2)}</strong> &middot; <span>Cél:</span> <strong>${fmt(idea?.exit_price || idea?.target_price || row.latest_price, 2)}</strong>`
+          ? `<span>Aktuális:</span> <strong>${fmt(row.latest_price, 2)}</strong> &middot; <span>Beszálló:</span> <strong>${fmt(idea?.entry_price || idea?.entry_high || row.latest_price, 2)}</strong> &middot; <span>Cél:</span> <strong>${fmt(idea?.exit_price || idea?.target_price || row.latest_price, 2)}</strong>${upsideStr}`
           : `<span>Aktuális:</span> <strong>${fmt(row.latest_price, 2)} USD</strong> &middot; <span>Ha tartod, kiszállási szint:</span> <strong>${fmt(idea?.review_down || row.latest_price, 2)} USD</strong>`;
         const sizeLine = row.position_size && row.position_size.recommended_pct > 0
           ? `${row.position_size.range_low.toFixed(1)}-${row.position_size.range_high.toFixed(1)}%`
@@ -1617,7 +1619,7 @@
           <div class="price-grid">
             <div class="price-cell"><span>Aktuális ár</span><strong>${fmt(idea.latest_price, 2)} USD</strong></div>
             <div class="price-cell"><span>${hintLabel("Beszállóár", "A becsült felső ár, ahol a rendszer szerint a belépés már értelmezhető. Nem vételi megbízás.")}</span><strong>${fmt(idea.entry_price || idea.entry_high, 2)} USD</strong><small>zóna: ${fmt(idea.entry_low, 2)}-${fmt(idea.entry_high, 2)}</small></div>
-            <div class="price-cell"><span>${hintLabel("Célár / kiszálló", "A Tőzsde AI becsült célára. Ennél az árszintnél érdemes lehet újraértékelni vagy profitot realizálni.")}</span><strong>${fmt(idea.exit_price || idea.target_price, 2)} USD</strong><small>${pct(idea.target_upside_pct)} a jelenlegi árhoz képest</small></div>
+            <div class="price-cell"><span>${hintLabel("Célár / kiszálló", "A Tőzsde AI becsült célára 1-2 éves távra. Ennél az árszintnél érdemes lehet újraértékelni vagy profitot realizálni.")}</span><strong>${fmt(idea.exit_price || idea.target_price, 2)} USD</strong><small>${pct(idea.entry_to_target_pct ?? idea.target_upside_pct)} a beszállóárról · ${pct(idea.target_upside_pct)} a jelenlegi árról</small></div>
             <div class="price-cell"><span>Kockázat</span><strong>${esc(idea.risk_level)}</strong><small>${fmt(idea.risk_score, 0)}/100 kockázati érték</small></div>
           </div>
           <div class="price-grid">
