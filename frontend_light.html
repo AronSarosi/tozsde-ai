@@ -598,6 +598,24 @@
     .summary-card .summary-prices { font-size: 13px; color: #1f2937; margin: 0; line-height: 1.5; }
     .summary-card .summary-prices span { color: #64748b; }
     .summary-card .summary-upside { color: #0f7b42; font-weight: 700; }
+    .shadow-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+    .shadow-actions .shadow-explainer { flex-basis: 100%; color: #475569; font-size: 14px; line-height: 1.55; margin: 6px 0 0; }
+    .shadow-reset { background: #f1f5f9; color: #475569; }
+    .shadow-table-wrap { overflow-x: auto; }
+    .shadow-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .shadow-table th, .shadow-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+    .shadow-table thead th { color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; font-weight: 700; background: #f8fafc; }
+    .shadow-table tbody tr:hover { background: #fafbfd; }
+    .shadow-dir-pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-weight: 800; font-size: 12px; letter-spacing: 0.3px; }
+    .shadow-dir-pill.shadow-long { background: #eaf8ef; color: #0f7b42; }
+    .shadow-dir-pill.shadow-short { background: #fff0f2; color: #b42338; }
+    .shadow-pnl-pos { color: #0f7b42; font-weight: 700; }
+    .shadow-pnl-neg { color: #b42338; font-weight: 700; }
+    .shadow-events { display: grid; gap: 8px; }
+    .shadow-event { background: #ffffff; border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; font-size: 14px; line-height: 1.5; }
+    .shadow-event-open { border-left: 4px solid #2457a6; }
+    .shadow-event-close { border-left: 4px solid #0f7b42; }
+    .shadow-event-skip { color: #64748b; }
     .summary-card .summary-foot { font-size: 13px; color: #475569; margin: 0; }
     .summary-pill {
       display: inline-block; padding: 2px 9px; border-radius: 999px;
@@ -784,6 +802,7 @@
         <nav class="main-nav" aria-label="Fő nézetek">
           <button class="nav-link active" data-page="investments" type="button">Befektetések</button>
           <button class="nav-link" data-page="research" type="button">Részvénykutatás</button>
+          <button class="nav-link" data-page="shadow" type="button">Shadow portfolió</button>
         </nav>
         <div class="top-actions">
           <span id="checkedAt" class="checked">Nincs friss adat</span>
@@ -963,6 +982,50 @@
           <div id="investmentTable" class="investment-table"></div>
         </section>
       </section>
+
+      <section id="shadowPage" class="app-page">
+        <section class="app-intro">
+          <div>
+            <h1 class="intro-title">Shadow portfolió · paper trading</h1>
+            <p class="intro-note">A rendszer saját kockázatra nem keresked, de itt egy fiktív $10,000-os számlán követheted, mit csinálna a saját jelzései alapján. Long és short pozíciókkal, valós árakkal, jutalék nélkül.</p>
+          </div>
+          <div class="intro-stats" id="shadowStats">
+            <div class="stat"><strong id="shadowTotalValue">$10,000</strong><span>Portfolió érték</span></div>
+            <div class="stat"><strong id="shadowCash">$10,000</strong><span>Készpénz</span></div>
+            <div class="stat"><strong id="shadowPnl">$0</strong><span>Total P/L</span></div>
+            <div class="stat"><strong id="shadowPnlPct">0%</strong><span>Hozam %</span></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="shadow-actions">
+            <button id="shadowTradeBtn" class="refresh-btn" type="button">Új kereskedési nap futtatása</button>
+            <button id="shadowResetBtn" class="refresh-btn shadow-reset" type="button">Portfolió újraindítása</button>
+            <p class="small shadow-explainer">Egy kereskedési nap során a rendszer max $1500-t allokál: a 2 legmagasabb pontszámú buy jelzésre long, a legrosszabb sell jelzésre pedig short pozíciót nyit. Lezár minden pozíciót, amelyik elérte a célárat, a stop loss-t, vagy ahol a jelzés ellentétesre fordult.</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3>Nyitott pozíciók</h3>
+          <div id="shadowPositions" class="shadow-table-wrap">
+            <p class="small">Nincs nyitott pozíció. Indíts egy kereskedési napot.</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3>Friss kereskedési események</h3>
+          <div id="shadowEvents" class="shadow-events">
+            <p class="small">Még nem futott kereskedési ciklus.</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3>Lezárt kereskedések</h3>
+          <div id="shadowClosed" class="shadow-table-wrap">
+            <p class="small">Még nincs lezárt pozíció.</p>
+          </div>
+        </section>
+      </section>
     </main>
   </section>
 
@@ -1074,6 +1137,146 @@
       document.querySelectorAll(".nav-link").forEach(btn => {
         btn.classList.toggle("active", btn.dataset.page === activePage);
       });
+      if (activePage === "shadow") {
+        loadShadowPortfolio();
+      }
+    }
+
+    let shadowState = null;
+    async function loadShadowPortfolio() {
+      try {
+        const r = await fetch("/api/shadow");
+        if (!r.ok) throw new Error("hiba");
+        shadowState = await r.json();
+        renderShadowPortfolio();
+      } catch (e) {
+        $("shadowEvents").innerHTML = `<p class="small">Hiba a portfolió betöltésekor.</p>`;
+      }
+    }
+
+    async function runShadowTrade() {
+      const btn = $("shadowTradeBtn");
+      btn.disabled = true;
+      btn.textContent = "Kereskedés fut...";
+      try {
+        const r = await fetch("/api/shadow/trade", {method: "POST"});
+        if (!r.ok) throw new Error("hiba");
+        shadowState = await r.json();
+        renderShadowPortfolio();
+      } catch (e) {
+        alert("Hiba a kereskedés futtatásakor.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Új kereskedési nap futtatása";
+      }
+    }
+
+    async function resetShadow() {
+      if (!confirm("Biztosan újraindítod a shadow portfoliót? Minden pozíció és előzmény törlődik.")) return;
+      try {
+        const r = await fetch("/api/shadow/reset", {method: "POST"});
+        if (!r.ok) throw new Error("hiba");
+        shadowState = await r.json();
+        renderShadowPortfolio();
+      } catch (e) {
+        alert("Hiba az újraindításkor.");
+      }
+    }
+
+    function fmtMoney(value) {
+      if (value === null || value === undefined || isNaN(value)) return "$0";
+      const num = Number(value);
+      const sign = num < 0 ? "-" : "";
+      return `${sign}$${Math.abs(num).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})}`;
+    }
+
+    function renderShadowPortfolio() {
+      if (!shadowState) return;
+      $("shadowTotalValue").textContent = fmtMoney(shadowState.total_value);
+      $("shadowCash").textContent = fmtMoney(shadowState.cash);
+      const pnl = Number(shadowState.total_pnl || 0);
+      const pnlPct = Number(shadowState.total_pnl_pct || 0);
+      $("shadowPnl").textContent = (pnl >= 0 ? "+" : "") + fmtMoney(pnl);
+      $("shadowPnl").style.color = pnl > 0 ? "#0f7b42" : pnl < 0 ? "#b42338" : "#111827";
+      $("shadowPnlPct").textContent = (pnlPct >= 0 ? "+" : "") + pnlPct.toFixed(2) + "%";
+      $("shadowPnlPct").style.color = pnlPct > 0 ? "#0f7b42" : pnlPct < 0 ? "#b42338" : "#111827";
+
+      const positions = shadowState.positions || [];
+      if (positions.length === 0) {
+        $("shadowPositions").innerHTML = `<p class="small">Nincs nyitott pozíció. Indíts egy kereskedési napot.</p>`;
+      } else {
+        const rows = positions.map(p => {
+          const isLong = p.direction === "long";
+          const dirClass = isLong ? "shadow-long" : "shadow-short";
+          const pnlClass = (p.unrealized_pnl || 0) >= 0 ? "shadow-pnl-pos" : "shadow-pnl-neg";
+          return `
+            <tr>
+              <td><strong>${esc(p.symbol)}</strong></td>
+              <td><span class="shadow-dir-pill ${dirClass}">${isLong ? "LONG" : "SHORT"}</span></td>
+              <td>${p.shares}</td>
+              <td>${fmtMoney(p.entry_price)}</td>
+              <td>${fmtMoney(p.current_price)}</td>
+              <td>${fmtMoney(p.target_price)}</td>
+              <td>${fmtMoney(p.stop_price)}</td>
+              <td class="${pnlClass}">${(p.unrealized_pnl >= 0 ? "+" : "")}${fmtMoney(p.unrealized_pnl)}</td>
+              <td class="${pnlClass}">${(p.unrealized_pct >= 0 ? "+" : "")}${(p.unrealized_pct || 0).toFixed(2)}%</td>
+            </tr>
+          `;
+        }).join("");
+        $("shadowPositions").innerHTML = `
+          <table class="shadow-table">
+            <thead><tr><th>Ticker</th><th>Irány</th><th>Db</th><th>Belépő</th><th>Aktuális</th><th>Cél</th><th>Stop</th><th>P/L $</th><th>P/L %</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        `;
+      }
+
+      const events = (shadowState.events || []).slice().reverse().slice(0, 15);
+      if (events.length === 0) {
+        $("shadowEvents").innerHTML = `<p class="small">Még nem futott kereskedési ciklus.</p>`;
+      } else {
+        const eventRows = events.map(e => {
+          const time = e.at ? e.at.replace("T", " ").slice(0, 16) : "";
+          if (e.type === "open") {
+            const dirText = e.direction === "long" ? "LONG" : "SHORT";
+            return `<div class="shadow-event shadow-event-open"><b>${esc(time)}</b> · <span class="shadow-dir-pill ${e.direction === "long" ? "shadow-long" : "shadow-short"}">${dirText}</span> · <strong>${esc(e.symbol)}</strong> ${e.shares} db @ ${fmtMoney(e.price)} (cél ${fmtMoney(e.target)}, stop ${fmtMoney(e.stop)}, score ${(e.score || 0).toFixed(1)})</div>`;
+          }
+          if (e.type === "close") {
+            const pnlClass = (e.pnl || 0) >= 0 ? "shadow-pnl-pos" : "shadow-pnl-neg";
+            return `<div class="shadow-event shadow-event-close"><b>${esc(time)}</b> · ZÁRVA · <strong>${esc(e.symbol)}</strong> ${e.shares} db @ ${fmtMoney(e.price)} · <span class="${pnlClass}">${(e.pnl >= 0 ? "+" : "")}${fmtMoney(e.pnl)} (${(e.pnl_pct >= 0 ? "+" : "")}${(e.pnl_pct || 0).toFixed(2)}%)</span> · ${esc(e.reason || "")}</div>`;
+          }
+          return `<div class="shadow-event shadow-event-skip"><b>${esc(time)}</b> · átugorva: ${esc(e.reason || "")}</div>`;
+        }).join("");
+        $("shadowEvents").innerHTML = eventRows;
+      }
+
+      const closed = (shadowState.closed_trades || []).slice().reverse();
+      if (closed.length === 0) {
+        $("shadowClosed").innerHTML = `<p class="small">Még nincs lezárt pozíció.</p>`;
+      } else {
+        const closedRows = closed.map(c => {
+          const isLong = c.direction === "long";
+          const dirClass = isLong ? "shadow-long" : "shadow-short";
+          const pnlClass = (c.realized_pnl || 0) >= 0 ? "shadow-pnl-pos" : "shadow-pnl-neg";
+          return `
+            <tr>
+              <td><strong>${esc(c.symbol)}</strong></td>
+              <td><span class="shadow-dir-pill ${dirClass}">${isLong ? "LONG" : "SHORT"}</span></td>
+              <td>${c.shares}</td>
+              <td>${fmtMoney(c.entry_price)} → ${fmtMoney(c.exit_price)}</td>
+              <td class="${pnlClass}">${(c.realized_pnl >= 0 ? "+" : "")}${fmtMoney(c.realized_pnl)}</td>
+              <td class="${pnlClass}">${(c.realized_pct >= 0 ? "+" : "")}${(c.realized_pct || 0).toFixed(2)}%</td>
+              <td><span class="small">${esc(c.close_reason || "")}</span></td>
+            </tr>
+          `;
+        }).join("");
+        $("shadowClosed").innerHTML = `
+          <table class="shadow-table">
+            <thead><tr><th>Ticker</th><th>Irány</th><th>Db</th><th>Belépő → Kilépő</th><th>P/L $</th><th>P/L %</th><th>Ok</th></tr></thead>
+            <tbody>${closedRows}</tbody>
+          </table>
+        `;
+      }
     }
     function renderTape() {
       const rows = (state.market_tape && state.market_tape.length ? state.market_tape : [...(state.rankings || [])]
@@ -1532,7 +1735,7 @@
       const renderCard = (row, side) => {
         const idea = investmentIdea(row.symbol);
         const sideClass = side === "buy" ? "summary-buy" : "summary-sell";
-        const upsideStr = idea?.entry_to_target_pct != null ? ` <span class="summary-upside">(${idea.entry_to_target_pct > 0 ? "+" : ""}${idea.entry_to_target_pct.toFixed(1)}%)</span>` : "";
+        const upsideStr = idea?.target_upside_pct != null ? ` <span class="summary-upside">(${idea.target_upside_pct > 0 ? "+" : ""}${idea.target_upside_pct.toFixed(1)}%)</span>` : "";
         const priceLine = side === "buy"
           ? `<span>Aktuális:</span> <strong>${fmt(row.latest_price, 2)}</strong> &middot; <span>Beszálló:</span> <strong>${fmt(idea?.entry_price || idea?.entry_high || row.latest_price, 2)}</strong> &middot; <span>Cél:</span> <strong>${fmt(idea?.exit_price || idea?.target_price || row.latest_price, 2)}</strong>${upsideStr}`
           : `<span>Aktuális:</span> <strong>${fmt(row.latest_price, 2)} USD</strong> &middot; <span>Ha tartod, kiszállási szint:</span> <strong>${fmt(idea?.review_down || row.latest_price, 2)} USD</strong>`;
@@ -1619,7 +1822,7 @@
           <div class="price-grid">
             <div class="price-cell"><span>Aktuális ár</span><strong>${fmt(idea.latest_price, 2)} USD</strong></div>
             <div class="price-cell"><span>${hintLabel("Beszállóár", "A becsült felső ár, ahol a rendszer szerint a belépés már értelmezhető. Nem vételi megbízás.")}</span><strong>${fmt(idea.entry_price || idea.entry_high, 2)} USD</strong><small>zóna: ${fmt(idea.entry_low, 2)}-${fmt(idea.entry_high, 2)}</small></div>
-            <div class="price-cell"><span>${hintLabel("Célár / kiszálló", "A Tőzsde AI becsült célára 1-2 éves távra. Ennél az árszintnél érdemes lehet újraértékelni vagy profitot realizálni.")}</span><strong>${fmt(idea.exit_price || idea.target_price, 2)} USD</strong><small>${pct(idea.entry_to_target_pct ?? idea.target_upside_pct)} a beszállóárról · ${pct(idea.target_upside_pct)} a jelenlegi árról</small></div>
+            <div class="price-cell"><span>${hintLabel("Célár / kiszálló", "A Tőzsde AI becsült célára 1-2 éves távra. Ennél az árszintnél érdemes lehet újraértékelni vagy profitot realizálni.")}</span><strong>${fmt(idea.exit_price || idea.target_price, 2)} USD</strong><small>${pct(idea.target_upside_pct)} a jelenlegi árhoz képest</small></div>
             <div class="price-cell"><span>Kockázat</span><strong>${esc(idea.risk_level)}</strong><small>${fmt(idea.risk_score, 0)}/100 kockázati érték</small></div>
           </div>
           <div class="price-grid">
@@ -1738,6 +1941,8 @@
     $("searchInput").addEventListener("input", () => renderSearchResults(true));
     $("searchInput").addEventListener("focus", () => renderSearchResults(true));
     document.querySelectorAll(".nav-link").forEach(btn => btn.addEventListener("click", () => switchPage(btn.dataset.page)));
+    document.getElementById("shadowTradeBtn")?.addEventListener("click", runShadowTrade);
+    document.getElementById("shadowResetBtn")?.addEventListener("click", resetShadow);
     document.querySelectorAll("[data-invest-filter]").forEach(btn => btn.addEventListener("click", () => {
       investmentFilter = btn.dataset.investFilter;
       document.querySelectorAll("[data-invest-filter]").forEach(item => item.classList.toggle("active", item === btn));

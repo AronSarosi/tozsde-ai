@@ -2834,11 +2834,248 @@ HTML = r"""<!doctype html>
 </body>
 </html>"""
 
+# ===== Shadow Portfolio (paper trading) =====
+SHADOW_CACHE_KEY = "shadow_portfolio_v1"
+SHADOW_STARTING_BALANCE = 10000.0
+SHADOW_DAILY_BUDGET = 1500.0
+SHADOW_MAX_POSITIONS = 12
+SHADOW_LONG_DEFAULT_TARGET_PCT = 0.20   # 20% upside target if system has no specific target
+SHADOW_LONG_STOP_PCT = -0.10            # 10% stop loss on longs
+SHADOW_SHORT_TARGET_PCT = -0.15         # short profits when price drops 15%
+SHADOW_SHORT_STOP_PCT = 0.08            # short stops out when price rises 8%
+SHADOW_LONGS_PER_CYCLE = 2
+SHADOW_SHORTS_PER_CYCLE = 1
+
+
+def shadow_init_portfolio() -> dict:
+    return {
+        "cash": SHADOW_STARTING_BALANCE,
+        "starting_balance": SHADOW_STARTING_BALANCE,
+        "positions": [],
+        "closed_trades": [],
+        "events": [],
+        "created_at": datetime.now().isoformat(),
+        "last_traded_at": None,
+        "trade_count": 0,
+    }
+
+
+def shadow_load() -> dict:
+    cached = cache_get(SHADOW_CACHE_KEY, 60 * 24 * 30)  # 30 days max age
+    if isinstance(cached, dict) and "cash" in cached and isinstance(cached.get("positions"), list):
+        cached.setdefault("events", [])
+        cached.setdefault("closed_trades", [])
+        return cached
+    return shadow_init_portfolio()
+
+
+def shadow_save(state: dict) -> None:
+    cache_set(SHADOW_CACHE_KEY, state)
+
+
+def shadow_mark_to_market(state: dict, price_map: dict) -> dict:
+    """Update unrealized P&L and total portfolio value using current prices."""
+    long_value = 0.0
+    short_unrealized = 0.0
+    for pos in state["positions"]:
+        sym = pos["symbol"]
+        current = float(price_map.get(sym) or pos["entry_price"])
+        pos["current_price"] = round(current, 2)
+        if pos["direction"] == "long":
+            pos["unrealized_pnl"] = round((current - pos["entry_price"]) * pos["shares"], 2)
+            pos["unrealized_pct"] = round((current / pos["entry_price"] - 1) * 100, 2)
+            long_value += pos["shares"] * current
+        else:
+            # Short: P&L = (entry - current) * shares; collateral (cost) is held in margin
+            pnl = (pos["entry_price"] - current) * pos["shares"]
+            pos["unrealized_pnl"] = round(pnl, 2)
+            pos["unrealized_pct"] = round((pos["entry_price"] / current - 1) * 100, 2) if current > 0 else 0.0
+            short_unrealized += pnl
+            long_value += pos["shares"] * pos["entry_price"]  # collateral counted at entry value
+
+    realized = sum(t.get("realized_pnl", 0) for t in state.get("closed_trades", []))
+    total_value = state["cash"] + long_value + short_unrealized
+    state["invested_value"] = round(long_value, 2)
+    state["realized_pnl"] = round(realized, 2)
+    state["unrealized_pnl"] = round(sum(p.get("unrealized_pnl", 0) for p in state["positions"]), 2)
+    state["total_value"] = round(total_value, 2)
+    state["total_pnl"] = round(state["realized_pnl"] + state["unrealized_pnl"], 2)
+    base = state.get("starting_balance") or SHADOW_STARTING_BALANCE
+    state["total_pnl_pct"] = round((total_value / base - 1) * 100, 2)
+    return state
+
+
+def shadow_run_cycle(state: dict, rankings: list[dict]) -> dict:
+    """Execute one trading cycle. Modifies state in-place and returns it.
+
+    Logic:
+      1. Mark-to-market all positions.
+      2. Close positions that hit their target (profit), stop (loss), or had their signal flip.
+      3. With remaining cash budget, open up to N new long positions (top BUY-rated)
+         and M new short positions (worst SELL-rated) not already held.
+      4. No commissions, no slippage. Position sizing = equal share of today's budget.
+    """
+    events_log = state.setdefault("events", [])
+    price_map = {r["symbol"]: float(r.get("latest_price") or 0) for r in rankings if r.get("latest_price")}
+    cat_map = {r["symbol"]: (r.get("category") or "hold") for r in rankings}
+    score_map = {r["symbol"]: float(r.get("score") or 50) for r in rankings}
+
+    cycle_ts = datetime.now().isoformat()
+
+    # Step 1: close positions that hit conditions
+    remaining = []
+    for pos in state["positions"]:
+        sym = pos["symbol"]
+        current = float(price_map.get(sym) or pos["entry_price"])
+        current_cat = cat_map.get(sym, "hold")
+
+        should_close = False
+        reason = ""
+        if pos["direction"] == "long":
+            if current >= pos["target_price"]:
+                should_close, reason = True, "célár elérve"
+            elif current <= pos["stop_price"]:
+                should_close, reason = True, "stop loss"
+            elif current_cat == "sell":
+                should_close, reason = True, "jelzés átfordult sell-re"
+        else:
+            if current <= pos["target_price"]:
+                should_close, reason = True, "short célár elérve (ár leesett)"
+            elif current >= pos["stop_price"]:
+                should_close, reason = True, "short stop (ár felment)"
+            elif current_cat == "buy":
+                should_close, reason = True, "jelzés átfordult buy-ra"
+
+        if should_close:
+            if pos["direction"] == "long":
+                proceeds = pos["shares"] * current
+                realized = (current - pos["entry_price"]) * pos["shares"]
+                state["cash"] += proceeds
+            else:
+                # Short: return collateral + P&L
+                realized = (pos["entry_price"] - current) * pos["shares"]
+                state["cash"] += pos["cost"] + realized
+            closed = {
+                **pos,
+                "exit_price": round(current, 2),
+                "exit_at": cycle_ts,
+                "realized_pnl": round(realized, 2),
+                "realized_pct": round(realized / pos["cost"] * 100, 2) if pos.get("cost") else 0.0,
+                "close_reason": reason,
+            }
+            state["closed_trades"].append(closed)
+            events_log.append({
+                "at": cycle_ts, "type": "close", "symbol": pos["symbol"],
+                "direction": pos["direction"], "shares": pos["shares"],
+                "price": round(current, 2), "pnl": closed["realized_pnl"],
+                "pnl_pct": closed["realized_pct"], "reason": reason,
+            })
+        else:
+            remaining.append(pos)
+    state["positions"] = remaining
+
+    # Step 2: open new positions
+    if len(state["positions"]) >= SHADOW_MAX_POSITIONS:
+        events_log.append({"at": cycle_ts, "type": "skip", "reason": f"max {SHADOW_MAX_POSITIONS} pozíció elérve"})
+    else:
+        budget = min(SHADOW_DAILY_BUDGET, max(0.0, state["cash"] * 0.20))
+        held = {p["symbol"] for p in state["positions"]}
+        buy_candidates = sorted(
+            [r for r in rankings if cat_map.get(r["symbol"]) == "buy" and r["symbol"] not in held and price_map.get(r["symbol"], 0) > 0],
+            key=lambda r: -score_map.get(r["symbol"], 50),
+        )
+        sell_candidates = sorted(
+            [r for r in rankings if cat_map.get(r["symbol"]) == "sell" and r["symbol"] not in held and price_map.get(r["symbol"], 0) > 0],
+            key=lambda r: score_map.get(r["symbol"], 50),
+        )
+        picks = [("long", c) for c in buy_candidates[:SHADOW_LONGS_PER_CYCLE]] + \
+                [("short", c) for c in sell_candidates[:SHADOW_SHORTS_PER_CYCLE]]
+        slots_available = max(0, SHADOW_MAX_POSITIONS - len(state["positions"]))
+        picks = picks[:slots_available]
+
+        if not picks:
+            events_log.append({"at": cycle_ts, "type": "skip", "reason": "nincs érvényes jelzés"})
+        elif budget < 100:
+            events_log.append({"at": cycle_ts, "type": "skip", "reason": "nincs elég készpénz"})
+        else:
+            per_pos_budget = budget / len(picks)
+            for direction, row in picks:
+                price = float(price_map.get(row["symbol"]) or 0)
+                if price <= 0:
+                    continue
+                shares = int(per_pos_budget // price)
+                if shares < 1:
+                    continue
+                cost = shares * price
+                if cost > state["cash"]:
+                    continue
+                if direction == "long":
+                    sys_target = row.get("target_price")
+                    target = float(sys_target) if sys_target and float(sys_target) > price else price * (1 + SHADOW_LONG_DEFAULT_TARGET_PCT)
+                    stop = price * (1 + SHADOW_LONG_STOP_PCT)
+                else:
+                    target = price * (1 + SHADOW_SHORT_TARGET_PCT)
+                    stop = price * (1 + SHADOW_SHORT_STOP_PCT)
+                state["cash"] -= cost
+                pos = {
+                    "symbol": row["symbol"],
+                    "name": row.get("name"),
+                    "direction": direction,
+                    "shares": shares,
+                    "entry_price": round(price, 2),
+                    "entry_at": cycle_ts,
+                    "target_price": round(target, 2),
+                    "stop_price": round(stop, 2),
+                    "cost": round(cost, 2),
+                    "category_at_entry": row.get("category"),
+                    "score_at_entry": score_map.get(row["symbol"]),
+                }
+                state["positions"].append(pos)
+                events_log.append({
+                    "at": cycle_ts, "type": "open", "symbol": row["symbol"],
+                    "direction": direction, "shares": shares, "price": round(price, 2),
+                    "cost": round(cost, 2), "target": round(target, 2), "stop": round(stop, 2),
+                    "score": score_map.get(row["symbol"]),
+                })
+                state["trade_count"] += 1
+
+    # Trim events log to last 50 to keep cache size manageable
+    state["events"] = events_log[-50:]
+    state["last_traded_at"] = cycle_ts
+    shadow_mark_to_market(state, price_map)
+    return state
+
+
+def shadow_get_state(execute_cycle: bool = False) -> dict:
+    """Returns the shadow portfolio state, optionally executing a trading cycle first."""
+    market_state = latest_state_or_build()
+    rankings = market_state.get("rankings", [])
+    state = shadow_load()
+    if execute_cycle:
+        state = shadow_run_cycle(state, rankings)
+        shadow_save(state)
+    else:
+        price_map = {r["symbol"]: float(r.get("latest_price") or 0) for r in rankings if r.get("latest_price")}
+        if price_map:
+            shadow_mark_to_market(state, price_map)
+    return state
+
+
+def shadow_reset() -> dict:
+    """Reset the shadow portfolio back to starting balance."""
+    state = shadow_init_portfolio()
+    shadow_save(state)
+    return state
+
+
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         path = urlparse(self.path).path
         if path == "/api/state":
             self.send_json(latest_state_or_build())
+            return
+        if path == "/api/shadow":
+            self.send_json(shadow_get_state(execute_cycle=False))
             return
         if path.startswith("/api/analyst-targets/"):
             symbol = path.rsplit("/", 1)[-1].upper()
@@ -2877,6 +3114,12 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:
         if urlparse(self.path).path == "/api/refresh":
             self.send_json(latest_state_or_build(20))
+            return
+        if urlparse(self.path).path == "/api/shadow/trade":
+            self.send_json(shadow_get_state(execute_cycle=True))
+            return
+        if urlparse(self.path).path == "/api/shadow/reset":
+            self.send_json(shadow_reset())
             return
         if urlparse(self.path).path == "/api/chat":
             try:
