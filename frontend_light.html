@@ -517,6 +517,7 @@
     .label.strong-sell, .label.sell { background: #fff0f2; color: #b42338; }
     .label.hold { background: #eef5ff; color: #2457a6; }
     .detail-panel { min-height: 560px; padding: 34px; position: relative; top: auto; }
+    .detail-panel.hidden { display: none; }
     .overview-detail { margin: 0 0 22px; }
     .empty-detail { min-height: 480px; display: grid; place-items: center; text-align: center; color: #64748b; padding: 40px; }
     .empty-detail h2 { font-size: 30px; color: #111827; margin: 0 0 10px; }
@@ -1764,9 +1765,11 @@
       if (!panel) return;
       const row = selectedRow();
       if (!row) {
-        panel.innerHTML = `<div class="empty-detail"><div><h2>Válassz egy részvényt.</h2><p>A részletes elemzés, árszintek és hírek itt nyílnak meg.</p></div></div>`;
+        panel.classList.add("hidden");
+        panel.innerHTML = "";
         return;
       }
+      panel.classList.remove("hidden");
       panel.innerHTML = renderDetailHTML(row, false);
     }
 
