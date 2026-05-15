@@ -441,9 +441,19 @@
       font-weight: 920;
       text-transform: uppercase;
     }
+    .investment-status.strong-buy { background: #0f7b42; color: #fff; }
     .investment-status.buy { background: #e7f8ec; color: #0f7b42; }
     .investment-status.sell { background: #fff0f2; color: #b42338; }
+    .investment-status.strong-sell { background: #b42338; color: #fff; }
     .investment-status.watch { background: #eef5ff; color: #2457a6; }
+    .regime-banner { display: flex; align-items: center; gap: 14px; padding: 10px 18px; border-radius: 10px; font-size: 14px; font-weight: 700; margin: 0 0 18px; border: 1.5px solid; }
+    .regime-banner.bull { background: #eaf8ef; border-color: #b2e4c8; color: #0f7b42; }
+    .regime-banner.bear { background: #fff0f2; border-color: #f5b8c2; color: #b42338; }
+    .regime-banner.neutral { background: #f1f5f9; border-color: #cbd5e1; color: #475569; }
+    .regime-banner .regime-icon { font-size: 20px; }
+    .regime-bar { flex: 1; height: 6px; border-radius: 3px; background: #e2e8f0; overflow: hidden; }
+    .regime-bar-fill { height: 100%; border-radius: 3px; transition: width .4s; }
+    .rr-badge { display: inline-block; background: #fffbea; border: 1px solid #fcd34d; color: #92400e; border-radius: 5px; padding: 2px 7px; font-size: 12px; font-weight: 700; margin-top: 4px; }
     .investment-name .investment-status { display: inline-flex; margin: 8px 0 2px; }
     .investment-symbol { display: flex; align-items: center; gap: 10px; }
     .investment-symbol b { display: block; font-size: 23px; color: #111827; }
@@ -877,6 +887,8 @@
             <div class="stat"><strong id="overviewWatchCount">0</strong><span>Hold</span></div>
           </div>
         </section>
+
+        <div id="macroRegimeBanner"></div>
 
         <div class="filter-row">
           <button class="filter-btn active" data-overview-filter="all" type="button">Minden</button>
@@ -1396,16 +1408,28 @@
       }).slice(0, 80);
     }
     function investmentSideClass(category) {
-      const cat = String(category || "");
-      if (cat.includes("buy")) return "buy";
-      if (cat.includes("sell")) return "sell";
+      const cat = String(category || "").toLowerCase().trim();
+      if (cat === "strong buy") return "strong-buy";
+      if (cat === "buy") return "buy";
+      if (cat === "strong sell") return "strong-sell";
+      if (cat === "sell") return "sell";
       return "watch";
     }
     function investmentSideText(category) {
-      const side = investmentSideClass(category);
-      if (side === "buy") return "BUY";
-      if (side === "sell") return "SELL";
-      return "WATCH";
+      const cat = String(category || "").toLowerCase().trim();
+      if (cat === "strong buy") return "STRONG BUY";
+      if (cat === "buy") return "BUY";
+      if (cat === "strong sell") return "STRONG SELL";
+      if (cat === "sell") return "SELL";
+      return "HOLD";
+    }
+    function rrRatio(entry, target, reviewDown) {
+      const e = Number(entry), t = Number(target), r = Number(reviewDown);
+      if (!Number.isFinite(e) || !Number.isFinite(t) || !Number.isFinite(r) || e === 0) return null;
+      const upside = t - e;
+      const downside = e - r;
+      if (downside <= 0) return null;
+      return upside / downside;
     }
     function entryToTargetPct(entry, target) {
       const e = Number(entry), t = Number(target);
@@ -1426,12 +1450,14 @@
           <div>Részvény</div><div>Állapot</div><div>Aktuális ár</div><div>Belépési / kiszállási szint</div><div>Cél / kiesés</div><div>Elemzői / AI kontroll</div><div>Kockázat</div><div>Miért érdekes?</div>
         </div>
         ${rows.map(item => {
-          const isSell = String(item.category || "").includes("sell");
+          const isSell = String(item.category || "").toLowerCase().includes("sell");
           const entry = item.entry_price || item.entry_high;
           const target = item.exit_price || item.target_price;
           const exitLevel = item.review_down || target;
           const buyPct = entryToTargetPct(entry, target);
           const sellPct = currentToExitPct(item.latest_price, exitLevel);
+          const rr = isSell ? null : rrRatio(entry, target, item.review_down || (entry * 0.9));
+          const rrStr = rr !== null ? `${rr.toFixed(1)}:1` : null;
           return `
           <article class="investment-row ${clickable ? "clickable" : ""}" ${clickable ? `data-symbol="${esc(item.symbol)}"` : ""}>
             <div class="investment-symbol">${logoImg(item.symbol, item.name)}<div><b>${esc(item.symbol)}</b><span>${esc(item.sector || "")}</span></div></div>
@@ -1442,8 +1468,8 @@
               : `<div class="investment-cell"><span>${hintLabel("beszállóár", "A becsült felső ár, ahol a rendszer szerint a belépés már értelmezhető. Nem vételi megbízás.")}</span><strong>${fmt(entry, 2)} USD</strong><span>zóna: ${fmt(item.entry_low, 2)}-${fmt(item.entry_high, 2)}</span></div>`
             }
             ${isSell
-              ? `<div class="investment-cell"><span>${hintLabel("lefelé kockázat", "Ha nem szállsz ki és a részvény a kiszállási szintig esik, ennyi a potenciális veszteség.")}</span><strong class="${Number(sellPct) < -15 ? "score-sell" : ""}" style="font-size:19px;">${pct(sellPct)}</strong><span>ha tartod és eléri a kiszállási szintet</span></div>`
-              : `<div class="investment-cell"><span>${hintLabel("potenciális hozam", "A célár és a belépési ár közötti különbség. Ez a tényleges mozgástér, nem az aktuális árhoz viszonyítva.")}</span><strong class="${Number(buyPct) > 15 ? "score-buy" : ""}" style="font-size:19px;">${pct(buyPct)}</strong><span>belépőtől a célárig</span></div>`
+              ? `<div class="investment-cell"><span>${hintLabel("AI fair érték", "Az AI által becsült belső érték. Ha a részvény itt forog, az upside elfogyott - az újraértékelés kockázata megnő.")}</span><strong class="${Number(sellPct) < -15 ? "score-sell" : ""}" style="font-size:19px;">${fmt(target, 2)} USD</strong><span>aktuálistól: ${pct(currentToExitPct(item.latest_price, target))}</span></div>`
+              : `<div class="investment-cell"><span>${hintLabel("potenciális hozam", "A célár és a belépési ár közötti különbség. Ez a tényleges mozgástér, nem az aktuális árhoz viszonyítva.")}</span><strong class="${Number(buyPct) > 15 ? "score-buy" : ""}" style="font-size:19px;">${pct(buyPct)}</strong><span>belépőtől a célárig${rrStr ? `</span><span class="rr-badge">R/R ${rrStr}</span><span>` : ""}</span></div>`
             }
             <div class="investment-cell"><span>${esc(item.analyst_display_label || "elemzői átlag")}</span><strong>${fmt(item.analyst_display_price || item.analyst_target_consensus || item.ai_target_price, 2)} USD</strong></div>
             <div class="investment-cell"><span class="risk-pill ${riskClass(item.risk_level)}">${esc(item.risk_level)}</span><span>${fmt(item.risk_score, 0)} kockázat</span></div>
@@ -1539,11 +1565,37 @@
         </button>
       `).join("");
     }
+    function renderMacroRegime() {
+      const el = $("macroRegimeBanner");
+      if (!el) return;
+      const rankings = state.rankings || [];
+      if (!rankings.length) { el.innerHTML = ""; return; }
+      const buyCount = rankings.filter(r => String(r.category || "").toLowerCase().includes("buy")).length;
+      const sellCount = rankings.filter(r => String(r.category || "").toLowerCase().includes("sell")).length;
+      const total = rankings.length;
+      const buyPct = Math.round(buyCount / total * 100);
+      const sellPct = Math.round(sellCount / total * 100);
+      const netBull = buyCount - sellCount;
+      const regime = netBull >= Math.round(total * 0.15) ? "bull" : netBull <= -Math.round(total * 0.1) ? "bear" : "neutral";
+      const icon = regime === "bull" ? "📈" : regime === "bear" ? "📉" : "⚖️";
+      const label = regime === "bull" ? "Bika piac" : regime === "bear" ? "Medve piac" : "Semleges piac";
+      const desc = `${buyCount} vételi · ${sellCount} eladási · ${total - buyCount - sellCount} hold — portfólió ${buyPct}% buy, ${sellPct}% sell`;
+      el.innerHTML = `
+        <div class="regime-banner ${regime}">
+          <span class="regime-icon">${icon}</span>
+          <strong>${label}</strong>
+          <span style="font-weight:400;opacity:.8;">${desc}</span>
+          <div class="regime-bar" style="max-width:160px;">
+            <div class="regime-bar-fill" style="width:${buyPct}%;background:${regime==="bull"?"#0f7b42":regime==="bear"?"#b42338":"#94a3b8"};"></div>
+          </div>
+        </div>`;
+    }
     function renderOverviewPage() {
       const rankings = state.rankings || [];
       $("overviewBuyCount").textContent = rankings.filter(row => String(row.category || "").includes("buy")).length;
       $("overviewSellCount").textContent = rankings.filter(row => String(row.category || "").includes("sell")).length;
       $("overviewWatchCount").textContent = rankings.filter(row => String(row.category || "") === "hold").length;
+      renderMacroRegime();
       const rows = investmentRowsForFilter(overviewFilter);
       $("overviewInvestmentTable").innerHTML = buildInvestmentTableHTML(rows, true);
       wireInvestmentRows("overviewInvestmentTable");
