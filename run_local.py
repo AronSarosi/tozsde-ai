@@ -889,40 +889,42 @@ def build_investment_ideas(rows: list[dict], env: dict[str, str]) -> list[dict]:
             entry_price = entry_high
             review_down = price * (1 - (0.055 if risk_level == "alacsony" else 0.085 if risk_level == "közepes" else 0.12))
 
-        # Timing score: stocks far below 52w high score higher (mean-reversion edge),
-        # stocks at the high score lower. Sweet spot is 20-40% below ATH.
+        # Timing score: based on absolute distance from 52-week high.
+        # Calibrated for mega-cap behaviour — 10% off is already meaningful, 20%+ is generational.
         fd = row.get("fundamentals_data") or {}
         year_range_pos = fd.get("year_range_position")
         year_high = fd.get("year_high")
         year_low = fd.get("year_low")
-        if year_range_pos is not None:
-            pos = float(year_range_pos)
-            if pos >= 0.85:
-                timing_score = max(15, 35 - (pos - 0.85) * 100)
-            elif pos >= 0.65:
-                timing_score = 50 - (pos - 0.65) * 75
-            elif pos >= 0.45:
-                timing_score = 65 - (pos - 0.45) * 75
-            elif pos >= 0.20:
-                timing_score = 90 - (0.45 - pos) * 40
-            else:
-                timing_score = 55 + pos * 100  # near bottom — possibly a falling knife, neutral score
-            timing_score = round(max(5, min(100, timing_score)), 1)
-        else:
-            timing_score = None
-        if timing_score is None:
-            timing_label = "n/a"
-        elif timing_score >= 75:
-            timing_label = "Kedvező"
-        elif timing_score >= 55:
-            timing_label = "Elfogadható"
-        elif timing_score >= 35:
-            timing_label = "Semleges"
-        else:
-            timing_label = "Kedvezőtlen"
         ath_distance_pct = None
         if year_high and price:
             ath_distance_pct = round((price / float(year_high) - 1) * 100, 2)
+
+        timing_score = None
+        timing_label = "n/a"
+        timing_flag = False
+        if ath_distance_pct is not None:
+            abs_dist = -float(ath_distance_pct)  # positive number, distance below 52w high
+            if abs_dist <= 0:
+                timing_score = 10
+                timing_label = "Kedvezőtlen"
+            elif abs_dist <= 3:
+                timing_score = 15 + (abs_dist / 3.0) * 20
+                timing_label = "Kedvezőtlen"
+            elif abs_dist <= 7:
+                timing_score = 35 + ((abs_dist - 3.0) / 4.0) * 20
+                timing_label = "Semleges"
+            elif abs_dist <= 15:
+                timing_score = 55 + ((abs_dist - 7.0) / 8.0) * 18
+                timing_label = "Elfogadható"
+            elif abs_dist <= 25:
+                timing_score = 73 + ((abs_dist - 15.0) / 10.0) * 17
+                timing_label = "Kedvező"
+            else:
+                # Deep drawdown — still attractive for mean-reversion but flag the risk
+                timing_score = max(65, 90 - (abs_dist - 25.0) * 0.5)
+                timing_label = "Kedvező (figyelem)"
+                timing_flag = True
+            timing_score = round(max(5, min(100, timing_score)), 1)
 
         if upside_pct is not None and upside_pct < -5:
             stance = "Célár alapján óvatos"
@@ -971,6 +973,7 @@ def build_investment_ideas(rows: list[dict], env: dict[str, str]) -> list[dict]:
                 "is_short_signal": bool(is_short_signal),
                 "timing_score": timing_score,
                 "timing_label": timing_label,
+                "timing_flag": timing_flag,
                 "year_high": round(float(year_high), 2) if year_high else None,
                 "year_low": round(float(year_low), 2) if year_low else None,
                 "year_range_position": round(float(year_range_pos), 3) if year_range_pos is not None else None,

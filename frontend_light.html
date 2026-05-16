@@ -419,8 +419,9 @@
     }
     .investment-row.buy-row { border-left: 4px solid #0f7b42; }
     .investment-row.sell-row { border-left: 4px solid #b42338; }
-    .timing-pill { display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+    .timing-pill { display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; white-space: nowrap; }
     .timing-pill.kedvező { background: #eaf8ef; color: #0f7b42; }
+    .timing-pill.kedvező-figyelem { background: #fff8e1; color: #b45309; border: 1px solid #fcd34d; }
     .timing-pill.elfogadható { background: #f3fbe8; color: #4d7c1a; }
     .timing-pill.semleges { background: #eef5ff; color: #2457a6; }
     .timing-pill.kedvezőtlen { background: #fff0f2; color: #b42338; }
@@ -1451,7 +1452,13 @@
       return (x - c) / c * 100;
     }
     function timingPillClass(label) {
-      const map = { "Kedvező": "kedvező", "Elfogadható": "elfogadható", "Semleges": "semleges", "Kedvezőtlen": "kedvezőtlen" };
+      const map = {
+        "Kedvező": "kedvező",
+        "Kedvező (figyelem)": "kedvező-figyelem",
+        "Elfogadható": "elfogadható",
+        "Semleges": "semleges",
+        "Kedvezőtlen": "kedvezőtlen",
+      };
       return map[label] || "na";
     }
     function buildInvestmentTableHTML(rows, clickable = false) {
@@ -1482,7 +1489,7 @@
             <div class="investment-cell"><span>${hintLabel(isSell ? "short belépő" : "beszállóár", isSell ? "Ha shortolnád, itt vagy ennek közelében (esetleg kis felpattanás után) érdemes belépni. Stop a belépő felett." : "A becsült felső ár, ahol a rendszer szerint a belépés már értelmezhető. Nem vételi megbízás.")}</span><strong>${fmt(entry, 2)} USD</strong><span>${isSell ? `stop: ${fmt(item.review_down, 2)}` : `zóna: ${fmt(item.entry_low, 2)}-${fmt(item.entry_high, 2)}`}</span></div>
             <div class="investment-cell"><span>${hintLabel(isSell ? "short célár" : "célár", isSell ? "Az AI által becsült alsó ár - itt érdemes a short pozíciót zárni." : "A becsült felső ár, ahova a rendszer szerint a részvény eljuthat 1-2 év alatt.")}</span><strong class="${isSell ? "score-sell" : "score-buy"}" style="font-size:19px;">${fmt(target, 2)} USD</strong><span>${isSell ? `${pct(buyPct)} a belépőtől` : `${pct(buyPct)} a belépőtől`}${rrStr ? ` · R/R ${rrStr}` : ""}</span></div>
             <div class="investment-cell"><span>${esc(item.analyst_display_label || "elemzői átlag")}</span><strong>${fmt(item.analyst_display_price || item.analyst_target_consensus || item.ai_target_price, 2)} USD</strong>${item.analyst_count ? `<span>${item.analyst_count} elemző</span>` : `<span>becslés</span>`}</div>
-            <div class="investment-cell"><span class="timing-pill ${timingClass}">${esc(item.timing_label || "n/a")}</span><span>${athDist !== null && athDist !== undefined ? `52w csúcstól: ${pct(athDist)}` : "n/a"}</span></div>
+            <div class="investment-cell"><span class="timing-pill ${timingClass}" title="${item.year_high ? `52w csúcs: ${fmt(item.year_high, 2)} USD` : ""}">${esc(item.timing_label || "n/a")}</span><span>${athDist !== null && athDist !== undefined ? `52w csúcstól: ${pct(athDist)}` : "n/a"}</span>${item.year_high ? `<span style="font-size:11px;color:#94a3b8;">csúcs: ${fmt(item.year_high, 2)}</span>` : ""}</div>
             <div class="investment-cell"><span class="risk-pill ${riskClass(item.risk_level)}">${esc(item.risk_level)}</span><span>${fmt(item.risk_score, 0)} pont</span></div>
             <div class="investment-warning">${esc(item.reason || "Nincs külön indoklás.")}</div>
           </article>
@@ -1926,7 +1933,7 @@
       if (!idea) return "";
       const category = row && row.category;
       const timingHTML = idea.timing_label
-        ? `<div class="price-cell"><span>${hintLabel("Timing", "A pozíció időzítése a 52 hetes csúcshoz képest. Kedvező = jelentősen a csúcs alatt (mean-reversion edge); Kedvezőtlen = csúcs közelében.")}</span><strong>${esc(idea.timing_label)}</strong><small>${idea.ath_distance_pct !== null && idea.ath_distance_pct !== undefined ? `52w csúcstól: ${pct(idea.ath_distance_pct)}` : "n/a"}</small></div>`
+        ? `<div class="price-cell"><span>${hintLabel("Timing", "A pozíció időzítése a 52 hetes csúcshoz képest. Kedvező = 15-25% csúcs alatt (mean-reversion edge mega-cap nevekre); Kedvezőtlen = csúcs közelében, nincs biztonsági ráhagyás. Kedvező (figyelem) = 25%+ esett, vizsgáld meg miért.")}</span><strong>${esc(idea.timing_label)}</strong><small>${idea.ath_distance_pct !== null && idea.ath_distance_pct !== undefined ? `52w csúcstól: ${pct(idea.ath_distance_pct)}${idea.year_high ? ` (${fmt(idea.year_high, 2)} USD)` : ""}` : "n/a"}${idea.timing_flag ? `<br><span style="color:#b45309;font-weight:700;">⚠ Mély visszaesés – ellenőrizd a fundamentumokat</span>` : ""}</small></div>`
         : "";
       // For SELL: short trade structure (entry, target, stop).
       if (String(category || "").toLowerCase().includes("sell")) {
