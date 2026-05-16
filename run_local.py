@@ -865,31 +865,65 @@ def build_investment_ideas(rows: list[dict], env: dict[str, str]) -> list[dict]:
         risk_score = investment_risk_score(row, upside_pct)
         risk_level = investment_risk_level(row, upside_pct)
         daily_move = abs(float(row.get("latest_change_pct") or 0))
-        entry_discount = 0.015
-        if risk_level == "közepes":
-            entry_discount = 0.035
-        elif risk_level == "magas":
-            entry_discount = 0.065
-        if daily_move >= 5:
-            entry_discount += 0.02
-        if fair_target < price:
-            entry_discount = max(entry_discount, min(0.18, abs((fair_target / price) - 1) * 0.75))
-        entry_low = price * (1 - entry_discount)
-        entry_high = price * (1 - max(0.006, entry_discount * 0.35))
-        entry_price = entry_high
-        review_down = price * (1 - (0.055 if risk_level == "alacsony" else 0.085 if risk_level == "közepes" else 0.12))
-        if upside_pct is not None and upside_pct < -5:
-            entry_low = min(entry_low, fair_target * 0.90)
-            entry_high = min(entry_high, fair_target * 0.98)
-            entry_price = entry_high
-            review_down = min(review_down, fair_target)
-        elif fair_target < price:
-            entry_low = min(entry_low, fair_target * 0.96)
-            entry_high = min(entry_high, fair_target)
-            entry_price = entry_high
-            review_down = min(review_down, fair_target * 0.96)
-
         cat = row.get("category") or "hold"
+        is_short_signal = "sell" in cat or (upside_pct is not None and upside_pct < -5)
+
+        if is_short_signal:
+            # Short trade structure: enter near current (or small bounce), target = fair_target (below), stop above.
+            bounce = 0.012 if risk_level == "alacsony" else 0.02 if risk_level == "közepes" else 0.03
+            entry_high = price * (1 + bounce)
+            entry_low = price * (1 - 0.005)
+            entry_price = price
+            stop_buffer = 0.06 if risk_level == "alacsony" else 0.08 if risk_level == "közepes" else 0.11
+            review_down = price * (1 + stop_buffer)  # reused field: for shorts, this is the STOP (above current)
+        else:
+            entry_discount = 0.015
+            if risk_level == "közepes":
+                entry_discount = 0.035
+            elif risk_level == "magas":
+                entry_discount = 0.065
+            if daily_move >= 5:
+                entry_discount += 0.02
+            entry_low = price * (1 - entry_discount)
+            entry_high = price * (1 - max(0.006, entry_discount * 0.35))
+            entry_price = entry_high
+            review_down = price * (1 - (0.055 if risk_level == "alacsony" else 0.085 if risk_level == "közepes" else 0.12))
+
+        # Timing score: stocks far below 52w high score higher (mean-reversion edge),
+        # stocks at the high score lower. Sweet spot is 20-40% below ATH.
+        fd = row.get("fundamentals_data") or {}
+        year_range_pos = fd.get("year_range_position")
+        year_high = fd.get("year_high")
+        year_low = fd.get("year_low")
+        if year_range_pos is not None:
+            pos = float(year_range_pos)
+            if pos >= 0.85:
+                timing_score = max(15, 35 - (pos - 0.85) * 100)
+            elif pos >= 0.65:
+                timing_score = 50 - (pos - 0.65) * 75
+            elif pos >= 0.45:
+                timing_score = 65 - (pos - 0.45) * 75
+            elif pos >= 0.20:
+                timing_score = 90 - (0.45 - pos) * 40
+            else:
+                timing_score = 55 + pos * 100  # near bottom — possibly a falling knife, neutral score
+            timing_score = round(max(5, min(100, timing_score)), 1)
+        else:
+            timing_score = None
+        if timing_score is None:
+            timing_label = "n/a"
+        elif timing_score >= 75:
+            timing_label = "Kedvező"
+        elif timing_score >= 55:
+            timing_label = "Elfogadható"
+        elif timing_score >= 35:
+            timing_label = "Semleges"
+        else:
+            timing_label = "Kedvezőtlen"
+        ath_distance_pct = None
+        if year_high and price:
+            ath_distance_pct = round((price / float(year_high) - 1) * 100, 2)
+
         if upside_pct is not None and upside_pct < -5:
             stance = "Célár alapján óvatos"
         elif "buy" in cat:
@@ -934,6 +968,13 @@ def build_investment_ideas(rows: list[dict], env: dict[str, str]) -> list[dict]:
                 "entry_price": round(entry_price, 2),
                 "exit_price": round(fair_target, 2),
                 "review_down": round(review_down, 2),
+                "is_short_signal": bool(is_short_signal),
+                "timing_score": timing_score,
+                "timing_label": timing_label,
+                "year_high": round(float(year_high), 2) if year_high else None,
+                "year_low": round(float(year_low), 2) if year_low else None,
+                "year_range_position": round(float(year_range_pos), 3) if year_range_pos is not None else None,
+                "ath_distance_pct": ath_distance_pct,
                 "risk_score": risk_score,
                 "risk_level": risk_level,
                 "warning": " ".join(warnings) if warnings else "Nincs külön magas kockázati jelzés.",

@@ -408,7 +408,7 @@
     }
     .investment-row {
       display: grid;
-      grid-template-columns: 132px minmax(180px, 1.1fr) repeat(5, minmax(118px, .7fr)) minmax(220px, 1.2fr);
+      grid-template-columns: minmax(180px, 1.05fr) repeat(6, minmax(108px, .8fr)) minmax(240px, 1.4fr);
       gap: 10px;
       align-items: stretch;
       background: rgba(255,255,255,.86);
@@ -417,6 +417,14 @@
       box-shadow: 0 12px 30px rgba(15,23,42,.055);
       padding: 12px;
     }
+    .investment-row.buy-row { border-left: 4px solid #0f7b42; }
+    .investment-row.sell-row { border-left: 4px solid #b42338; }
+    .timing-pill { display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+    .timing-pill.kedvező { background: #eaf8ef; color: #0f7b42; }
+    .timing-pill.elfogadható { background: #f3fbe8; color: #4d7c1a; }
+    .timing-pill.semleges { background: #eef5ff; color: #2457a6; }
+    .timing-pill.kedvezőtlen { background: #fff0f2; color: #b42338; }
+    .timing-pill.na { background: #f1f5f9; color: #64748b; }
     .investment-row.header {
       background: transparent;
       box-shadow: none;
@@ -526,8 +534,14 @@
     .label.strong-buy, .label.buy { background: #eaf8ef; color: #0f7b42; }
     .label.strong-sell, .label.sell { background: #fff0f2; color: #b42338; }
     .label.hold { background: #eef5ff; color: #2457a6; }
-    .detail-panel { min-height: 560px; padding: 34px; position: relative; top: auto; }
+    .detail-panel { min-height: 560px; padding: 34px; position: relative; top: auto; transition: background .25s, border-color .25s; }
     .detail-panel.hidden { display: none; }
+    .detail-panel.detail-buy { background: linear-gradient(180deg, #f0fbf4 0%, rgba(255,255,255,.95) 35%); border-left: 6px solid #0f7b42; }
+    .detail-panel.detail-buy .detail-head { border-bottom-color: #b2e4c8; }
+    .detail-panel.detail-buy h2 { color: #0f7b42; }
+    .detail-panel.detail-sell { background: linear-gradient(180deg, #fdf2f4 0%, rgba(255,255,255,.95) 35%); border-left: 6px solid #b42338; }
+    .detail-panel.detail-sell .detail-head { border-bottom-color: #f5b8c2; }
+    .detail-panel.detail-sell h2 { color: #b42338; }
     .overview-detail { margin: 0 0 22px; }
     .empty-detail { min-height: 480px; display: grid; place-items: center; text-align: center; color: #64748b; padding: 40px; }
     .empty-detail h2 { font-size: 30px; color: #111827; margin: 0 0 10px; }
@@ -891,10 +905,8 @@
         <div id="macroRegimeBanner"></div>
 
         <div class="filter-row">
-          <button class="filter-btn active" data-overview-filter="all" type="button">Minden</button>
-          <button class="filter-btn" data-overview-filter="buy" type="button">Buy</button>
+          <button class="filter-btn active" data-overview-filter="buy" type="button">Buy</button>
           <button class="filter-btn" data-overview-filter="sell" type="button">Sell</button>
-          <button class="filter-btn" data-overview-filter="watch" type="button">Hold</button>
         </div>
 
         <div class="ticker-tape" aria-label="Friss piaci adatcsík">
@@ -1003,11 +1015,8 @@
             <span>szűrhető lista · kattints a részletes elemzésért</span>
           </div>
           <div class="investment-toolbar">
-            <button class="filter-btn active" data-invest-filter="all" type="button">Mind</button>
-            <button class="filter-btn" data-invest-filter="buy" type="button">Buy</button>
+            <button class="filter-btn active" data-invest-filter="buy" type="button">Buy</button>
             <button class="filter-btn" data-invest-filter="sell" type="button">Sell</button>
-            <button class="filter-btn" data-invest-filter="risky" type="button">Magas kockázat</button>
-            <button class="filter-btn" data-invest-filter="analyst" type="button">Elemzői célár</button>
           </div>
           <div id="investmentTable" class="investment-table"></div>
         </section>
@@ -1064,9 +1073,9 @@
     let state = null;
     let selectedSymbol = null;
     let filter = "priority";
-    let investmentFilter = "all";
+    let investmentFilter = "buy";
     let investmentSearch = "";
-    let overviewFilter = "all";
+    let overviewFilter = "buy";
     let activePage = "investments";
     const stages = [
       "Hosszabb távú befektetési adatok ellenőrzése...",
@@ -1441,38 +1450,40 @@
       if (!Number.isFinite(c) || !Number.isFinite(x) || c === 0) return null;
       return (x - c) / c * 100;
     }
+    function timingPillClass(label) {
+      const map = { "Kedvező": "kedvező", "Elfogadható": "elfogadható", "Semleges": "semleges", "Kedvezőtlen": "kedvezőtlen" };
+      return map[label] || "na";
+    }
     function buildInvestmentTableHTML(rows, clickable = false) {
       if (!rows.length) {
         return `<p class="small">Nincs találat ebben a szűrőben.</p>`;
       }
       return `
         <div class="investment-row header">
-          <div>Részvény</div><div>Állapot</div><div>Aktuális ár</div><div>Belépési / kiszállási szint</div><div>Cél / kiesés</div><div>Elemzői / AI kontroll</div><div>Kockázat</div><div>Miért érdekes?</div>
+          <div>Részvény</div><div>Aktuális ár</div><div>Javasolt belépő</div><div>Célár</div><div>Elemzői átlag</div><div>Timing</div><div>Kockázat</div><div>Miért érdekes?</div>
         </div>
         ${rows.map(item => {
-          const isSell = String(item.category || "").toLowerCase().includes("sell");
+          const isSell = item.is_short_signal === true || String(item.category || "").toLowerCase().includes("sell");
           const entry = item.entry_price || item.entry_high;
           const target = item.exit_price || item.target_price;
-          const exitLevel = item.review_down || target;
           const buyPct = entryToTargetPct(entry, target);
-          const sellPct = currentToExitPct(item.latest_price, exitLevel);
-          const rr = isSell ? null : rrRatio(entry, target, item.review_down || (entry * 0.9));
-          const rrStr = rr !== null ? `${rr.toFixed(1)}:1` : null;
+          const sellPct = entryToTargetPct(entry, target); // for shorts: entry > target, so this is negative
+          const rr = isSell
+            ? rrRatio(target, entry, item.review_down || (entry * 1.08))  // short R/R: profit=entry-target, risk=stop-entry
+            : rrRatio(entry, target, item.review_down || (entry * 0.9));
+          const rrStr = rr !== null && rr > 0 ? `${rr.toFixed(1)}:1` : null;
+          const timingClass = timingPillClass(item.timing_label);
+          const athDist = item.ath_distance_pct;
+          const rowClass = isSell ? "sell-row" : "buy-row";
           return `
-          <article class="investment-row ${clickable ? "clickable" : ""}" ${clickable ? `data-symbol="${esc(item.symbol)}"` : ""}>
-            <div class="investment-symbol">${logoImg(item.symbol, item.name)}<div><b>${esc(item.symbol)}</b><span>${esc(item.sector || "")}</span></div></div>
-            <div class="investment-name"><b>${esc(item.name)}</b><span class="investment-status ${investmentSideClass(item.category)}">${investmentSideText(item.category)}</span><span>${esc(item.stance)} · ${fmt(item.score, 0)} pont</span></div>
-            <div class="investment-cell"><span>aktuális</span><strong>${fmt(item.latest_price, 2)} USD</strong></div>
-            ${isSell
-              ? `<div class="investment-cell"><span>${hintLabel("kiszállási szint", "Ha jelenleg tartod, ennél az árnál érdemes trimmelni vagy kiszállni. Nem short pozíció.")}</span><strong>${fmt(exitLevel, 2)} USD</strong><span>aktuálistól: ${pct(sellPct)}</span></div>`
-              : `<div class="investment-cell"><span>${hintLabel("beszállóár", "A becsült felső ár, ahol a rendszer szerint a belépés már értelmezhető. Nem vételi megbízás.")}</span><strong>${fmt(entry, 2)} USD</strong><span>zóna: ${fmt(item.entry_low, 2)}-${fmt(item.entry_high, 2)}</span></div>`
-            }
-            ${isSell
-              ? `<div class="investment-cell"><span>${hintLabel("AI fair érték", "Az AI által becsült belső érték. Ha a részvény itt forog, az upside elfogyott - az újraértékelés kockázata megnő.")}</span><strong class="${Number(sellPct) < -15 ? "score-sell" : ""}" style="font-size:19px;">${fmt(target, 2)} USD</strong><span>aktuálistól: ${pct(currentToExitPct(item.latest_price, target))}</span></div>`
-              : `<div class="investment-cell"><span>${hintLabel("potenciális hozam", "A célár és a belépési ár közötti különbség. Ez a tényleges mozgástér, nem az aktuális árhoz viszonyítva.")}</span><strong class="${Number(buyPct) > 15 ? "score-buy" : ""}" style="font-size:19px;">${pct(buyPct)}</strong><span>belépőtől a célárig${rrStr ? `</span><span class="rr-badge">R/R ${rrStr}</span><span>` : ""}</span></div>`
-            }
-            <div class="investment-cell"><span>${esc(item.analyst_display_label || "elemzői átlag")}</span><strong>${fmt(item.analyst_display_price || item.analyst_target_consensus || item.ai_target_price, 2)} USD</strong></div>
-            <div class="investment-cell"><span class="risk-pill ${riskClass(item.risk_level)}">${esc(item.risk_level)}</span><span>${fmt(item.risk_score, 0)} kockázat</span></div>
+          <article class="investment-row ${rowClass} ${clickable ? "clickable" : ""}" ${clickable ? `data-symbol="${esc(item.symbol)}"` : ""}>
+            <div class="investment-symbol">${logoImg(item.symbol, item.name)}<div><b>${esc(item.symbol)}</b><span>${esc(item.name)}</span><span class="investment-status ${investmentSideClass(item.category)}" style="margin-top:6px;">${isSell ? "SHORT / SELL" : investmentSideText(item.category)}</span></div></div>
+            <div class="investment-cell"><span>aktuális</span><strong>${fmt(item.latest_price, 2)} USD</strong><span>${fmt(item.score, 0)} pont</span></div>
+            <div class="investment-cell"><span>${hintLabel(isSell ? "short belépő" : "beszállóár", isSell ? "Ha shortolnád, itt vagy ennek közelében (esetleg kis felpattanás után) érdemes belépni. Stop a belépő felett." : "A becsült felső ár, ahol a rendszer szerint a belépés már értelmezhető. Nem vételi megbízás.")}</span><strong>${fmt(entry, 2)} USD</strong><span>${isSell ? `stop: ${fmt(item.review_down, 2)}` : `zóna: ${fmt(item.entry_low, 2)}-${fmt(item.entry_high, 2)}`}</span></div>
+            <div class="investment-cell"><span>${hintLabel(isSell ? "short célár" : "célár", isSell ? "Az AI által becsült alsó ár - itt érdemes a short pozíciót zárni." : "A becsült felső ár, ahova a rendszer szerint a részvény eljuthat 1-2 év alatt.")}</span><strong class="${isSell ? "score-sell" : "score-buy"}" style="font-size:19px;">${fmt(target, 2)} USD</strong><span>${isSell ? `${pct(buyPct)} a belépőtől` : `${pct(buyPct)} a belépőtől`}${rrStr ? ` · R/R ${rrStr}` : ""}</span></div>
+            <div class="investment-cell"><span>${esc(item.analyst_display_label || "elemzői átlag")}</span><strong>${fmt(item.analyst_display_price || item.analyst_target_consensus || item.ai_target_price, 2)} USD</strong>${item.analyst_count ? `<span>${item.analyst_count} elemző</span>` : `<span>becslés</span>`}</div>
+            <div class="investment-cell"><span class="timing-pill ${timingClass}">${esc(item.timing_label || "n/a")}</span><span>${athDist !== null && athDist !== undefined ? `52w csúcstól: ${pct(athDist)}` : "n/a"}</span></div>
+            <div class="investment-cell"><span class="risk-pill ${riskClass(item.risk_level)}">${esc(item.risk_level)}</span><span>${fmt(item.risk_score, 0)} pont</span></div>
             <div class="investment-warning">${esc(item.reason || "Nincs külön indoklás.")}</div>
           </article>
         `}).join("")}
@@ -1604,10 +1615,14 @@
       const holder = $("overviewDetailPanel");
       if (!holder) return;
       const row = selectedRow();
+      holder.classList.remove("detail-buy", "detail-sell");
       if (!row) {
         holder.innerHTML = `<div class="empty-detail"><div><h2>Válassz egy részvényt.</h2><p>A beszállóár, célár, kockázat és indoklás itt jelenik meg.</p></div></div>`;
         return;
       }
+      const cat = String(row.category || "").toLowerCase();
+      if (cat.includes("buy")) holder.classList.add("detail-buy");
+      else if (cat.includes("sell")) holder.classList.add("detail-sell");
       holder.innerHTML = renderDetailHTML(row, true);
     }
     function renderInvestmentDetail() { /* merged into renderDetail */ }
@@ -1839,12 +1854,16 @@
       const panel = $("detailPanel");
       if (!panel) return;
       const row = selectedRow();
+      panel.classList.remove("detail-buy", "detail-sell");
       if (!row) {
         panel.classList.add("hidden");
         panel.innerHTML = "";
         return;
       }
       panel.classList.remove("hidden");
+      const cat = String(row.category || "").toLowerCase();
+      if (cat.includes("buy")) panel.classList.add("detail-buy");
+      else if (cat.includes("sell")) panel.classList.add("detail-sell");
       panel.innerHTML = renderDetailHTML(row, false);
     }
 
@@ -1906,18 +1925,24 @@
     function renderInvestmentSummary(idea, row) {
       if (!idea) return "";
       const category = row && row.category;
-      // For SELL: user is long-only, doesn't short. Show exit guidance only.
-      if (category === "sell") {
+      const timingHTML = idea.timing_label
+        ? `<div class="price-cell"><span>${hintLabel("Timing", "A pozíció időzítése a 52 hetes csúcshoz képest. Kedvező = jelentősen a csúcs alatt (mean-reversion edge); Kedvezőtlen = csúcs közelében.")}</span><strong>${esc(idea.timing_label)}</strong><small>${idea.ath_distance_pct !== null && idea.ath_distance_pct !== undefined ? `52w csúcstól: ${pct(idea.ath_distance_pct)}` : "n/a"}</small></div>`
+        : "";
+      // For SELL: short trade structure (entry, target, stop).
+      if (String(category || "").toLowerCase().includes("sell")) {
         return `
           <section class="section">
-            <h3>Árszintek (ha jelenleg birtoklod a részvényt)</h3>
+            <h3>Short pozíció szintjei</h3>
             <div class="price-grid">
               <div class="price-cell"><span>Aktuális ár</span><strong>${fmt(idea.latest_price, 2)} USD</strong></div>
-              <div class="price-cell"><span>${hintLabel("Javasolt kiszállási szint", "Ha jelenleg tartod a részvényt, ezen szint körül érdemes lehet trim/kiszállás. Stop loss vagy fokozatos eladás javasolt.")}</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
+              <div class="price-cell"><span>${hintLabel("Short belépő", "Itt vagy ennek közelében (esetleg kis felpattanás után) érdemes shortolni.")}</span><strong>${fmt(idea.entry_price, 2)} USD</strong><small>zóna: ${fmt(idea.entry_low, 2)}-${fmt(idea.entry_high, 2)}</small></div>
+              <div class="price-cell"><span>${hintLabel("Short célár", "Az AI által becsült alsó ár - itt érdemes a short pozíciót zárni.")}</span><strong>${fmt(idea.exit_price || idea.target_price, 2)} USD</strong><small>${idea.target_upside_pct !== null && idea.target_upside_pct !== undefined ? `${pct(idea.target_upside_pct)} az aktuálistól` : ""}</small></div>
+              <div class="price-cell"><span>${hintLabel("Stop (felfelé)", "Ha az árfolyam ezen szint fölé megy, a short thesis nem működik - érdemes lezárni.")}</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
               <div class="price-cell"><span>${hintLabel("Elemzői célár", "Külső elemzői konszenzus célára.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
+              ${timingHTML}
               <div class="price-cell"><span>Kockázat</span><strong>${esc(idea.risk_level)}</strong><small>${fmt(idea.risk_score, 0)}</small></div>
             </div>
-            <p class="small"><strong>Megjegyzés:</strong> a rendszer long-only elven dolgozik, nem javasol short pozíciót. Ez a jelzés azt jelenti: új vételi pozíciót ne nyiss, és ha tartod a részvényt, érdemes átgondolni a kiszállást.</p>
+            <p class="small"><strong>Megjegyzés:</strong> short pozíció magasabb kockázattal jár (korlátlan veszteség elvileg). Csak akkor érdemes, ha kifejezetten short stratégiát futtatsz. Alternatíva: ha hosszú pozíciód van, érdemes átgondolni a kiszállást.</p>
           </section>
         `;
       }
@@ -1929,7 +1954,7 @@
             <div class="price-grid">
               <div class="price-cell"><span>Aktuális ár</span><strong>${fmt(idea.latest_price, 2)} USD</strong></div>
               <div class="price-cell"><span>${hintLabel("Elemzői célár", "Külső elemzői konszenzus célára. Csak referencia, semleges jelzés mellett nem érdemes pozíciót nyitni.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
-              <div class="price-cell"><span>${hintLabel("Felülvizsgálati szint", "Ha az árfolyam ezen szint alá esik, a kockázati profil romlik.")}</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
+              ${timingHTML}
               <div class="price-cell"><span>Kockázat</span><strong>${esc(idea.risk_level)}</strong><small>${fmt(idea.risk_score, 0)}</small></div>
             </div>
             <p class="small"><strong>Megjegyzés:</strong> semleges jelzés (50 körüli pontszám). Most nem érdemes új pozíciót nyitni, érdemes katalizátorra (eredményközlés, célár-revízió) várni.</p>
@@ -1949,7 +1974,7 @@
           <div class="price-grid">
             <div class="price-cell"><span>${hintLabel("Elemzői / AI kontroll", "Ha van külső elemzői konszenzus, azt mutatja. Ha nincs, a Tőzsde AI saját célárbecslése jelenik meg, külön jelölve.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
             <div class="price-cell"><span>${hintLabel("Elemzői sáv", "Az elérhető legalacsonyabb és legmagasabb elemzői célár.")}</span><strong>${idea.analyst_target_low && idea.analyst_target_high ? `${fmt(idea.analyst_target_low, 2)}-${fmt(idea.analyst_target_high, 2)} USD` : "nincs adat"}</strong></div>
-            <div class="price-cell"><span>Célár típusa</span><strong>${esc(idea.analyst_target_consensus ? "elemzői kontrollal" : "modellbecslés")}</strong></div>
+            ${timingHTML}
             <div class="price-cell"><span>Stop / kontrollár</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
           </div>
           <p class="small"><span class="risk-pill ${riskClass(idea.risk_level)}">${esc(idea.risk_level)}</span> ${esc(idea.warning)}</p>
