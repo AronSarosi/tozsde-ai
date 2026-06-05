@@ -44,9 +44,11 @@ async def run_refresh(db: Session, settings: Settings) -> RefreshRun:
             target, target_status = await fmp.price_target_consensus(stock.symbol)
             _insert_target(db, stock, target, target_status)
 
+            full_quote = await fmp.full_quote(stock.symbol)
+
             stored_prices = _price_dicts(db, stock)
             stored_filings = _filing_dicts(db, stock)
-            score = score_stock(stock.symbol, stored_prices, stored_filings, target, target_status)
+            score = score_stock(stock.symbol, stored_prices, stored_filings, target, target_status, sector=stock.sector, full_quote=full_quote)
             score.snapshot["price_source"] = price_source
             score.snapshot["filing_source"] = filing_source
             score.snapshot["cik_lookup_source"] = cik_lookup_source
@@ -97,7 +99,7 @@ async def run_refresh(db: Session, settings: Settings) -> RefreshRun:
         db.add(Report(run_id=run.id, content=report, input_snapshot_json=json.dumps(ranking_payloads, ensure_ascii=False, default=str)))
         run.status = "success"
         run.finished_at = datetime.utcnow()
-        run.message = f"{len(stocks)} ticker frissitve."
+        run.message = f"{len(stocks)} ticker frissítve."
         db.commit()
         db.refresh(run)
         return run

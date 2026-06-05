@@ -1,4 +1,4 @@
-# Tőzsde AI teszteles
+# Tőzsde AI tesztelés
 
 ## 1. Azonnali preview teszt
 
@@ -12,16 +12,16 @@ Nyisd meg:
 http://127.0.0.1:8000
 ```
 
-Ellenorizd:
+Ellenőrizd:
 
-- A fejlécben `Tőzsde AI napi rangsor` latszik.
-- Az OpenAI, Alpha Vantage es FMP statusz `aktiv`.
-- A `Tickerek` szam 70.
-- A rating skala 5 fokozatu: `strong buy`, `buy`, `hold`, `sell`, `strong sell`.
-- A kereso mukodik tickerre, peldaul `NVDA`, `TSM`, `V`, `LMT`.
-- A kategoriavalto mukodik: `all`, `strong buy`, `buy`, `hold`, `sell`, `strong sell`.
-- Egy sorra kattintva a jobb oldali reszveny-reszlet frissul.
-- A reszveny-reszletben latszik az `Agent consensus` blokk.
+- A fejlécben `Tőzsde AI napi rangsor` látszik.
+- Az OpenAI, Alpha Vantage és FMP státusz `aktív`.
+- A `Tickerek` szám 70.
+- A rating skála 5 fokozatú: `strong buy`, `buy`, `hold`, `sell`, `strong sell`.
+- A kereső működik tickerre, például `NVDA`, `TSM`, `V`, `LMT`.
+- A kategóriaváltó működik: `all`, `strong buy`, `buy`, `hold`, `sell`, `strong sell`.
+- Egy sorra kattintva a jobb oldali részvény-részlet frissül.
+- A részvény-részletben látszik az `Agent consensus` blokk.
 
 ## 2. Kulcsok ellenőrzése értékek kiírása nélkül
 
@@ -35,7 +35,7 @@ Get-Content .env | ForEach-Object {
 }
 ```
 
-## 3. Portfolio lista ellenőrzése
+## 3. Portfólió lista ellenőrzése
 
 ```powershell
 @'
@@ -45,23 +45,23 @@ print([s["symbol"] for s in run_local.load_portfolio()[-10:]])
 '@ | python -
 ```
 
-Elvart eredmeny: `70`.
+Elvárt eredmény: `70`.
 
-## 4. Python szintaxis ellenorzes
+## 4. Python szintaxis ellenőrzés
 
 ```powershell
 python -m compileall run_local.py backend\app
 ```
 
-## 5. Teljes FastAPI + React verzio
+## 5. Teljes FastAPI + React verzió
 
-A teljes verziohoz a Python es Node csomagokat telepiteni kell. Ha a halozati vagy sandbox korlat blokkolja a telepitest, a preview verzioval tovabbra is lehet tesztelni a portfoliot, kulcs-statuszt es rangsor logikat.
+A teljes verzióhoz a Python és Node csomagokat telepíteni kell. Ha a hálózati vagy sandbox korlát blokkolja a telepítést, a preview verzióval továbbra is lehet tesztelni a portfóliót, kulcs-státuszt és rangsor logikát.
 
 ```powershell
 .\start.ps1
 ```
 
-Eleres:
+Elérés:
 
 - Backend: `http://127.0.0.1:8000`
 - Dashboard: `http://127.0.0.1:5173`

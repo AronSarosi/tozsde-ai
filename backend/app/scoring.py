@@ -4,6 +4,53 @@ import json
 import statistics
 
 
+SECTOR_PE_BASELINE: dict[str, float] = {
+    "Semiconductors": 28,
+    "Software": 35,
+    "Cloud / AI infrastructure": 38,
+    "AI / Cloud": 38,
+    "Technology": 30,
+    "Communication Services": 22,
+    "Healthcare": 22,
+    "Pharma": 20,
+    "Financials": 13,
+    "Energy": 12,
+    "Consumer": 24,
+    "Consumer Discretionary": 28,
+    "Consumer Staples": 22,
+    "Industrials": 22,
+    "Defense": 22,
+    "Materials": 16,
+    "Utilities": 18,
+    "Real Estate": 20,
+}
+
+
+def _sector_pe_baseline(sector: str | None) -> float:
+    if not sector:
+        return 22.0
+    if sector in SECTOR_PE_BASELINE:
+        return SECTOR_PE_BASELINE[sector]
+    lower = sector.lower()
+    for key, value in SECTOR_PE_BASELINE.items():
+        if key.lower() in lower:
+            return float(value)
+    return 22.0
+
+
+def _safe_float(value) -> float | None:
+    if value in (None, "", "None"):
+        return None
+    try:
+        v = float(str(value).replace("%", "").replace(",", ""))
+        import math
+        if math.isnan(v) or math.isinf(v):
+            return None
+        return v
+    except (ValueError, TypeError):
+        return None
+
+
 @dataclass
 class ScoreResult:
     score: float
@@ -15,7 +62,15 @@ class ScoreResult:
     snapshot: dict
 
 
-def score_stock(symbol: str, prices: list[dict], filings: list[dict], target: dict | None, target_status: str) -> ScoreResult:
+def score_stock(
+    symbol: str,
+    prices: list[dict],
+    filings: list[dict],
+    target: dict | None,
+    target_status: str,
+    sector: str | None = None,
+    full_quote: dict | None = None,
+) -> ScoreResult:
     missing_data: list[str] = []
     if not prices:
         missing_data.append("Nincs árfolyam idősor.")
@@ -27,7 +82,7 @@ def score_stock(symbol: str, prices: list[dict], filings: list[dict], target: di
     closes = [float(p["close"]) for p in prices]
     latest = closes[-1] if closes else 0.0
     momentum = _momentum_score(closes)
-    fundamentals = 50.0
+    fundamentals, fund_notes = _fundamentals_score(closes, full_quote, sector)
     valuation = _valuation_score(latest, target)
     events = _events_score(filings)
     risk = _risk_score(closes)
@@ -39,9 +94,9 @@ def score_stock(symbol: str, prices: list[dict], filings: list[dict], target: di
     score = round(max(0.0, min(100.0, base_score * 0.65 + agent_score * 0.35)), 1)
     category = category_for_score(score)
 
-    reasons = _reasons(symbol, closes, latest, target, filings, momentum, valuation, events)
+    reasons = _reasons(symbol, closes, latest, target, filings, momentum, fundamentals, valuation, events, fund_notes)
     reasons.insert(0, f"Multi-agent konszenzus: {category}, konszenzuspont: {score:.1f}.")
-    risks = _risks(closes, target_status, filings)
+    risks = _risks(closes, target_status, filings, full_quote)
     snapshot = {
         "symbol": symbol,
         "latest_price": latest,
@@ -60,6 +115,7 @@ def score_stock(symbol: str, prices: list[dict], filings: list[dict], target: di
         },
         "agent_debate": agents,
         "missing_data": missing_data,
+        "fundamentals_notes": fund_notes,
     }
     return ScoreResult(
         score=score,
@@ -102,6 +158,69 @@ def _momentum_score(closes: list[float]) -> float:
     return max(0.0, min(100.0, score))
 
 
+def _fundamentals_score(closes: list[float], full_quote: dict | None, sector: str | None) -> tuple[float, list[str]]:
+    score = 50.0
+    notes: list[str] = []
+    fq = full_quote or {}
+
+    pe = _safe_float(fq.get("pe"))
+    eps = _safe_float(fq.get("eps"))
+
+    if pe is not None:
+        baseline = _sector_pe_baseline(sector)
+        if pe <= 0:
+            score -= 18
+            notes.append(f"Veszteséges (P/E {pe:.1f}).")
+        else:
+            ratio = pe / baseline
+            if ratio < 0.7:
+                score += 22
+                notes.append(f"P/E {pe:.1f} jóval a szektor átlag alatt ({baseline:.0f}).")
+            elif ratio < 1.0:
+                score += 12
+                notes.append(f"P/E {pe:.1f} a szektor átlag alatt ({baseline:.0f}).")
+            elif ratio < 1.3:
+                score += 3
+                notes.append(f"P/E {pe:.1f} a szektor átlag közelében ({baseline:.0f}).")
+            elif ratio < 1.8:
+                score -= 8
+                notes.append(f"P/E {pe:.1f} drágább a szektor átlagánál ({baseline:.0f}).")
+            else:
+                score -= 18
+                notes.append(f"P/E {pe:.1f} jelentősen drága a szektorhoz képest ({baseline:.0f}).")
+    else:
+        notes.append("Nincs publikált P/E adat.")
+
+    if eps is not None:
+        if eps > 0:
+            score += 9
+            notes.append(f"Pozitív EPS: {eps:.2f}.")
+        else:
+            score -= 12
+            notes.append(f"Negatív EPS: {eps:.2f} – profitabilitás nyomás alatt.")
+
+    # MA trend quality from stored price history
+    latest = closes[-1] if closes else None
+    ma50 = statistics.fmean(closes[-50:]) if len(closes) >= 50 else None
+    ma200 = statistics.fmean(closes[-200:]) if len(closes) >= 200 else None
+
+    if latest and ma50 and ma200:
+        if latest > ma50 > ma200:
+            score += 12
+            notes.append("Ár > 50d MA > 200d MA: tartós feltrend, minőségi jel.")
+        elif latest > ma200 and ma50 < ma200:
+            score += 3
+            notes.append("Ár 200d MA felett, de a rövid trend gyengül.")
+        elif latest < ma50 < ma200:
+            score -= 12
+            notes.append("Ár < 50d MA < 200d MA: tartós letrend.")
+        elif latest < ma200:
+            score -= 6
+            notes.append("Ár 200d MA alatt: gyenge hosszú távú trend.")
+
+    return max(5.0, min(95.0, score)), notes
+
+
 def _valuation_score(latest: float, target: dict | None) -> float:
     consensus = (target or {}).get("target_consensus") or (target or {}).get("target_median")
     if not latest or not consensus:
@@ -129,13 +248,26 @@ def _risk_score(closes: list[float]) -> float:
     return max(0.0, min(100.0, score))
 
 
-def _reasons(symbol: str, closes: list[float], latest: float, target: dict | None, filings: list[dict], momentum: float, valuation: float, events: float) -> list[str]:
+def _reasons(
+    symbol: str,
+    closes: list[float],
+    latest: float,
+    target: dict | None,
+    filings: list[dict],
+    momentum: float,
+    fundamentals: float,
+    valuation: float,
+    events: float,
+    fund_notes: list[str],
+) -> list[str]:
     reasons = []
     if len(closes) >= 50:
         change_20 = _pct(closes[-1], closes[-20])
         reasons.append(f"{symbol}: a 20 napos árfolyamváltozás {change_20:.1%}, momentum pont: {momentum:.1f}.")
     else:
         reasons.append(f"{symbol}: kevés árfolyamadat áll rendelkezésre, semleges momentum feltételezve.")
+    if fund_notes:
+        reasons.append(f"Fundamentum: {fund_notes[0]}")
     consensus = (target or {}).get("target_consensus") or (target or {}).get("target_median")
     if latest and consensus:
         reasons.append(f"Az elemzői célár alapján becsült upside: {_pct(float(consensus), latest):.1%}.")
@@ -150,7 +282,7 @@ def _reasons(symbol: str, closes: list[float], latest: float, target: dict | Non
     return reasons
 
 
-def _risks(closes: list[float], target_status: str, filings: list[dict]) -> list[str]:
+def _risks(closes: list[float], target_status: str, filings: list[dict], full_quote: dict | None) -> list[str]:
     risks = []
     if len(closes) >= 60:
         returns = [(closes[i] / closes[i - 1]) - 1 for i in range(1, len(closes)) if closes[i - 1]]
@@ -161,6 +293,15 @@ def _risks(closes: list[float], target_status: str, filings: list[dict]) -> list
         drawdown = (closes[-1] / peak) - 1 if peak else 0
         if drawdown < -0.2:
             risks.append(f"Jelentős visszaesés a közelmúlt csúcsától: {drawdown:.1%}.")
+    fq = full_quote or {}
+    pe = _safe_float(fq.get("pe"))
+    eps = _safe_float(fq.get("eps"))
+    if pe is not None and pe > 0:
+        baseline = 22.0
+        if pe / baseline > 2.0:
+            risks.append(f"P/E {pe:.1f} – jelentős prémium a piaci átlaghoz képest.")
+    if eps is not None and eps < 0:
+        risks.append("Negatív EPS: a vállalat jelenleg veszteséges.")
     if target_status != "fmp":
         risks.append("Hiányzik vagy nem elérhető az elemzői céláradat.")
     if not filings:

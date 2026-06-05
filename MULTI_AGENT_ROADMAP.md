@@ -1,54 +1,55 @@
-# Multi-agent fejlesztesi terv
+# Multi-agent architektúra
 
-Inspiracio: TauricResearch TradingAgents.
+Inspiráció: TauricResearch TradingAgents.
 
-## Mit erdemes atvenni
+## Implementált agent szerepek
 
-- Kulon analyst szerepek: technikai, fundamentális, news/SEC, sentiment.
-- Bull es bear vita: minden tickerhez legyen pozitiv es negativ befektetesi eset.
-- Risk panel: agressziv, semleges es konzervativ kockazati nezet.
-- Portfolio manager: a végső döntést ne egyetlen score adja, hanem konszenzus.
-- Memoria: a korabbi javaslatokat kesobb hasonlitsa ossze a tenyleges hozammal.
-- Strukturalt output: `strong buy / buy / hold / sell / strong sell`.
+1. **Technical Analyst** (`Trend Analyst` a preview módban)
+   - Árfolyam-trend, momentum, 50/200 napos mozgóátlag.
+   - Alpha Vantage és Yahoo Finance adatforrások.
 
-## Javasolt sajat architektura
+2. **Fundamental Analyst**
+   - P/E szektorbázishoz viszonyítva, EPS sign, MA-trend minősége.
+   - FMP teljes quote adatokon alapul; kulcs nélkül MA-alapú fallback.
 
-1. `Data Analyst`
-   - Arfolyam, volumen, momentum, drawdown.
-   - Alpha Vantage es kesobb mas adatforrasok.
+3. **Value Hunter** (preview) / **SEC & News Analyst** (backend)
+   - Belépési értékeltség: 52-hetes sávpozíció, P/E összehasonlítás.
+   - SEC filingek: 10-K, 10-Q, 8-K, 6-K.
 
-2. `Fundamental Analyst`
-   - FMP célár, konszenzus, fundamentális mutatok.
-   - Hianyzo adatnal semleges, explicit `missing_data`.
+4. **Sentiment Analyst** (preview) / **Bull Researcher** (backend)
+   - Friss hírek katalizátorként; közelgő eredményjelentés bónusza.
+   - A legerősebb pozitív érv összefoglalása.
 
-3. `SEC / News Analyst`
-   - SEC filingek, 10-K, 10-Q, 8-K, 6-K.
-   - OpenAI osszefoglalo csak tarolt inputbol.
+5. **Bear Researcher**
+   - A legerősebb eladási vagy óvatos érv összefoglalása.
+   - Kockázati inverz logika: a gyenge komponenseket bünteti.
 
-4. `Bull Researcher`
-   - A legerosebb veteli erv osszefoglalasa.
+6. **Risk Manager**
+   - Volatilitás, drawdown, hiányzó adatok száma.
 
-5. `Bear Researcher`
-   - A legerosebb eladasi vagy ovatos erv osszefoglalasa.
+7. **Portfolio Manager**
+   - Végső konszenzus a 6 agent átlagából.
+   - Divergencia-jelzéssel: nagy szórás → kisebb pozíció ajánlott.
 
-6. `Risk Manager`
-   - Volatilitas, drawdown, szektor-koncentracio, adatminoseg.
+## Architektúra-elvek
 
-7. `Portfolio Manager`
-   - Vegso kategoria es indoklas.
-   - Kulon jelzi: adat-alapu score, AI konszenzus, confidence.
+- Nem LangGraph: egyszerű Python orchestrator, determinisztikus JSON bemenet/kimenet.
+- OpenAI csak összefoglalásra és vita-szövegre megy; a numerikus score determinisztikus.
+- Minden agent output ticker/run szerint tárolva (Signal, Ranking táblák).
+- Dashboardon elérhető az Agent debate blokk: minden agent stance és thesis látható.
+- Külön jelzi: adat-alapú score, AI konszenzus, confidence szint.
 
-## V1 implementacios sorrend
+## Tervezett fejlesztések
 
-1. Ne epitsunk be LangGraphot rogton; eloszor legyen egyszeru Python orchestrator.
-2. Minden agent egy determinisztikus JSON bemenetet es JSON kimenetet kapjon.
-3. OpenAI csak osszefoglalasra es vita-szovegre menjen, a numerikus score maradjon determinisztikus.
-4. Menteni kell minden agent outputot ticker/run szerint, hogy visszakeresheto legyen.
-5. Dashboardon legyen `Agent debate` ful: bull, bear, risk, final consensus.
+- **Memória és visszacsatolás**: korábbi ajánlások összevetése tényleges hozammal.
+- **Adatminőségi jelzés** a rangsorlistán (jelenleg csak részletlapon látható).
+- **Pozícióméret-javaslat** a backend API-n keresztül (run_local.py már tartalmazza).
+- **Valós SEC-tartalom elemzése**: filing szöveg → OpenAI összefoglaló, nem csak metaadat.
+- **Egységesített scoring**: backend és preview mód azonos súlyokat és logikát használjon.
 
 ## Kockázatok
 
-- A multi-agent rendszer konnyen dragabb es lassabb lesz.
-- Egy rossz adatforras sok agentet ugyanabba az iranyba vihet.
-- Az AI indoklas nem helyettesitheti a determinisztikus adatminosegi jelzest.
-- A vegso output tovabbra is döntéstámogató, nem automatikus kereskedesi utasitas.
+- A multi-agent rendszer könnyen drágább és lassabb lesz.
+- Egy rossz adatforrás sok agentet ugyanabba az irányba vihet.
+- Az AI indoklás nem helyettesítheti a determinisztikus adatminőségi jelzést.
+- A végső output továbbra is döntéstámogató, nem automatikus kereskedelmi utasítás.

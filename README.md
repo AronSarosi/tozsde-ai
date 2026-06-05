@@ -1,21 +1,21 @@
 # Tőzsde AI
 
-Helyi tőzsdei dontestamogato rendszer FastAPI backenddel, SQLite adatbazissal es React dashboarddal.
+Helyi tőzsdei döntéstámogató rendszer FastAPI backenddel, SQLite adatbázissal és React dashboarddal.
 
-## Gyors inditas
+## Gyors indítás
 
-## Megosztas Vercelen
+## Megosztás Vercelen
 
-Ez a repo Vercel-kompatibilis preview modban is fut.
+Ez a repo Vercel-kompatibilis preview módban is fut.
 
 1. Vercel dashboardon: Add New Project.
-2. Importald ezt a GitHub repot: `AronSarosi/tozsde-ai`.
-3. Root Directory: hagyd a repo gyokeren.
+2. Importáld ezt a GitHub repot: `AronSarosi/tozsde-ai`.
+3. Root Directory: hagyd a repo gyökerén.
 4. Framework Preset: Other, ha a Vercel nem ismeri fel automatikusan.
-5. Build Command es Output Directory: hagyd uresen/alapertelmezetten.
+5. Build Command és Output Directory: hagyd üresen/alapértelmezetten.
 6. Deploy.
 
-API kulcsok nelkul is elindul. Ha kesobb elo adatokat akarsz, Vercel Environment Variables alatt add hozza:
+API kulcsok nélkül is elindul. Ha később élő adatokat akarsz, Vercel Environment Variables alatt add hozzá:
 
 ```env
 OPENAI_API_KEY=
@@ -23,7 +23,7 @@ ALPHAVANTAGE_API_KEY=
 FMP_API_KEY=
 ```
 
-### Azonnali preview, telepites es API kulcs nelkul
+### Azonnali preview, telepítés és API kulcs nélkül
 
 ```powershell
 python run_local.py
@@ -31,11 +31,11 @@ python run_local.py
 
 Nyisd meg: http://127.0.0.1:8765
 
-Ez a verzio csak a beepitett Pythonra tamaszkodik. Hasznos arra, hogy azonnal lasd a feluletet es a rangsorolasi logikat, mielott API kulcsokat adsz hozza.
+Ez a verzió csak a beépített Pythonra támaszkodik. Hasznos arra, hogy azonnal lásd a felületet és a rangsorolási logikát, mielőtt API kulcsokat adsz hozzá.
 
-### Teljes FastAPI + React verzio
+### Teljes FastAPI + React verzió
 
-1. Masold a `.env.example` fajlt `.env` neven. API kulcsok nelkul is mukodik.
+1. Másold a `.env.example` fájlt `.env` néven. API kulcsok nélkül is működik.
 2. Futtasd:
 
 ```powershell
@@ -45,11 +45,11 @@ Ez a verzio csak a beepitett Pythonra tamaszkodik. Hasznos arra, hogy azonnal la
 Backend: http://127.0.0.1:8000  
 Dashboard: http://127.0.0.1:5173
 
-API kulcs nelkul is elindul a rendszer. A dashboard kulon jelzi, melyik forras aktiv es melyik fallback modban fut.
+API kulcs nélkül is elindul a rendszer. A dashboard külön jelzi, melyik forrás aktív és melyik fallback módban fut.
 
-## API kulcsok kesobbi hozzaadasa
+## API kulcsok utólagos hozzáadása
 
-Nem kell kodot modositani. Csak a `.env` fajlban toltsd ki az adott sort, majd inditsd ujra az appot:
+Nem kell kódot módosítani. Csak a `.env` fájlban töltsd ki az adott sort, majd indítsd újra az appot:
 
 ```env
 OPENAI_API_KEY=sk-...
@@ -59,12 +59,12 @@ FMP_API_KEY=...
 
 Gyakorlati sorrend:
 
-1. `OPENAI_API_KEY`: jobb magyar indoklasok es napi riport.
-2. `ALPHAVANTAGE_API_KEY`: valos napi arfolyam idosor demo helyett.
-3. `FMP_API_KEY`: valos celar es elemzoi konszenzus, ha erre is szukseg lesz.
+1. `OPENAI_API_KEY`: jobb magyar indoklások és napi riport.
+2. `ALPHAVANTAGE_API_KEY`: valós napi árfolyam idősor demo helyett.
+3. `FMP_API_KEY`: valós célár és elemzői konszenzus, fundamentum-adatok (P/E, EPS).
 
 SEC filingekhez nem kell kulcs.
 
 ## Fontos
 
-Ez a rendszer dontestamogato es kutatasi eszkoz. Nem broker-integracio, nem automata kereskedes, es nem minosul penzugyi tanacsadasnak.
+Ez a rendszer döntéstámogató és kutatási eszköz. Nem broker-integráció, nem automata kereskedés, és nem minősül pénzügyi tanácsadásnak.

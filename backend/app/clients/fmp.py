@@ -31,6 +31,29 @@ class FmpClient:
             "target_median": _float_or_none(item.get("targetMedian") or item.get("target_median")),
         }, "fmp"
 
+    async def full_quote(self, symbol: str) -> dict | None:
+        """Fetch full FMP quote including P/E, EPS, market cap, 52-week range, and moving averages.
+
+        Returns raw FMP quote dict or None on error/missing key.
+        """
+        if not self.api_key:
+            return None
+        try:
+            async with httpx.AsyncClient(timeout=15) as client:
+                response = await client.get(
+                    f"https://financialmodelingprep.com/api/v3/quote/{symbol}",
+                    params={"apikey": self.api_key},
+                )
+                response.raise_for_status()
+                payload = response.json()
+        except Exception:
+            return None
+        if isinstance(payload, list) and payload:
+            return payload[0] if isinstance(payload[0], dict) else None
+        if isinstance(payload, dict):
+            return payload
+        return None
+
 
 def _float_or_none(value):
     if value in (None, ""):
