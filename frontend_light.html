@@ -850,65 +850,72 @@
       .detail-head { display: block; }
       .decision-box { text-align: left; margin-top: 18px; }
     }
-    /* ---- v2: tier badges ---- */
-    .tier-badge { display:inline-block; padding:2px 9px; border-radius:999px; font-size:0.72rem; font-weight:700; letter-spacing:0.02em; white-space:nowrap; }
-    .tier-strong_buy { background:#123c1f; color:#4ade80; border:1px solid #22c55e66; }
-    .tier-buy { background:#10331d; color:#86efac; border:1px solid #22c55e33; }
-    .tier-hold { background:#26263f; color:#a5a5c5; border:1px solid #3d3d63; }
-    .tier-sell { background:#3a1620; color:#fda4af; border:1px solid #f43f5e33; }
-    .tier-strong_sell { background:#48101c; color:#fb7185; border:1px solid #f43f5e66; }
-    /* ---- v2: portfolio drawer ---- */
-    .portfolio-btn { border:1px solid #2e5c3a; background:#14301d; color:#7be495; border-radius:10px; padding:8px 14px; font-weight:700; cursor:pointer; font-size:0.86rem; display:flex; align-items:center; gap:8px; }
-    .portfolio-btn:hover { background:#1a3d25; }
-    .portfolio-btn .pnl-badge { font-size:0.78rem; font-weight:700; }
-    .pnl-pos { color:#4ade80; } .pnl-neg { color:#fb7185; }
-    .drawer-overlay { position:fixed; inset:0; background:rgba(8,8,18,0.55); backdrop-filter:blur(2px); z-index:80; opacity:0; pointer-events:none; transition:opacity .22s; }
+    /* ---- v2: tier badges (light theme) ---- */
+    .tier-badge { display:inline-block; padding:3px 11px; border-radius:999px; font-size:0.74rem; font-weight:700; letter-spacing:0.02em; white-space:nowrap; }
+    .tier-strong_buy { background:#0f7b42; color:#ffffff; }
+    .tier-buy { background:#dcf3e6; color:#0f6b3b; border:1px solid #b5e3c9; }
+    .tier-hold { background:#eef1f5; color:#55627a; border:1px solid var(--line); }
+    .tier-sell { background:#fdeaee; color:#a72d42; border:1px solid #f4c2cc; }
+    .tier-strong_sell { background:#c22f45; color:#ffffff; }
+    /* ---- v2: portfolio drawer (light theme) ---- */
+    .portfolio-btn { border:0; background:var(--green); color:#ffffff; border-radius:10px; padding:9px 16px; font-weight:700; cursor:pointer; font-size:0.88rem; display:flex; align-items:center; gap:8px; }
+    .portfolio-btn:hover { background:#128a49; }
+    .portfolio-btn .pnl-badge { font-size:0.8rem; font-weight:700; }
+    .portfolio-btn .pnl-badge.pnl-pos, .portfolio-btn .pnl-badge.pnl-neg { color:#ffffff; opacity:0.95; }
+    .pnl-pos { color:#0f7b42; } .pnl-neg { color:#c22f45; }
+    .drawer-overlay { position:fixed; inset:0; background:rgba(15,23,42,0.38); backdrop-filter:blur(2px); z-index:80; opacity:0; pointer-events:none; transition:opacity .22s; }
     .drawer-overlay.open { opacity:1; pointer-events:auto; }
-    .portfolio-drawer { position:fixed; top:0; right:0; height:100vh; width:min(520px, 96vw); background:#14142a; border-left:1px solid #2b2b4d; z-index:90; transform:translateX(102%); transition:transform .26s ease; display:flex; flex-direction:column; box-shadow:-18px 0 48px rgba(0,0,0,0.45); }
+    .portfolio-drawer { position:fixed; top:0; right:0; height:100vh; width:min(720px, 97vw); background:var(--bg); border-left:1px solid var(--line); z-index:90; transform:translateX(102%); transition:transform .26s ease; display:flex; flex-direction:column; box-shadow:-18px 0 48px rgba(15,23,42,0.18); }
     .portfolio-drawer.open { transform:translateX(0); }
-    .drawer-head { padding:18px 22px 14px; border-bottom:1px solid #26264a; display:flex; justify-content:space-between; align-items:center; }
-    .drawer-head h2 { margin:0; font-size:1.05rem; }
-    .drawer-close { background:none; border:none; color:#9a9ac0; font-size:1.5rem; cursor:pointer; line-height:1; }
-    .drawer-body { overflow-y:auto; padding:16px 22px 28px; flex:1; }
-    .pf-hero { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
-    .pf-hero .pf-cell { background:#191938; border:1px solid #2b2b52; border-radius:12px; padding:12px 14px; }
-    .pf-hero .pf-cell span { display:block; font-size:0.72rem; color:#9a9ac2; margin-bottom:4px; }
-    .pf-hero .pf-cell strong { font-size:1.12rem; }
-    .pf-section-title { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.06em; color:#8f8fb8; margin:18px 0 8px; }
-    .pf-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-    .pf-table th { text-align:left; color:#8f8fb8; font-weight:600; padding:6px 8px; border-bottom:1px solid #26264a; font-size:0.72rem; }
-    .pf-table td { padding:8px; border-bottom:1px solid #1f1f3d; }
-    .pf-side { font-size:0.68rem; font-weight:800; border-radius:6px; padding:2px 7px; }
-    .pf-side.long { background:#123c1f; color:#4ade80; }
-    .pf-side.short { background:#48101c; color:#fb7185; }
-    .pf-bench { margin-top:14px; background:#191938; border:1px solid #2b2b52; border-radius:12px; padding:12px 14px; font-size:0.84rem; }
-    .pf-note { font-size:0.74rem; color:#8f8fb8; margin-top:12px; line-height:1.5; }
-    /* ---- v2: health + fair value ---- */
-    .health-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-top:10px; }
-    .health-item { background:#191938; border:1px solid #2b2b52; border-radius:10px; padding:10px 12px; }
-    .health-item span { display:block; font-size:0.7rem; color:#9a9ac2; margin-bottom:6px; }
-    .health-bar { height:6px; border-radius:4px; background:#26264a; overflow:hidden; }
-    .health-bar i { display:block; height:100%; border-radius:4px; background:linear-gradient(90deg,#f43f5e,#facc15,#22c55e); }
-    .fv-line { display:flex; gap:14px; flex-wrap:wrap; align-items:baseline; margin-top:8px; font-size:0.95rem; }
+    .drawer-head { padding:18px 24px 14px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; background:var(--surface); }
+    .drawer-head h2 { margin:0; font-size:1.1rem; color:var(--text); }
+    .drawer-close { background:none; border:none; color:var(--muted); font-size:1.6rem; cursor:pointer; line-height:1; }
+    .drawer-close:hover { color:var(--text); }
+    .drawer-body { overflow-y:auto; padding:18px 24px 30px; flex:1; }
+    .pf-hero { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:16px; }
+    .pf-cell { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
+    .pf-cell span { display:block; font-size:0.73rem; color:var(--muted); margin-bottom:4px; }
+    .pf-cell strong { font-size:1.12rem; color:var(--text); }
+    .pf-section-title { font-size:0.78rem; text-transform:uppercase; letter-spacing:0.07em; color:var(--muted); margin:20px 0 8px; font-weight:700; }
+    .pf-table { width:100%; border-collapse:collapse; font-size:0.85rem; background:var(--surface); border-radius:12px; overflow:hidden; border:1px solid var(--line); }
+    .pf-table th { text-align:left; color:var(--muted); font-weight:600; padding:9px 10px; border-bottom:1px solid var(--line); font-size:0.72rem; background:var(--surface-soft); }
+    .pf-table td { padding:10px; border-bottom:1px solid #edf1f5; color:var(--text); vertical-align:middle; }
+    .pf-table tr:last-child td { border-bottom:0; }
+    .pf-sub { display:block; font-size:0.72rem; color:var(--muted); margin-top:2px; }
+    .pf-side { font-size:0.66rem; font-weight:800; border-radius:6px; padding:2px 8px; letter-spacing:0.03em; }
+    .pf-side.long { background:#dcf3e6; color:#0f6b3b; }
+    .pf-side.short { background:#fdeaee; color:#a72d42; }
+    .pf-bench { margin-top:16px; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:13px 15px; font-size:0.86rem; color:var(--text); }
+    .pf-note { font-size:0.76rem; color:var(--muted); margin-top:14px; line-height:1.55; }
+    /* ---- v2: health + fair value (light theme, single-colour bars) ---- */
+    .health-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-top:10px; }
+    .health-item { background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px 12px; }
+    .health-item span { display:block; font-size:0.72rem; color:var(--muted); margin-bottom:7px; }
+    .health-bar { height:7px; border-radius:4px; background:#e6ebf1; overflow:hidden; }
+    .health-bar i { display:block; height:100%; border-radius:4px; }
+    .health-bar i.hb-good { background:var(--green); }
+    .health-bar i.hb-mid { background:#9aa7b5; }
+    .health-bar i.hb-bad { background:var(--red); }
+    .fv-line { display:flex; gap:14px; flex-wrap:wrap; align-items:baseline; margin-top:10px; font-size:0.95rem; color:var(--text); }
     .protip-list { margin:8px 0 0; padding-left:0; list-style:none; }
-    .protip-list li { padding:6px 0 6px 22px; position:relative; font-size:0.88rem; }
-    .protip-list li::before { content:"✓"; position:absolute; left:0; color:#4CAF50; font-weight:700; }
-    /* ---- v2.1: detail view polish ---- */
+    .protip-list li { padding:6px 0 6px 22px; position:relative; font-size:0.88rem; color:var(--text); }
+    .protip-list li::before { content:"✓"; position:absolute; left:0; color:var(--green); font-weight:700; }
+    /* ---- v2.1: detail view polish (light theme) ---- */
     .detail-hero { display:flex; justify-content:space-between; align-items:flex-start; gap:18px; flex-wrap:wrap; margin-bottom:14px; }
     .detail-hero .price-line { display:flex; align-items:baseline; gap:12px; margin-top:6px; }
-    .detail-hero .price-line strong { font-size:1.7rem; }
+    .detail-hero .price-line strong { font-size:1.7rem; color:var(--text); }
     .detail-hero .price-line span { font-size:1rem; font-weight:700; }
     .signal-box { text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
-    .signal-box .score-num { font-size:1.55rem; font-weight:800; }
-    .signal-box .score-sub { font-size:0.72rem; color:#9a9ac2; }
-    .kf-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0 6px; }
-    .kf-cell { background:#191938; border:1px solid #2b2b52; border-radius:12px; padding:12px 14px; }
-    .kf-cell span { display:block; font-size:0.72rem; color:#9a9ac2; margin-bottom:5px; }
-    .kf-cell strong { font-size:1.05rem; }
-    .kf-cell .kf-sub { display:block; font-size:0.74rem; margin-top:3px; color:#9a9ac2; }
-    details.adv { margin-top:16px; border:1px solid #2b2b52; border-radius:12px; background:#17172f; }
-    details.adv > summary { cursor:pointer; padding:14px 18px; font-weight:700; font-size:0.95rem; list-style:none; }
-    details.adv > summary::before { content:"▸ "; color:#4CAF50; }
+    .signal-box .score-num { font-size:1.55rem; font-weight:800; color:var(--text); }
+    .signal-box .score-sub { font-size:0.73rem; color:var(--muted); }
+    .kf-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin:14px 0 6px; }
+    .kf-cell { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:12px 14px; box-shadow:0 4px 14px rgba(15,23,42,0.04); }
+    .kf-cell span { display:block; font-size:0.73rem; color:var(--muted); margin-bottom:5px; }
+    .kf-cell strong { font-size:1.05rem; color:var(--text); }
+    .kf-cell .kf-sub { display:block; font-size:0.75rem; margin-top:3px; color:var(--muted); }
+    details.adv { margin-top:16px; border:1px solid var(--line); border-radius:12px; background:var(--surface); }
+    details.adv > summary { cursor:pointer; padding:14px 18px; font-weight:700; font-size:0.95rem; list-style:none; color:var(--text); }
+    details.adv > summary::before { content:"▸ "; color:var(--green); }
     details.adv[open] > summary::before { content:"▾ "; }
     details.adv > .adv-body { padding:0 18px 18px; }
   </style>
@@ -1382,17 +1389,32 @@
       }
       const s = shadowV2;
       const positions = s.positions || [];
-      const posRows = positions.map(p => `
+      const agg = {};
+      for (const p of positions) {
+        const key = `${p.symbol}|${p.side}`;
+        if (!agg[key]) agg[key] = {symbol: p.symbol, side: p.side, lots: 0, qty: 0, invested: 0, value: 0, pnl: 0, day_pnl: 0, current: p.current, firstOpened: p.opened, entryCost: 0};
+        const a = agg[key];
+        a.lots += 1; a.qty += Number(p.qty || 0); a.invested += Number(p.invested || 0);
+        a.value += Number(p.value || 0); a.pnl += Number(p.pnl || 0); a.day_pnl += Number(p.day_pnl || 0);
+        a.current = p.current; a.entryCost += Number(p.entry || 0) * Number(p.qty || 0);
+        if (p.opened < a.firstOpened) a.firstOpened = p.opened;
+      }
+      const aggList = Object.values(agg).sort((x, y) => Math.abs(y.value) - Math.abs(x.value));
+      const posRows = aggList.map(a => {
+        const avgEntry = a.qty ? a.entryCost / a.qty : 0;
+        const pnlPct = a.invested ? (a.pnl / a.invested) * 100 : 0;
+        return `
         <tr>
-          <td><b>${esc(p.symbol)}</b><br><span class="pf-side ${esc(p.side)}">${p.side === "long" ? "LONG" : "SHORT"}</span></td>
-          <td>${esc(p.opened)}</td>
-          <td>${fmt(p.entry, 2)}</td>
-          <td>${fmt(p.current, 2)}</td>
-          <td>${pfMoney(p.value)}</td>
-          <td>${pfPnlCell(p.pnl, p.pnl_pct)}</td>
-        </tr>`).join("");
+          <td><b>${esc(a.symbol)}</b> <span class="pf-side ${esc(a.side)}">${a.side === "long" ? "LONG" : "SHORT"}</span><span class="pf-sub">${a.lots} kötés · első: ${esc(a.firstOpened)}</span></td>
+          <td>${fmt(avgEntry, 2)}</td>
+          <td>${fmt(a.current, 2)}</td>
+          <td>${pfMoney(a.invested)}</td>
+          <td>${pfMoney(a.value)}</td>
+          <td>${pfPnlCell(a.pnl, pnlPct)}<span class="pf-sub">ma: ${pfMoney(a.day_pnl)}</span></td>
+        </tr>`;
+      }).join("");
       const closed = s.closed || [];
-      const closedRows = closed.slice(0, 12).map(c => `
+      const closedRows = closed.map(c => `
         <tr>
           <td><b>${esc(c.symbol)}</b> <span class="pf-side ${esc(c.side)}">${c.side === "long" ? "L" : "S"}</span></td>
           <td>${esc(c.opened_date)} → ${esc(c.exit_date)}</td>
@@ -1408,32 +1430,33 @@
       const alpha = (Number(s.total_pnl_pct || 0) - Number(bench.pnl_pct || 0));
       body.innerHTML = `
         <div class="pf-hero">
-          <div class="pf-cell"><span>Összes befektetett tőke</span><strong>${pfMoney(s.invested_total)}</strong></div>
-          <div class="pf-cell"><span>Nyitott pozíciók értéke</span><strong>${pfMoney(s.open_value)}</strong></div>
+          <div class="pf-cell"><span>Portfólió érték</span><strong>${pfMoney(s.open_value)}</strong></div>
           <div class="pf-cell"><span>Teljes P&L</span><strong>${pfPnlCell(s.total_pnl, s.total_pnl_pct)}</strong></div>
           <div class="pf-cell"><span>Napi P&L</span><strong>${pfPnlCell(s.day_pnl)}</strong></div>
+          <div class="pf-cell"><span>Befektetett tőke</span><strong>${pfMoney(s.invested_total)}</strong></div>
+          <div class="pf-cell"><span>Realizált P&L</span><strong>${pfPnlCell(s.realized_pnl)}</strong></div>
         </div>
-        <div class="pf-section-title">Mai kosár (${esc(lastBatch ? lastBatch.date : "-")}) · 5 legerősebb jelzés x $1 000</div>
-        <div>${batchChips || '<p class="small">Nincs mai kosár.</p>'}</div>
-        <div class="pf-section-title">Nyitott pozíciók (${positions.length})</div>
+        <div class="pf-section-title">Nyitott pozíciók (${aggList.length} eszköz · ${positions.length} kötés)</div>
         <div style="overflow-x:auto">
         <table class="pf-table">
-          <thead><tr><th>Ticker</th><th>Nyitás</th><th>Bekerülés</th><th>Aktuális</th><th>Érték</th><th>P&L</th></tr></thead>
-          <tbody>${posRows || '<tr><td colspan="6"><p class="small">Nincs nyitott pozíció.</p></td></tr>'}</tbody>
+          <thead><tr><th>Eszköz</th><th>Átl. bekerülés</th><th>Aktuális</th><th>Befektetve</th><th>Érték</th><th>P&L</th></tr></thead>
+          <tbody>${posRows || '<tr><td colspan="6">Nincs nyitott pozíció.</td></tr>'}</tbody>
         </table>
         </div>
+        <div class="pf-section-title">Mai kosár (${esc(lastBatch ? lastBatch.date : "-")}) · az 5 legerősebb jelzés, egyenként $1 000</div>
+        <div>${batchChips || '<p class="small">Nincs mai kosár.</p>'}</div>
         <div class="pf-bench">
           <b>Benchmark:</b> napi $5 000 SPY-ba fektetve → ${pfPnlCell(bench.pnl, bench.pnl_pct)}<br>
           <b>Stratégia vs SPY:</b> <span class="${alpha >= 0 ? "pnl-pos" : "pnl-neg"}">${alpha >= 0 ? "+" : ""}${fmt(alpha, 2)} százalékpont</span>
         </div>
+        <div class="pf-section-title">Kereskedési történet · lezárt kötések (${closed.length})</div>
         ${closed.length ? `
-        <div class="pf-section-title">Lezárt kötések (${closed.length})</div>
         <div style="overflow-x:auto">
         <table class="pf-table">
-          <thead><tr><th>Ticker</th><th>Időszak</th><th>Ok</th><th>P&L</th></tr></thead>
+          <thead><tr><th>Eszköz</th><th>Időszak</th><th>Zárás oka</th><th>P&L</th></tr></thead>
           <tbody>${closedRows}</tbody>
         </table>
-        </div>` : ""}
+        </div>` : '<p class="small" style="color:var(--muted)">Még nincs lezárt kötés. Minden lezárt pozíció ide kerül archiválásra.</p>'}
         <p class="pf-note">Szabályok: minden kereskedési napon a rendszer 5 legerősebb jelzése (long vagy short) kap fejenként $1 000 hipotetikus tőkét. Kiszállás: +${fmt(s.rules ? s.rules.long_target_pct : 20, 0)}% célár vagy ${fmt(s.rules ? s.rules.long_stop_pct : -10, 0)}% stop (short: -${fmt(s.rules ? s.rules.short_target_pct : 15, 0)}% cél / +10% stop), max ${s.rules ? s.rules.max_hold_days : 60} kereskedési nap, vagy ha a jelzés megfordul. Ez papírkereskedés a rendszer teljesítményének mérésére - nem valós pénz.</p>
       `;
     }
@@ -1900,7 +1923,8 @@
       const compLabels = {relative_value: "Relatív érték", momentum: "Momentum", cash_flow: "Cash flow", profitability: "Jövedelmezőség", growth: "Növekedés"};
       const healthCells = Object.keys(compLabels).map(key => {
         const val = Number(hc[key] ?? 50);
-        return `<div class="health-item"><span>${compLabels[key]}</span><div class="health-bar"><i style="width:${Math.max(4, Math.min(100, val))}%"></i></div></div>`;
+        const cls = val >= 60 ? "hb-good" : val > 40 ? "hb-mid" : "hb-bad";
+        return `<div class="health-item"><span>${compLabels[key]}</span><div class="health-bar"><i class="${cls}" style="width:${Math.max(6, Math.min(100, val))}%"></i></div></div>`;
       }).join("");
       const fv = row.fair_value;
       const up = Number(row.upside_pct);

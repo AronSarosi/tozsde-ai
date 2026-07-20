@@ -702,7 +702,7 @@ def run_shadow(con: sqlite3.Connection, state: dict) -> dict:
         })
     closed = [dict(r) for r in con.execute(
         "SELECT opened_date, symbol, side, entry_price, exit_date, exit_price, exit_reason, invested, pnl"
-        " FROM shadow_lots WHERE status='closed' ORDER BY exit_date DESC LIMIT 25").fetchall()]
+        " FROM shadow_lots WHERE status='closed' ORDER BY exit_date DESC").fetchall()]
     realized = con.execute("SELECT COALESCE(SUM(pnl),0) p FROM shadow_lots WHERE status='closed'").fetchone()["p"]
     invested_open = con.execute("SELECT COALESCE(SUM(invested),0) i FROM shadow_lots WHERE status='open'").fetchone()["i"]
     invested_total = con.execute("SELECT COALESCE(SUM(invested),0) i FROM shadow_lots").fetchone()["i"]
