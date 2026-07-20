@@ -33,7 +33,7 @@ DB_PATH = DATA_DIR / "tozsde_ai.db"
 PORTFOLIO_FILE = ROOT / "portfolio.yml"
 
 BENCHMARK = "SPY"
-HISTORY_YEARS = 2
+HISTORY_YEARS = 10
 
 # Shadow portfolio rules
 LOT_SIZE_USD = 1000.0

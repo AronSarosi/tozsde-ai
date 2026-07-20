@@ -893,30 +893,28 @@
     .protip-list { margin:8px 0 0; padding-left:0; list-style:none; }
     .protip-list li { padding:6px 0 6px 22px; position:relative; font-size:0.88rem; }
     .protip-list li::before { content:"✓"; position:absolute; left:0; color:#4CAF50; font-weight:700; }
+    /* ---- v2.1: detail view polish ---- */
+    .detail-hero { display:flex; justify-content:space-between; align-items:flex-start; gap:18px; flex-wrap:wrap; margin-bottom:14px; }
+    .detail-hero .price-line { display:flex; align-items:baseline; gap:12px; margin-top:6px; }
+    .detail-hero .price-line strong { font-size:1.7rem; }
+    .detail-hero .price-line span { font-size:1rem; font-weight:700; }
+    .signal-box { text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+    .signal-box .score-num { font-size:1.55rem; font-weight:800; }
+    .signal-box .score-sub { font-size:0.72rem; color:#9a9ac2; }
+    .kf-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0 6px; }
+    .kf-cell { background:#191938; border:1px solid #2b2b52; border-radius:12px; padding:12px 14px; }
+    .kf-cell span { display:block; font-size:0.72rem; color:#9a9ac2; margin-bottom:5px; }
+    .kf-cell strong { font-size:1.05rem; }
+    .kf-cell .kf-sub { display:block; font-size:0.74rem; margin-top:3px; color:#9a9ac2; }
+    details.adv { margin-top:16px; border:1px solid #2b2b52; border-radius:12px; background:#17172f; }
+    details.adv > summary { cursor:pointer; padding:14px 18px; font-weight:700; font-size:0.95rem; list-style:none; }
+    details.adv > summary::before { content:"▸ "; color:#4CAF50; }
+    details.adv[open] > summary::before { content:"▾ "; }
+    details.adv > .adv-body { padding:0 18px 18px; }
   </style>
 </head>
 <body>
-  <section id="landing" class="landing">
-    <div class="landing-card">
-      <img class="logo-hero" src="/brand/logo-hero.png" alt="Tőzsde AI" />
-      <h1 class="intro-title">Portfóliókutatás</h1>
-      <p class="intro-text">A Tőzsde AI hosszabb távú befektetési ötleteket keres: becsült beszállóárat, célárat, kockázati szintet és a fontos hírek rövid értelmezését adja meg.</p>
-      <p class="intro-note">A fókusz 1-2 éves szemlélet. Nem napi kereskedési rendszer, hanem döntéstámogató kutatás.</p>
-      <button id="startBtn" class="primary-btn" type="button">Kutatás indítása</button>
-      <div class="loading-panel" aria-live="polite">
-        <div class="scan-row">
-          <div class="scan-orb"></div>
-          <div>
-            <p class="scan-title">Friss kutatás fut</p>
-            <p id="stageText" class="scan-stage">Hosszabb távú befektetési adatok ellenőrzése...</p>
-          </div>
-        </div>
-        <div class="progress"><span></span></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="shell" class="shell">
+  <section id="shell" class="shell ready">
     <header class="topbar">
       <div class="topbar-inner">
         <img class="brand-logo" src="/brand/logo.png" alt="Tőzsde AI" />
@@ -924,9 +922,8 @@
           <button class="nav-link active" data-page="investments" type="button">Befektetések</button>
         </nav>
         <div class="top-actions">
-          <span id="checkedAt" class="checked">Nincs friss adat</span>
-          <button id="homeBtn" class="refresh-btn" type="button">Kezdőoldal</button>
-          <button id="refreshBtn" class="refresh-btn" type="button">Új kutatás</button>
+          <span id="checkedAt" class="checked">Betöltés...</span>
+          <button id="refreshBtn" class="refresh-btn" type="button">Frissítés</button>
           <button id="portfolioBtn" class="portfolio-btn" type="button">Portfólió <span id="portfolioPnlBadge" class="pnl-badge"></span></button>
           <div id="statusDot" class="status-dot" role="button" tabindex="0">✓<div id="statusPop" class="status-pop"></div></div>
         </div>
@@ -1157,36 +1154,15 @@
       if (n.published_at) pieces.push(n.published_at);
       return pieces.join(" · ") || "forrás nincs megadva";
     }
-    function beginStageLoop() {
-      let idx = 0;
-      $("stageText").textContent = stages[0];
-      clearInterval(stageTimer);
-      stageTimer = setInterval(() => {
-        idx = (idx + 1) % stages.length;
-        $("stageText").textContent = stages[idx];
-      }, 1450);
-    }
-    async function startResearch() {
-      const landing = $("landing");
-      const startBtn = $("startBtn");
-      landing.classList.add("loading");
-      startBtn.disabled = true;
-      startBtn.textContent = "Kutatás fut";
-      beginStageLoop();
+    async function initApp() {
+      $("checkedAt").textContent = "Betöltés...";
       try {
-        const response = await fetch("/api/refresh", {method: "POST"});
-        if (!response.ok) throw new Error("A helyi szerver nem adott választ.");
+        const response = await fetch("/api/state");
+        if (!response.ok) throw new Error("A szerver nem adott választ.");
         state = await response.json();
-        clearInterval(stageTimer);
-        selectedSymbol = null;
         renderApp();
-        landing.style.display = "none";
-        $("shell").classList.add("ready");
       } catch (error) {
-        clearInterval(stageTimer);
-        $("stageText").textContent = `Hiba történt: ${error.message}`;
-        startBtn.disabled = false;
-        startBtn.textContent = "Újrapróbálom";
+        $("checkedAt").textContent = `Hiba: ${error.message}`;
       }
     }
     function visibleRows() {
@@ -1838,63 +1814,82 @@
     }
     function renderDetailHTML(row, compact = false) {
       const idea = investmentIdea(row.symbol);
+      const chg = Number(row.latest_change_pct || 0);
+      const chgClass = chg >= 0 ? "pnl-pos" : "pnl-neg";
+      const an = row.analyst_summary || {};
+      const upClass = Number(row.upside_pct) >= 0 ? "pnl-pos" : "pnl-neg";
+      const keyFacts = `
+        <div class="kf-grid">
+          ${row.fair_value ? `<div class="kf-cell"><span>Fair érték (modell-átlag)</span><strong>${fmt(row.fair_value, 2)} USD</strong><span class="kf-sub ${upClass}">${Number(row.upside_pct) >= 0 ? "+" : ""}${fmt(row.upside_pct, 1)}% · ${esc(row.valuation_label || "")}</span></div>` : ""}
+          ${row.health !== undefined && row.health !== null ? `<div class="kf-cell"><span>Pénzügyi egészség</span><strong>${fmt(row.health, 1)}/5</strong><span class="kf-sub">${esc(row.health_label || "")}</span></div>` : ""}
+          ${an.target_mean ? `<div class="kf-cell"><span>Elemzői célár</span><strong>${fmt(an.target_mean, 2)} USD</strong><span class="kf-sub">${esc(String(an.analysts || "?"))} elemző · ${esc(an.recommendation || "")}</span></div>` : ""}
+          <div class="kf-cell"><span>Konvikció</span><strong>${fmt(row.conviction, 1)}</strong><span class="kf-sub">50-től mért távolság</span></div>
+        </div>`;
       return `
-        <div class="detail-head">
+        <div class="detail-hero">
           <div>
-            <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">${logoImg(row.symbol, row.name)}<h2 style="margin:0">${esc(row.symbol)}</h2></div>
-            <p>${esc(row.name)} · ${esc(row.sector || "szektor nincs megadva")}</p>
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:4px">${logoImg(row.symbol, row.name)}<h2 style="margin:0">${esc(row.symbol)}</h2></div>
+            <p style="margin:0">${esc(row.name)} · ${esc(row.sector || "szektor nincs megadva")}</p>
+            <div class="price-line">
+              <strong>${fmt(row.latest_price, 2)} USD</strong>
+              <span class="${chgClass}">${chg >= 0 ? "+" : ""}${fmt(chg, 2)}% ma</span>
+            </div>
           </div>
-          <div class="decision-box">
-            <span class="label ${esc(row.category_class)}">${row.tier_label ? esc(row.tier_label).toUpperCase() : esc(catText(row.category).toUpperCase())}</span>
-            <strong>${fmt(row.score, 1)}</strong>
-            <span>pont · 50 = semleges</span>
-            ${renderScoreChange(row)}
+          <div class="signal-box">
+            <span class="tier-badge tier-${esc(row.tier || row.category)}" style="font-size:0.92rem;padding:6px 16px">${row.tier_label ? esc(row.tier_label) : esc(catText(row.category))}</span>
+            <span class="score-num">${fmt(row.score, 1)}</span>
+            <span class="score-sub">pont · 50 = semleges ${renderScoreChange(row)}</span>
           </div>
         </div>
-        ${renderInvestmentSummary(idea, row)}
+        ${keyFacts}
         ${renderV2Insights(row)}
-        <section class="executive-grid">
-          <div class="exec-card">
-            <h3>Vezetői összefoglaló</h3>
-            <p>${esc(row.decision || "Nincs összefoglaló.")}</p>
-          </div>
-          <div class="exec-card">
-            <h3>Döntési tézis</h3>
-            <ol class="thesis-list">
-              ${(row.reasons || row.evidence_items || []).slice(0, 4).map(item => `<li>${esc(item)}</li>`).join("")}
-            </ol>
-          </div>
-        </section>
-        ${renderPositionSize(row)}
-        ${renderFundamentals(row)}
-        ${compact ? "" : `
-        <section class="section">
-          <h3>Tőzsde AI ajánlat - agent bontás</h3>
-          <button class="consensus-card" type="button" onclick="toggleAgentMap()">
-            <strong>${esc(row.category)} · ${fmt(row.score, 1)} pont</strong>
-            <span>Kattintásra megnyílik az egyes agentek különálló indoklása. Eltérő pontszám = valós nézetkülönbség.</span>
-          </button>
-          <div id="agentMap" class="agent-map">${renderAgentMap(row)}</div>
-        </section>
-        `}
+        ${renderInvestmentSummary(idea, row)}
         <section class="section">
           <h3>Friss hírek</h3>
           <div class="news-list">${renderNews(row)}</div>
         </section>
         ${compact ? "" : `
-        <section class="section">
-          <h3>Következő események és katalizátorok</h3>
-          <div class="event-grid">${renderEvents(row)}</div>
-        </section>
-        <section class="section">
-          <h3>Kockázatok</h3>
-          <ul class="thesis-list">${(row.risks || []).slice(0,4).map(r => `<li>${esc(r)}</li>`).join("") || "<li>Nincs kiemelt kockázat.</li>"}</ul>
-        </section>
-        <section class="section">
-          <h3>Pontozási bontás</h3>
-          <div class="method-grid">${renderComponents(row)}</div>
-          <p class="small">A pontszám 1-2 éves döntéstámogató rangsor valós fundamentum-, érték- és kockázati adatok alapján. Nem automatikus vételi vagy eladási utasítás.</p>
-        </section>
+        <details class="adv">
+          <summary>Részletes elemzés (tézis, fundamentumok, kockázatok)</summary>
+          <div class="adv-body">
+            <section class="executive-grid">
+              <div class="exec-card">
+                <h3>Vezetői összefoglaló</h3>
+                <p>${esc(row.decision || "Nincs összefoglaló.")}</p>
+              </div>
+              <div class="exec-card">
+                <h3>Döntési tézis</h3>
+                <ol class="thesis-list">
+                  ${(row.reasons || row.evidence_items || []).slice(0, 4).map(item => `<li>${esc(item)}</li>`).join("")}
+                </ol>
+              </div>
+            </section>
+            ${renderPositionSize(row)}
+            ${renderFundamentals(row)}
+            <section class="section">
+              <h3>Kockázatok</h3>
+              <ul class="thesis-list">${(row.risks || []).slice(0,4).map(r => `<li>${esc(r)}</li>`).join("") || "<li>Nincs kiemelt kockázat.</li>"}</ul>
+            </section>
+            <section class="section">
+              <h3>Következő események és katalizátorok</h3>
+              <div class="event-grid">${renderEvents(row)}</div>
+            </section>
+          </div>
+        </details>
+        <details class="adv">
+          <summary>Pontozás és agent-vélemények</summary>
+          <div class="adv-body">
+            <section class="section">
+              <h3>Pontozási bontás</h3>
+              <div class="method-grid">${renderComponents(row)}</div>
+            </section>
+            <section class="section">
+              <h3>Agent bontás</h3>
+              <div id="agentMap" class="agent-map open">${renderAgentMap(row)}</div>
+            </section>
+            <p class="small">A pontszám döntéstámogató rangsor valós fundamentum-, érték- és kockázati adatok alapján. Nem automatikus vételi vagy eladási utasítás.</p>
+          </div>
+        </details>
         `}
       `;
     }
@@ -2249,15 +2244,6 @@
       return `<div class="chart">${bars}</div><div class="chart-caption"><span>${esc(prices[0].date)}</span><span>${esc(prices[prices.length - 1].date)}</span></div>`;
     }
 
-    $("startBtn").addEventListener("click", startResearch);
-    $("homeBtn").addEventListener("click", () => {
-      $("shell").classList.remove("ready");
-      $("landing").style.display = "grid";
-      $("landing").classList.remove("loading");
-      $("startBtn").disabled = false;
-      $("startBtn").textContent = "Kutatás indítása";
-      window.scrollTo({top: 0, behavior: "smooth"});
-    });
     $("refreshBtn").addEventListener("click", async () => {
       $("refreshBtn").textContent = "Frissítés...";
       $("refreshBtn").disabled = true;
@@ -2266,10 +2252,11 @@
         state = await response.json();
         renderApp();
       } finally {
-        $("refreshBtn").textContent = "Új kutatás";
+        $("refreshBtn").textContent = "Frissítés";
         $("refreshBtn").disabled = false;
       }
     });
+    initApp();
     $("searchInput").addEventListener("input", () => renderSearchResults(true));
     $("searchInput").addEventListener("focus", () => renderSearchResults(true));
     document.querySelectorAll(".nav-link").forEach(btn => btn.addEventListener("click", () => switchPage(btn.dataset.page)));
