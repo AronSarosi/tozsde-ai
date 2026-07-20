@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "api/index.py": {
-      "includeFiles": "frontend_light.html"
+      "includeFiles": "{frontend_light.html,snapshot/*.json,portfolio.yml,brand/*}"
     }
   },
   "rewrites": [

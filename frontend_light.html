@@ -850,6 +850,49 @@
       .detail-head { display: block; }
       .decision-box { text-align: left; margin-top: 18px; }
     }
+    /* ---- v2: tier badges ---- */
+    .tier-badge { display:inline-block; padding:2px 9px; border-radius:999px; font-size:0.72rem; font-weight:700; letter-spacing:0.02em; white-space:nowrap; }
+    .tier-strong_buy { background:#123c1f; color:#4ade80; border:1px solid #22c55e66; }
+    .tier-buy { background:#10331d; color:#86efac; border:1px solid #22c55e33; }
+    .tier-hold { background:#26263f; color:#a5a5c5; border:1px solid #3d3d63; }
+    .tier-sell { background:#3a1620; color:#fda4af; border:1px solid #f43f5e33; }
+    .tier-strong_sell { background:#48101c; color:#fb7185; border:1px solid #f43f5e66; }
+    /* ---- v2: portfolio drawer ---- */
+    .portfolio-btn { border:1px solid #2e5c3a; background:#14301d; color:#7be495; border-radius:10px; padding:8px 14px; font-weight:700; cursor:pointer; font-size:0.86rem; display:flex; align-items:center; gap:8px; }
+    .portfolio-btn:hover { background:#1a3d25; }
+    .portfolio-btn .pnl-badge { font-size:0.78rem; font-weight:700; }
+    .pnl-pos { color:#4ade80; } .pnl-neg { color:#fb7185; }
+    .drawer-overlay { position:fixed; inset:0; background:rgba(8,8,18,0.55); backdrop-filter:blur(2px); z-index:80; opacity:0; pointer-events:none; transition:opacity .22s; }
+    .drawer-overlay.open { opacity:1; pointer-events:auto; }
+    .portfolio-drawer { position:fixed; top:0; right:0; height:100vh; width:min(520px, 96vw); background:#14142a; border-left:1px solid #2b2b4d; z-index:90; transform:translateX(102%); transition:transform .26s ease; display:flex; flex-direction:column; box-shadow:-18px 0 48px rgba(0,0,0,0.45); }
+    .portfolio-drawer.open { transform:translateX(0); }
+    .drawer-head { padding:18px 22px 14px; border-bottom:1px solid #26264a; display:flex; justify-content:space-between; align-items:center; }
+    .drawer-head h2 { margin:0; font-size:1.05rem; }
+    .drawer-close { background:none; border:none; color:#9a9ac0; font-size:1.5rem; cursor:pointer; line-height:1; }
+    .drawer-body { overflow-y:auto; padding:16px 22px 28px; flex:1; }
+    .pf-hero { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+    .pf-hero .pf-cell { background:#191938; border:1px solid #2b2b52; border-radius:12px; padding:12px 14px; }
+    .pf-hero .pf-cell span { display:block; font-size:0.72rem; color:#9a9ac2; margin-bottom:4px; }
+    .pf-hero .pf-cell strong { font-size:1.12rem; }
+    .pf-section-title { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.06em; color:#8f8fb8; margin:18px 0 8px; }
+    .pf-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+    .pf-table th { text-align:left; color:#8f8fb8; font-weight:600; padding:6px 8px; border-bottom:1px solid #26264a; font-size:0.72rem; }
+    .pf-table td { padding:8px; border-bottom:1px solid #1f1f3d; }
+    .pf-side { font-size:0.68rem; font-weight:800; border-radius:6px; padding:2px 7px; }
+    .pf-side.long { background:#123c1f; color:#4ade80; }
+    .pf-side.short { background:#48101c; color:#fb7185; }
+    .pf-bench { margin-top:14px; background:#191938; border:1px solid #2b2b52; border-radius:12px; padding:12px 14px; font-size:0.84rem; }
+    .pf-note { font-size:0.74rem; color:#8f8fb8; margin-top:12px; line-height:1.5; }
+    /* ---- v2: health + fair value ---- */
+    .health-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-top:10px; }
+    .health-item { background:#191938; border:1px solid #2b2b52; border-radius:10px; padding:10px 12px; }
+    .health-item span { display:block; font-size:0.7rem; color:#9a9ac2; margin-bottom:6px; }
+    .health-bar { height:6px; border-radius:4px; background:#26264a; overflow:hidden; }
+    .health-bar i { display:block; height:100%; border-radius:4px; background:linear-gradient(90deg,#f43f5e,#facc15,#22c55e); }
+    .fv-line { display:flex; gap:14px; flex-wrap:wrap; align-items:baseline; margin-top:8px; font-size:0.95rem; }
+    .protip-list { margin:8px 0 0; padding-left:0; list-style:none; }
+    .protip-list li { padding:6px 0 6px 22px; position:relative; font-size:0.88rem; }
+    .protip-list li::before { content:"✓"; position:absolute; left:0; color:#4CAF50; font-weight:700; }
   </style>
 </head>
 <body>
@@ -879,12 +922,12 @@
         <img class="brand-logo" src="/brand/logo.png" alt="Tőzsde AI" />
         <nav class="main-nav" aria-label="Fő nézetek">
           <button class="nav-link active" data-page="investments" type="button">Befektetések</button>
-          <button class="nav-link" data-page="shadow" type="button">Shadow portfolió</button>
         </nav>
         <div class="top-actions">
           <span id="checkedAt" class="checked">Nincs friss adat</span>
           <button id="homeBtn" class="refresh-btn" type="button">Kezdőoldal</button>
           <button id="refreshBtn" class="refresh-btn" type="button">Új kutatás</button>
+          <button id="portfolioBtn" class="portfolio-btn" type="button">Portfólió <span id="portfolioPnlBadge" class="pnl-badge"></span></button>
           <div id="statusDot" class="status-dot" role="button" tabindex="0">✓<div id="statusPop" class="status-pop"></div></div>
         </div>
       </div>
@@ -1069,6 +1112,15 @@
       </section>
     </main>
   </section>
+
+  <div id="drawerOverlay" class="drawer-overlay"></div>
+  <aside id="portfolioDrawer" class="portfolio-drawer" aria-label="Shadow portfólió">
+    <div class="drawer-head">
+      <h2>Shadow portfólió</h2>
+      <button id="drawerClose" class="drawer-close" type="button" aria-label="Bezárás">×</button>
+    </div>
+    <div id="drawerBody" class="drawer-body"><p class="small">Betöltés...</p></div>
+  </aside>
 
   <script>
     let state = null;
@@ -1317,6 +1369,110 @@
         `;
       }
     }
+    /* ---- v2: shadow portfolio drawer ---- */
+    let shadowV2 = null;
+    const tierBadge = (row) => row.tier ? `<span class="tier-badge tier-${esc(row.tier)}">${esc(row.tier_label || row.tier)}</span>` : "";
+    async function fetchShadowV2() {
+      try {
+        const r = await fetch("/api/shadow");
+        shadowV2 = await r.json();
+      } catch (e) { shadowV2 = null; }
+    }
+    function updatePortfolioBadge() {
+      const el = $("portfolioPnlBadge");
+      if (!el) return;
+      if (shadowV2 && shadowV2.v2) {
+        const pnl = Number(shadowV2.total_pnl || 0);
+        el.textContent = `${pnl >= 0 ? "+" : "-"}$${Math.abs(pnl).toFixed(0)}`;
+        el.className = "pnl-badge " + (pnl >= 0 ? "pnl-pos" : "pnl-neg");
+      } else {
+        el.textContent = "";
+      }
+    }
+    function pfMoney(v) {
+      const n = Number(v || 0);
+      return `${n < 0 ? "-" : ""}$${Math.abs(n).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+    function pfPnlCell(v, pctVal) {
+      const cls = Number(v) >= 0 ? "pnl-pos" : "pnl-neg";
+      const pctText = pctVal === undefined ? "" : ` (${Number(pctVal) >= 0 ? "+" : ""}${fmt(pctVal, 2)}%)`;
+      return `<span class="${cls}">${pfMoney(v)}${pctText}</span>`;
+    }
+    function renderPortfolioDrawer() {
+      const body = $("drawerBody");
+      if (!shadowV2 || !shadowV2.v2) {
+        body.innerHTML = `<p class="small">Még nincs shadow portfólió adat. Futtasd le helyben: <code>python pipeline.py daily</code></p>`;
+        return;
+      }
+      const s = shadowV2;
+      const positions = s.positions || [];
+      const posRows = positions.map(p => `
+        <tr>
+          <td><b>${esc(p.symbol)}</b><br><span class="pf-side ${esc(p.side)}">${p.side === "long" ? "LONG" : "SHORT"}</span></td>
+          <td>${esc(p.opened)}</td>
+          <td>${fmt(p.entry, 2)}</td>
+          <td>${fmt(p.current, 2)}</td>
+          <td>${pfMoney(p.value)}</td>
+          <td>${pfPnlCell(p.pnl, p.pnl_pct)}</td>
+        </tr>`).join("");
+      const closed = s.closed || [];
+      const closedRows = closed.slice(0, 12).map(c => `
+        <tr>
+          <td><b>${esc(c.symbol)}</b> <span class="pf-side ${esc(c.side)}">${c.side === "long" ? "L" : "S"}</span></td>
+          <td>${esc(c.opened_date)} → ${esc(c.exit_date)}</td>
+          <td>${esc(c.exit_reason || "")}</td>
+          <td>${pfPnlCell(c.pnl)}</td>
+        </tr>`).join("");
+      const batches = s.batches || [];
+      const lastBatch = batches[0];
+      const batchChips = lastBatch ? lastBatch.picks.map(p =>
+        `<span class="pf-side ${p.side}" style="margin-right:6px">${esc(p.symbol)} ${p.side === "long" ? "LONG" : "SHORT"} · ${fmt(p.score, 0)}</span>`
+      ).join("") : "";
+      const bench = s.benchmark || {};
+      const alpha = (Number(s.total_pnl_pct || 0) - Number(bench.pnl_pct || 0));
+      body.innerHTML = `
+        <div class="pf-hero">
+          <div class="pf-cell"><span>Összes befektetett tőke</span><strong>${pfMoney(s.invested_total)}</strong></div>
+          <div class="pf-cell"><span>Nyitott pozíciók értéke</span><strong>${pfMoney(s.open_value)}</strong></div>
+          <div class="pf-cell"><span>Teljes P&L</span><strong>${pfPnlCell(s.total_pnl, s.total_pnl_pct)}</strong></div>
+          <div class="pf-cell"><span>Napi P&L</span><strong>${pfPnlCell(s.day_pnl)}</strong></div>
+        </div>
+        <div class="pf-section-title">Mai kosár (${esc(lastBatch ? lastBatch.date : "-")}) · 5 legerősebb jelzés x $1 000</div>
+        <div>${batchChips || '<p class="small">Nincs mai kosár.</p>'}</div>
+        <div class="pf-section-title">Nyitott pozíciók (${positions.length})</div>
+        <div style="overflow-x:auto">
+        <table class="pf-table">
+          <thead><tr><th>Ticker</th><th>Nyitás</th><th>Bekerülés</th><th>Aktuális</th><th>Érték</th><th>P&L</th></tr></thead>
+          <tbody>${posRows || '<tr><td colspan="6"><p class="small">Nincs nyitott pozíció.</p></td></tr>'}</tbody>
+        </table>
+        </div>
+        <div class="pf-bench">
+          <b>Benchmark:</b> napi $5 000 SPY-ba fektetve → ${pfPnlCell(bench.pnl, bench.pnl_pct)}<br>
+          <b>Stratégia vs SPY:</b> <span class="${alpha >= 0 ? "pnl-pos" : "pnl-neg"}">${alpha >= 0 ? "+" : ""}${fmt(alpha, 2)} százalékpont</span>
+        </div>
+        ${closed.length ? `
+        <div class="pf-section-title">Lezárt kötések (${closed.length})</div>
+        <div style="overflow-x:auto">
+        <table class="pf-table">
+          <thead><tr><th>Ticker</th><th>Időszak</th><th>Ok</th><th>P&L</th></tr></thead>
+          <tbody>${closedRows}</tbody>
+        </table>
+        </div>` : ""}
+        <p class="pf-note">Szabályok: minden kereskedési napon a rendszer 5 legerősebb jelzése (long vagy short) kap fejenként $1 000 hipotetikus tőkét. Kiszállás: +${fmt(s.rules ? s.rules.long_target_pct : 20, 0)}% célár vagy ${fmt(s.rules ? s.rules.long_stop_pct : -10, 0)}% stop (short: -${fmt(s.rules ? s.rules.short_target_pct : 15, 0)}% cél / +10% stop), max ${s.rules ? s.rules.max_hold_days : 60} kereskedési nap, vagy ha a jelzés megfordul. Ez papírkereskedés a rendszer teljesítményének mérésére - nem valós pénz.</p>
+      `;
+    }
+    async function openPortfolioDrawer() {
+      $("portfolioDrawer").classList.add("open");
+      $("drawerOverlay").classList.add("open");
+      await fetchShadowV2();
+      updatePortfolioBadge();
+      renderPortfolioDrawer();
+    }
+    function closePortfolioDrawer() {
+      $("portfolioDrawer").classList.remove("open");
+      $("drawerOverlay").classList.remove("open");
+    }
+
     function renderTape() {
       const rows = (state.market_tape && state.market_tape.length ? state.market_tape : [...(state.rankings || [])]
         .sort((a, b) => Math.abs(Number(b.latest_change_pct || 0)) - Math.abs(Number(a.latest_change_pct || 0)))
@@ -1578,7 +1734,7 @@
         <button class="action-mini" type="button" data-symbol="${esc(row.symbol)}">
           ${logoImg(row.symbol, row.name)}
           <b>${esc(row.symbol)}</b>
-          <span>${esc(row.name)} · ${catText(row.category)}</span>
+          <span>${esc(row.name)} · ${row.tier_label ? esc(row.tier_label) : catText(row.category)}</span>
           <strong class="${scoreClass(row)}">${fmt(row.score, 0)}</strong>
         </button>
       `).join("");
@@ -1660,7 +1816,7 @@
         <button class="search-result" type="button" data-symbol="${esc(row.symbol)}">
           ${logoImg(row.symbol, row.name)}
           <b>${esc(row.symbol)}</b>
-          <span>${esc(row.name)} · ${esc(row.sector || "szektor nincs megadva")} · ${catText(row.category)}</span>
+          <span>${esc(row.name)} · ${esc(row.sector || "szektor nincs megadva")} · ${row.tier_label ? esc(row.tier_label) : catText(row.category)}</span>
           <strong class="${scoreClass(row)}">${fmt(row.score, 0)}</strong>
         </button>
       `).join("") || `<div class="search-result"><span>Nincs találat erre a keresésre.</span></div>`;
@@ -1689,13 +1845,14 @@
             <p>${esc(row.name)} · ${esc(row.sector || "szektor nincs megadva")}</p>
           </div>
           <div class="decision-box">
-            <span class="label ${esc(row.category_class)}">${esc(catText(row.category).toUpperCase())}</span>
+            <span class="label ${esc(row.category_class)}">${row.tier_label ? esc(row.tier_label).toUpperCase() : esc(catText(row.category).toUpperCase())}</span>
             <strong>${fmt(row.score, 1)}</strong>
             <span>pont · 50 = semleges</span>
             ${renderScoreChange(row)}
           </div>
         </div>
         ${renderInvestmentSummary(idea, row)}
+        ${renderV2Insights(row)}
         <section class="executive-grid">
           <div class="exec-card">
             <h3>Vezetői összefoglaló</h3>
@@ -1739,6 +1896,28 @@
           <p class="small">A pontszám 1-2 éves döntéstámogató rangsor valós fundamentum-, érték- és kockázati adatok alapján. Nem automatikus vételi vagy eladási utasítás.</p>
         </section>
         `}
+      `;
+    }
+
+    function renderV2Insights(row) {
+      if (!row.v2) return "";
+      const hc = row.health_components || {};
+      const compLabels = {relative_value: "Relatív érték", momentum: "Momentum", cash_flow: "Cash flow", profitability: "Jövedelmezőség", growth: "Növekedés"};
+      const healthCells = Object.keys(compLabels).map(key => {
+        const val = Number(hc[key] ?? 50);
+        return `<div class="health-item"><span>${compLabels[key]}</span><div class="health-bar"><i style="width:${Math.max(4, Math.min(100, val))}%"></i></div></div>`;
+      }).join("");
+      const fv = row.fair_value;
+      const up = Number(row.upside_pct);
+      const upClass = up >= 0 ? "pnl-pos" : "pnl-neg";
+      const tips = (row.protips || []).map(t => `<li>${esc(t)}</li>`).join("");
+      return `
+        <section class="section">
+          <h3>Pénzügyi egészség: ${fmt(row.health, 1)}/5 · ${esc(row.health_label || "")} ${tierBadge(row)}</h3>
+          <div class="health-grid">${healthCells}</div>
+          ${fv ? `<div class="fv-line"><span>Fair érték (modell-átlag): <b>${fmt(fv, 2)} USD</b></span><span class="${upClass}"><b>${up >= 0 ? "+" : ""}${fmt(up, 1)}%</b></span><span>${esc(row.valuation_label || "")}</span></div>` : ""}
+          ${tips ? `<ul class="protip-list">${tips}</ul>` : ""}
+        </section>
       `;
     }
 
@@ -2096,6 +2275,11 @@
     document.querySelectorAll(".nav-link").forEach(btn => btn.addEventListener("click", () => switchPage(btn.dataset.page)));
     document.getElementById("shadowTradeBtn")?.addEventListener("click", runShadowTrade);
     document.getElementById("shadowResetBtn")?.addEventListener("click", resetShadow);
+    $("portfolioBtn").addEventListener("click", openPortfolioDrawer);
+    $("drawerClose").addEventListener("click", closePortfolioDrawer);
+    $("drawerOverlay").addEventListener("click", closePortfolioDrawer);
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closePortfolioDrawer(); });
+    fetchShadowV2().then(updatePortfolioBadge);
     document.querySelectorAll("[data-invest-filter]").forEach(btn => btn.addEventListener("click", () => {
       investmentFilter = btn.dataset.investFilter;
       document.querySelectorAll("[data-invest-filter]").forEach(item => item.classList.toggle("active", item === btn));

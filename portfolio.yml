@@ -1,20 +1,8 @@
 stocks:
-  - symbol: ERO
-    name: Ero Copper Corp
-    sector: Materials
-    exchange: NYSE
-  - symbol: BIRD
-    name: Allbirds Inc
-    sector: Consumer Discretionary
-    exchange: NASDAQ
   - symbol: ORCL
     name: Oracle Corporation
     sector: Technology
     exchange: NYSE
-  - symbol: EXPE
-    name: Expedia Inc
-    sector: Consumer Discretionary
-    exchange: NASDAQ
   - symbol: PLTR
     name: Palantir Technologies Inc
     sector: Technology
@@ -31,18 +19,10 @@ stocks:
     name: Axon Enterprise Inc
     sector: Industrials
     exchange: NASDAQ
-  - symbol: NE
-    name: Noble Corp
-    sector: Energy
-    exchange: NYSE
   - symbol: FSLR
     name: First Solar Inc
     sector: Energy
     exchange: NASDAQ
-  - symbol: DHT
-    name: DHT Holdings Inc
-    sector: Energy
-    exchange: NYSE
   - symbol: KTOS
     name: Kratos Defense & Security Solutions
     sector: Industrials
@@ -67,22 +47,10 @@ stocks:
     name: Western Digital Corporation
     sector: Technology
     exchange: NASDAQ
-  - symbol: HAL
-    name: Halliburton Company
-    sector: Energy
-    exchange: NYSE
   - symbol: CLSK
     name: CleanSpark Inc
     sector: Technology
     exchange: NASDAQ
-  - symbol: EOG
-    name: EOG Resources Inc
-    sector: Energy
-    exchange: NYSE
-  - symbol: SLB
-    name: SLB NV
-    sector: Energy
-    exchange: NYSE
   - symbol: AVGO
     name: Broadcom Inc
     sector: Technology
@@ -95,10 +63,6 @@ stocks:
     name: SoundHound AI Inc
     sector: Technology
     exchange: NASDAQ
-  - symbol: CVX
-    name: Chevron Corp
-    sector: Energy
-    exchange: NYSE
   - symbol: MSFT
     name: Microsoft Corporation
     sector: Technology
@@ -118,10 +82,6 @@ stocks:
   - symbol: NVO
     name: Novo Nordisk A/S
     sector: Healthcare
-    exchange: NYSE
-  - symbol: OXY
-    name: Occidental Petroleum Corporation
-    sector: Energy
     exchange: NYSE
   - symbol: GOOGL
     name: Alphabet Inc Class A
@@ -291,10 +251,6 @@ stocks:
     name: Walmart Inc
     sector: Consumer Staples
     exchange: NYSE
-  - symbol: XOM
-    name: Exxon Mobil Corporation
-    sector: Energy
-    exchange: NYSE
   - symbol: UNH
     name: UnitedHealth Group Inc
     sector: Healthcare
@@ -303,25 +259,13 @@ stocks:
     name: Johnson & Johnson
     sector: Healthcare
     exchange: NYSE
-  - symbol: PG
-    name: Procter & Gamble Co
-    sector: Consumer Staples
-    exchange: NYSE
   - symbol: HD
     name: Home Depot Inc
     sector: Consumer Discretionary
     exchange: NYSE
-  - symbol: BAC
-    name: Bank of America Corporation
-    sector: Financials
-    exchange: NYSE
   - symbol: ABBV
     name: AbbVie Inc
     sector: Healthcare
-    exchange: NYSE
-  - symbol: KO
-    name: Coca-Cola Company
-    sector: Consumer Staples
     exchange: NYSE
   - symbol: NFLX
     name: Netflix Inc
@@ -331,10 +275,6 @@ stocks:
     name: GE Aerospace
     sector: Industrials
     exchange: NYSE
-  - symbol: PM
-    name: Philip Morris International Inc
-    sector: Consumer Staples
-    exchange: NYSE
   - symbol: CSCO
     name: Cisco Systems Inc
     sector: Technology
@@ -342,10 +282,6 @@ stocks:
   - symbol: IBM
     name: International Business Machines Corporation
     sector: Technology
-    exchange: NYSE
-  - symbol: WFC
-    name: Wells Fargo & Company
-    sector: Financials
     exchange: NYSE
   - symbol: SAP
     name: SAP SE ADR
@@ -355,10 +291,6 @@ stocks:
     name: T-Mobile US Inc
     sector: Communication Services
     exchange: NASDAQ
-  - symbol: MCD
-    name: McDonald's Corporation
-    sector: Consumer Discretionary
-    exchange: NYSE
   - symbol: LIN
     name: Linde plc
     sector: Materials
@@ -395,10 +327,6 @@ stocks:
     name: AstraZeneca PLC ADR
     sector: Healthcare
     exchange: NASDAQ
-  - symbol: PEP
-    name: PepsiCo Inc
-    sector: Consumer Staples
-    exchange: NASDAQ
   - symbol: AMAT
     name: Applied Materials Inc
     sector: Technology
@@ -431,7 +359,7 @@ stocks:
     name: Automatic Data Processing Inc
     sector: Technology
     exchange: NASDAQ
-  - symbol: FI
+  - symbol: FISV
     name: Fiserv Inc
     sector: Technology
     exchange: NYSE
@@ -462,4 +390,28 @@ stocks:
   - symbol: NTES
     name: NetEase Inc ADR
     sector: Communication Services
+    exchange: NASDAQ
+  - symbol: FTNT
+    name: Fortinet Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: ZS
+    name: Zscaler Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: OKTA
+    name: Okta Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: S
+    name: SentinelOne Inc
+    sector: Technology
+    exchange: NYSE
+  - symbol: SNPS
+    name: Synopsys Inc
+    sector: Technology
+    exchange: NASDAQ
+  - symbol: CDNS
+    name: Cadence Design Systems Inc
+    sector: Technology
     exchange: NASDAQ

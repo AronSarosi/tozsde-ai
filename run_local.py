@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import random
 import re
+import sys
 from statistics import fmean, pstdev
 import xml.etree.ElementTree as ET
 from urllib.parse import quote as url_quote, urlencode, urlparse
@@ -80,6 +81,73 @@ def cache_get(name: str, max_age_minutes: int) -> dict | list | None:
 def cache_set(name: str, payload: dict | list) -> None:
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     (CACHE_DIR / f"{name}.json").write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+
+
+# --- v2 snapshot (generated locally by pipeline.py, committed in snapshot/) ---
+
+SNAPSHOT_DIR = ROOT / "snapshot"
+TIER_TO_CATEGORY = {"strong_buy": "buy", "buy": "buy", "hold": "hold", "sell": "sell", "strong_sell": "sell"}
+
+
+def _load_snapshot_file(filename: str) -> dict | None:
+    path = SNAPSHOT_DIR / filename
+    if not path.exists():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def load_v2_snapshot() -> dict | None:
+    data = _load_snapshot_file("daily_state.json")
+    return data if data and data.get("stocks") else None
+
+
+def load_v2_shadow() -> dict | None:
+    data = _load_snapshot_file("shadow_state.json")
+    return data if data and data.get("v2") else None
+
+
+def v2_decision_text(v2: dict) -> str:
+    parts = [f"{v2.get('tier_label', '')} ({float(v2.get('score') or 0):.0f}/100 pont)."]
+    health = v2.get("health")
+    if health is not None:
+        parts.append(f"Pénzügyi egészség: {health}/5 ({v2.get('health_label', '')}).")
+    fv = v2.get("fair_value")
+    up = v2.get("upside_pct")
+    if fv is not None and up is not None:
+        parts.append(f"Fair érték: {fv:.0f} USD ({up:+.0f}%), {v2.get('valuation_label', '')}.")
+    return " ".join(parts)
+
+
+def apply_v2_overlay(rows: list[dict], snapshot: dict) -> None:
+    stocks = snapshot.get("stocks") or {}
+    for row in rows:
+        v2 = stocks.get(str(row.get("symbol") or "").upper())
+        if not v2:
+            continue
+        row["score"] = float(v2.get("score") or row.get("score") or 50)
+        row["conviction"] = float(v2.get("conviction") or abs(row["score"] - 50))
+        cat = TIER_TO_CATEGORY.get(v2.get("tier"), row.get("category") or "hold")
+        row["category"] = cat
+        row["category_class"] = category_class(cat)
+        row["tier"] = v2.get("tier")
+        row["tier_label"] = v2.get("tier_label")
+        row["health"] = v2.get("health")
+        row["health_label"] = v2.get("health_label")
+        row["health_components"] = v2.get("health_components")
+        row["factor_ranks"] = v2.get("factor_ranks")
+        row["fair_value"] = v2.get("fair_value")
+        row["upside_pct"] = v2.get("upside_pct")
+        row["valuation_label"] = v2.get("valuation_label")
+        row["protips"] = v2.get("protips")
+        row["bull_case"] = v2.get("bull")
+        row["bear_case"] = v2.get("bear")
+        row["analyst_summary"] = v2.get("analyst")
+        row["decision"] = v2_decision_text(v2)
+        row["v2"] = True
 
 
 def fetch_json(url: str, timeout: int = 8, headers: dict[str, str] | None = None) -> dict | list | None:
@@ -2244,6 +2312,9 @@ def build_state() -> dict:
         )
         row["calendar_events"] = calendar_events.get(symbol, {"earnings": [], "dividends": []})
         rows.append(row)
+    v2_snapshot = load_v2_snapshot()
+    if v2_snapshot:
+        apply_v2_overlay(rows, v2_snapshot)
     ensure_minimum_signals(rows, min_each=5)
     rows_by_action = sorted(rows, key=action_rank, reverse=True)
     rows_by_score = sorted(rows, key=lambda item: item["score"], reverse=True)
@@ -2259,6 +2330,7 @@ def build_state() -> dict:
         "market_tape": build_market_tape(rows),
         "investment_ideas": build_investment_ideas(rows, env),
         "counts": counts,
+        "v2_as_of": v2_snapshot.get("as_of") if v2_snapshot else None,
         "report": build_report(rows_by_action, macro_news),
         "status": {
             "ok": not issues,
@@ -2277,11 +2349,13 @@ def build_state() -> dict:
 
 def latest_state_or_build(max_age_minutes: int = 45) -> dict:
     global CURRENT_STATE, CURRENT_STATE_AT
-    if CURRENT_STATE is not None and CURRENT_STATE_AT is not None:
+    snap = load_v2_snapshot()
+    snap_as_of = snap.get("as_of") if snap else None
+    if CURRENT_STATE is not None and CURRENT_STATE_AT is not None and CURRENT_STATE.get("v2_as_of") == snap_as_of:
         if datetime.now() - CURRENT_STATE_AT <= timedelta(minutes=max_age_minutes):
             return CURRENT_STATE
     cached = cache_get(LATEST_STATE_CACHE, max_age_minutes)
-    if isinstance(cached, dict) and cached.get("rankings"):
+    if isinstance(cached, dict) and cached.get("rankings") and cached.get("v2_as_of") == snap_as_of:
         CURRENT_STATE = cached
         CURRENT_STATE_AT = datetime.now()
         return cached
@@ -3119,6 +3193,10 @@ class Handler(BaseHTTPRequestHandler):
             self.send_json(latest_state_or_build())
             return
         if path == "/api/shadow":
+            v2_shadow = load_v2_shadow()
+            if v2_shadow:
+                self.send_json(v2_shadow)
+                return
             self.send_json(shadow_get_state(execute_cycle=False))
             return
         if path.startswith("/api/analyst-targets/"):
@@ -3211,6 +3289,10 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
     server = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
     print(f"Tőzsde AI preview: http://127.0.0.1:{PORT}")
     server.serve_forever()
