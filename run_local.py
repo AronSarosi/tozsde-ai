@@ -145,6 +145,9 @@ def apply_v2_overlay(rows: list[dict], snapshot: dict) -> None:
         row["protips"] = v2.get("protips")
         row["bull_case"] = v2.get("bull")
         row["bear_case"] = v2.get("bear")
+        row["fair_value_models"] = v2.get("fair_value_models")
+        row["driver_text"] = v2.get("driver_text")
+        row["score_change"] = v2.get("score_change")
         row["analyst_summary"] = v2.get("analyst")
         row["decision"] = v2_decision_text(v2)
         row["v2"] = True

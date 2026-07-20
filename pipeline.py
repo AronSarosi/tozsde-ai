@@ -391,6 +391,16 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
 
     # Blend absolute composite with cross-sectional rank so scores spread out
     # but extremes still require genuinely strong data.
+    prev_scores: dict[str, float] = {}
+    for r in con.execute(
+        "SELECT symbol, score FROM scores WHERE date=(SELECT MAX(date) FROM scores WHERE date<?)", (as_of,)
+    ).fetchall():
+        prev_scores[r["symbol"]] = r["score"]
+
+    FACTOR_HU = {"momentum": "momentum", "value": "értékeltség", "growth": "növekedés",
+                 "profitability": "jövedelmezőség", "cashflow": "cash flow",
+                 "analyst": "elemzői kép", "news": "hírfolyam", "risk": "kockázati profil"}
+
     scores: dict[str, dict] = {}
     ordered = sorted(composite_raw, key=lambda s: composite_raw[s], reverse=True)
     n = len(ordered)
@@ -429,6 +439,20 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
 
         protips, bull, bear = generate_tips(sym, ranks, raw[sym], f, upside)
 
+        contrib = sorted(((fac, (ranks[fac][sym] - 50) * weights[fac]) for fac in factor_names),
+                         key=lambda kv: kv[1], reverse=True)
+        strengths = [FACTOR_HU[fac] for fac, c in contrib[:2] if c > 1]
+        weaknesses = [FACTOR_HU[fac] for fac, c in contrib[-2:] if c < -1]
+        driver_parts = []
+        if strengths:
+            driver_parts.append("Erősségek: " + ", ".join(strengths))
+        if weaknesses:
+            driver_parts.append("Gyengeségek: " + ", ".join(weaknesses))
+        driver_text = (" · ".join(driver_parts) + ". A pontszám a 104 részvényhez viszonyított rangsor.") if driver_parts else ""
+
+        prev = prev_scores.get(sym)
+        score_change = round(score - prev, 1) if prev is not None else None
+
         recent_news = [
             dict(r) for r in con.execute(
                 "SELECT title, publisher, published_at, url, sentiment FROM news"
@@ -463,6 +487,8 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
             "protips": protips,
             "bull": bull,
             "bear": bear,
+            "driver_text": driver_text,
+            "score_change": score_change,
             "news": recent_news,
             "last_close": price_now,
             "prev_close": prev_close,
