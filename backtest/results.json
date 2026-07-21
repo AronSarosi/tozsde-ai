@@ -1,0 +1,70 @@
+[
+ {
+  "tag": "LIVE-LIKE baseline",
+  "config": {
+   "w_r3": 0.4,
+   "w_r6": 0.3,
+   "w_ma50": 0.15,
+   "w_ma200": 0.15,
+   "mom_scale": 130,
+   "w_mom": 0.6,
+   "long_th": 63,
+   "short_th": 38,
+   "stop": -0.1,
+   "target": 0.2,
+   "max_hold": 60
+  },
+  "train": {
+   "pnl": 163465,
+   "invested": 7085000,
+   "ret_pct": 2.31,
+   "spy_pct": 25.88,
+   "alpha_pp": -23.57,
+   "sharpe": 0.72,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -5918,
+   "invested": 4440000,
+   "ret_pct": -0.13,
+   "spy_pct": 41.5,
+   "alpha_pp": -41.63,
+   "sharpe": -0.05,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-01",
+  "config": {
+   "w_r3": 0.55,
+   "w_r6": 0.022,
+   "w_ma50": 0.237,
+   "w_ma200": 0.192,
+   "mom_scale": 80,
+   "w_mom": 0.5,
+   "long_th": 70,
+   "short_th": 30,
+   "stop": -0.08,
+   "target": 0.15,
+   "max_hold": 40
+  },
+  "train": {
+   "pnl": 65626,
+   "invested": 7085000,
+   "ret_pct": 0.93,
+   "spy_pct": 25.88,
+   "alpha_pp": -24.95,
+   "sharpe": 0.48,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -25118,
+   "invested": 4440000,
+   "ret_pct": -0.57,
+   "spy_pct": 41.5,
+   "alpha_pp": -42.06,
+   "sharpe": -0.32,
+   "trades": 4440
+  }
+ }
+]

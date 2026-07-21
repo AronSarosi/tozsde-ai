@@ -1847,7 +1847,6 @@
           ${row.fair_value ? `<div class="kf-cell"><span>Fair érték (modell-medián)</span><strong>${fmt(row.fair_value, 2)} USD</strong><span class="kf-sub"><span class="${upClass}">${Number(row.upside_pct) >= 0 ? "+" : ""}${fmt(row.upside_pct, 1)}%</span> · ${esc(row.valuation_label || "")}${row.fv_agreement ? ` · ${esc(row.fv_agreement)}` : ""}</span></div>` : ""}
           ${row.health !== undefined && row.health !== null ? `<div class="kf-cell"><span>Pénzügyi egészség</span><strong>${fmt(row.health, 1)}/5</strong><span class="kf-sub">${esc(row.health_label || "")}</span></div>` : ""}
           ${an.target_mean ? `<div class="kf-cell"><span>Elemzői célár</span><strong>${fmt(an.target_mean, 2)} USD</strong><span class="kf-sub">${esc(String(an.analysts || "?"))} elemző · ${esc(an.recommendation || "")}</span></div>` : ""}
-          <div class="kf-cell"><span>Konvikció</span><strong>${fmt(row.conviction, 1)}/10</strong><span class="kf-sub">a jelzés erőssége</span></div>
         </div>`;
       return `
         <div class="detail-hero">
