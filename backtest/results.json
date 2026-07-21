@@ -20,6 +20,8 @@
    "ret_pct": 2.31,
    "spy_pct": 25.88,
    "alpha_pp": -23.57,
+   "edge_pp": 1.08,
+   "hit_rate": 47.1,
    "sharpe": 0.72,
    "trades": 7085
   },
@@ -29,6 +31,8 @@
    "ret_pct": -0.13,
    "spy_pct": 41.5,
    "alpha_pp": -41.63,
+   "edge_pp": -1.14,
+   "hit_rate": 38.5,
    "sharpe": -0.05,
    "trades": 4440
   }
@@ -54,6 +58,8 @@
    "ret_pct": 0.93,
    "spy_pct": 25.88,
    "alpha_pp": -24.95,
+   "edge_pp": 0.43,
+   "hit_rate": 45.5,
    "sharpe": 0.48,
    "trades": 7085
   },
@@ -63,7 +69,883 @@
    "ret_pct": -0.57,
    "spy_pct": 41.5,
    "alpha_pp": -42.06,
+   "edge_pp": -0.83,
+   "hit_rate": 37.1,
    "sharpe": -0.32,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-02",
+  "config": {
+   "w_r3": 0.11,
+   "w_r6": 0.285,
+   "w_ma50": 0.266,
+   "w_ma200": 0.339,
+   "mom_scale": 160,
+   "w_mom": 0.6,
+   "long_th": 70,
+   "short_th": 38,
+   "stop": -0.08,
+   "target": 0.2,
+   "max_hold": 90
+  },
+  "train": {
+   "pnl": 165033,
+   "invested": 7085000,
+   "ret_pct": 2.33,
+   "spy_pct": 25.88,
+   "alpha_pp": -23.55,
+   "edge_pp": 0.85,
+   "hit_rate": 41.1,
+   "sharpe": 0.74,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -31373,
+   "invested": 4440000,
+   "ret_pct": -0.71,
+   "spy_pct": 41.5,
+   "alpha_pp": -42.21,
+   "edge_pp": -1.79,
+   "hit_rate": 31.4,
+   "sharpe": -0.29,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-03",
+  "config": {
+   "w_r3": 0.19,
+   "w_r6": 0.087,
+   "w_ma50": 0.535,
+   "w_ma200": 0.188,
+   "mom_scale": 80,
+   "w_mom": 0.8,
+   "long_th": 58,
+   "short_th": 38,
+   "stop": -0.12,
+   "target": 0.25,
+   "max_hold": 20
+  },
+  "train": {
+   "pnl": 37103,
+   "invested": 7085000,
+   "ret_pct": 0.52,
+   "spy_pct": 25.88,
+   "alpha_pp": -25.35,
+   "edge_pp": 0.02,
+   "hit_rate": 48.0,
+   "sharpe": 0.23,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": 90842,
+   "invested": 4440000,
+   "ret_pct": 2.05,
+   "spy_pct": 41.5,
+   "alpha_pp": -39.45,
+   "edge_pp": 1.46,
+   "hit_rate": 48.2,
+   "sharpe": 0.92,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-04",
+  "config": {
+   "w_r3": 0.279,
+   "w_r6": 0.205,
+   "w_ma50": 0.372,
+   "w_ma200": 0.145,
+   "mom_scale": 130,
+   "w_mom": 0.7,
+   "long_th": 62,
+   "short_th": 30,
+   "stop": -0.08,
+   "target": 0.2,
+   "max_hold": 60
+  },
+  "train": {
+   "pnl": 158929,
+   "invested": 7085000,
+   "ret_pct": 2.24,
+   "spy_pct": 25.88,
+   "alpha_pp": -23.63,
+   "edge_pp": 1.18,
+   "hit_rate": 42.4,
+   "sharpe": 0.76,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": 58078,
+   "invested": 4440000,
+   "ret_pct": 1.31,
+   "spy_pct": 41.5,
+   "alpha_pp": -40.19,
+   "edge_pp": 0.27,
+   "hit_rate": 38.3,
+   "sharpe": 0.52,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-05",
+  "config": {
+   "w_r3": 0.319,
+   "w_r6": 0.277,
+   "w_ma50": 0.281,
+   "w_ma200": 0.123,
+   "mom_scale": 160,
+   "w_mom": 0.7,
+   "long_th": 62,
+   "short_th": 38,
+   "stop": -0.12,
+   "target": 0.2,
+   "max_hold": 60
+  },
+  "train": {
+   "pnl": 185275,
+   "invested": 7085000,
+   "ret_pct": 2.62,
+   "spy_pct": 25.88,
+   "alpha_pp": -23.26,
+   "edge_pp": 1.22,
+   "hit_rate": 50.1,
+   "sharpe": 0.73,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": 157,
+   "invested": 4440000,
+   "ret_pct": 0.0,
+   "spy_pct": 41.5,
+   "alpha_pp": -41.5,
+   "edge_pp": -1.31,
+   "hit_rate": 41.1,
+   "sharpe": 0.0,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-06",
+  "config": {
+   "w_r3": 0.336,
+   "w_r6": 0.327,
+   "w_ma50": 0.034,
+   "w_ma200": 0.304,
+   "mom_scale": 100,
+   "w_mom": 0.6,
+   "long_th": 70,
+   "short_th": 42,
+   "stop": -0.12,
+   "target": 0.2,
+   "max_hold": 60
+  },
+  "train": {
+   "pnl": 168068,
+   "invested": 7085000,
+   "ret_pct": 2.37,
+   "spy_pct": 25.88,
+   "alpha_pp": -23.5,
+   "edge_pp": 1.13,
+   "hit_rate": 49.6,
+   "sharpe": 0.66,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -13036,
+   "invested": 4440000,
+   "ret_pct": -0.29,
+   "spy_pct": 41.5,
+   "alpha_pp": -41.79,
+   "edge_pp": -1.29,
+   "hit_rate": 41.3,
+   "sharpe": -0.1,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-07",
+  "config": {
+   "w_r3": 0.448,
+   "w_r6": 0.413,
+   "w_ma50": 0.122,
+   "w_ma200": 0.017,
+   "mom_scale": 130,
+   "w_mom": 0.8,
+   "long_th": 66,
+   "short_th": 30,
+   "stop": -0.1,
+   "target": 0.25,
+   "max_hold": 40
+  },
+  "train": {
+   "pnl": 100547,
+   "invested": 7085000,
+   "ret_pct": 1.42,
+   "spy_pct": 25.88,
+   "alpha_pp": -24.46,
+   "edge_pp": 0.45,
+   "hit_rate": 44.6,
+   "sharpe": 0.44,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": 31968,
+   "invested": 4440000,
+   "ret_pct": 0.72,
+   "spy_pct": 41.5,
+   "alpha_pp": -40.78,
+   "edge_pp": -0.5,
+   "hit_rate": 41.5,
+   "sharpe": 0.26,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-08",
+  "config": {
+   "w_r3": 0.27,
+   "w_r6": 0.163,
+   "w_ma50": 0.377,
+   "w_ma200": 0.189,
+   "mom_scale": 130,
+   "w_mom": 0.6,
+   "long_th": 62,
+   "short_th": 38,
+   "stop": -0.15,
+   "target": 0.3,
+   "max_hold": 60
+  },
+  "train": {
+   "pnl": 155263,
+   "invested": 7085000,
+   "ret_pct": 2.19,
+   "spy_pct": 25.88,
+   "alpha_pp": -23.69,
+   "edge_pp": 0.89,
+   "hit_rate": 48.2,
+   "sharpe": 0.45,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -27930,
+   "invested": 4440000,
+   "ret_pct": -0.63,
+   "spy_pct": 41.5,
+   "alpha_pp": -42.13,
+   "edge_pp": -1.8,
+   "hit_rate": 41.0,
+   "sharpe": -0.17,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-09",
+  "config": {
+   "w_r3": 0.121,
+   "w_r6": 0.549,
+   "w_ma50": 0.28,
+   "w_ma200": 0.05,
+   "mom_scale": 80,
+   "w_mom": 0.5,
+   "long_th": 62,
+   "short_th": 34,
+   "stop": -0.15,
+   "target": 0.15,
+   "max_hold": 90
+  },
+  "train": {
+   "pnl": 140316,
+   "invested": 7085000,
+   "ret_pct": 1.98,
+   "spy_pct": 25.88,
+   "alpha_pp": -23.9,
+   "edge_pp": 0.74,
+   "hit_rate": 56.2,
+   "sharpe": 0.59,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -32511,
+   "invested": 4440000,
+   "ret_pct": -0.73,
+   "spy_pct": 41.5,
+   "alpha_pp": -42.23,
+   "edge_pp": -1.55,
+   "hit_rate": 47.6,
+   "sharpe": -0.27,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-10",
+  "config": {
+   "w_r3": 0.133,
+   "w_r6": 0.346,
+   "w_ma50": 0.184,
+   "w_ma200": 0.337,
+   "mom_scale": 80,
+   "w_mom": 0.5,
+   "long_th": 66,
+   "short_th": 38,
+   "stop": -0.08,
+   "target": 0.25,
+   "max_hold": 90
+  },
+  "train": {
+   "pnl": 84695,
+   "invested": 7085000,
+   "ret_pct": 1.2,
+   "spy_pct": 25.88,
+   "alpha_pp": -24.68,
+   "edge_pp": -0.03,
+   "hit_rate": 36.6,
+   "sharpe": 0.34,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -72914,
+   "invested": 4440000,
+   "ret_pct": -1.64,
+   "spy_pct": 41.5,
+   "alpha_pp": -43.14,
+   "edge_pp": -2.21,
+   "hit_rate": 27.0,
+   "sharpe": -0.63,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-11",
+  "config": {
+   "w_r3": 0.099,
+   "w_r6": 0.002,
+   "w_ma50": 0.45,
+   "w_ma200": 0.449,
+   "mom_scale": 100,
+   "w_mom": 0.5,
+   "long_th": 66,
+   "short_th": 34,
+   "stop": -0.1,
+   "target": 0.25,
+   "max_hold": 40
+  },
+  "train": {
+   "pnl": 19448,
+   "invested": 7085000,
+   "ret_pct": 0.27,
+   "spy_pct": 25.88,
+   "alpha_pp": -25.6,
+   "edge_pp": -0.32,
+   "hit_rate": 44.6,
+   "sharpe": 0.09,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -83027,
+   "invested": 4440000,
+   "ret_pct": -1.87,
+   "spy_pct": 41.5,
+   "alpha_pp": -43.37,
+   "edge_pp": -2.21,
+   "hit_rate": 34.6,
+   "sharpe": -0.72,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-12",
+  "config": {
+   "w_r3": 0.292,
+   "w_r6": 0.421,
+   "w_ma50": 0.287,
+   "w_ma200": 0.0,
+   "mom_scale": 130,
+   "w_mom": 0.8,
+   "long_th": 58,
+   "short_th": 30,
+   "stop": -0.12,
+   "target": 0.25,
+   "max_hold": 40
+  },
+  "train": {
+   "pnl": 104637,
+   "invested": 7085000,
+   "ret_pct": 1.48,
+   "spy_pct": 25.88,
+   "alpha_pp": -24.4,
+   "edge_pp": 0.45,
+   "hit_rate": 46.7,
+   "sharpe": 0.41,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": 41944,
+   "invested": 4440000,
+   "ret_pct": 0.94,
+   "spy_pct": 41.5,
+   "alpha_pp": -40.55,
+   "edge_pp": -0.35,
+   "hit_rate": 44.6,
+   "sharpe": 0.32,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-13",
+  "config": {
+   "w_r3": 0.029,
+   "w_r6": 0.446,
+   "w_ma50": 0.481,
+   "w_ma200": 0.044,
+   "mom_scale": 160,
+   "w_mom": 0.5,
+   "long_th": 62,
+   "short_th": 34,
+   "stop": -0.15,
+   "target": 0.2,
+   "max_hold": 60
+  },
+  "train": {
+   "pnl": 144822,
+   "invested": 7085000,
+   "ret_pct": 2.04,
+   "spy_pct": 25.88,
+   "alpha_pp": -23.83,
+   "edge_pp": 0.87,
+   "hit_rate": 52.7,
+   "sharpe": 0.55,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -87815,
+   "invested": 4440000,
+   "ret_pct": -1.98,
+   "spy_pct": 41.5,
+   "alpha_pp": -43.48,
+   "edge_pp": -2.81,
+   "hit_rate": 40.7,
+   "sharpe": -0.67,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-14",
+  "config": {
+   "w_r3": 0.174,
+   "w_r6": 0.2,
+   "w_ma50": 0.319,
+   "w_ma200": 0.307,
+   "mom_scale": 100,
+   "w_mom": 0.7,
+   "long_th": 70,
+   "short_th": 38,
+   "stop": -0.15,
+   "target": 0.3,
+   "max_hold": 20
+  },
+  "train": {
+   "pnl": 25145,
+   "invested": 7085000,
+   "ret_pct": 0.35,
+   "spy_pct": 25.88,
+   "alpha_pp": -25.52,
+   "edge_pp": -0.22,
+   "hit_rate": 49.4,
+   "sharpe": 0.13,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -6013,
+   "invested": 4440000,
+   "ret_pct": -0.14,
+   "spy_pct": 41.5,
+   "alpha_pp": -41.63,
+   "edge_pp": -0.73,
+   "hit_rate": 47.3,
+   "sharpe": -0.06,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-15",
+  "config": {
+   "w_r3": 0.28,
+   "w_r6": 0.072,
+   "w_ma50": 0.024,
+   "w_ma200": 0.625,
+   "mom_scale": 100,
+   "w_mom": 0.5,
+   "long_th": 58,
+   "short_th": 30,
+   "stop": -0.1,
+   "target": 0.15,
+   "max_hold": 20
+  },
+  "train": {
+   "pnl": 35611,
+   "invested": 7085000,
+   "ret_pct": 0.5,
+   "spy_pct": 25.88,
+   "alpha_pp": -25.37,
+   "edge_pp": 0.09,
+   "hit_rate": 49.2,
+   "sharpe": 0.29,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -52422,
+   "invested": 4440000,
+   "ret_pct": -1.18,
+   "spy_pct": 41.5,
+   "alpha_pp": -42.68,
+   "edge_pp": -1.47,
+   "hit_rate": 42.4,
+   "sharpe": -0.75,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-16",
+  "config": {
+   "w_r3": 0.468,
+   "w_r6": 0.039,
+   "w_ma50": 0.13,
+   "w_ma200": 0.364,
+   "mom_scale": 100,
+   "w_mom": 0.6,
+   "long_th": 70,
+   "short_th": 34,
+   "stop": -0.15,
+   "target": 0.3,
+   "max_hold": 40
+  },
+  "train": {
+   "pnl": 80779,
+   "invested": 7085000,
+   "ret_pct": 1.14,
+   "spy_pct": 25.88,
+   "alpha_pp": -24.74,
+   "edge_pp": 0.23,
+   "hit_rate": 49.5,
+   "sharpe": 0.29,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -33437,
+   "invested": 4440000,
+   "ret_pct": -0.75,
+   "spy_pct": 41.5,
+   "alpha_pp": -42.25,
+   "edge_pp": -1.58,
+   "hit_rate": 42.0,
+   "sharpe": -0.24,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-17",
+  "config": {
+   "w_r3": 0.062,
+   "w_r6": 0.434,
+   "w_ma50": 0.233,
+   "w_ma200": 0.271,
+   "mom_scale": 80,
+   "w_mom": 0.5,
+   "long_th": 58,
+   "short_th": 42,
+   "stop": -0.12,
+   "target": 0.15,
+   "max_hold": 40
+  },
+  "train": {
+   "pnl": 86443,
+   "invested": 7085000,
+   "ret_pct": 1.22,
+   "spy_pct": 25.88,
+   "alpha_pp": -24.66,
+   "edge_pp": 0.53,
+   "hit_rate": 52.5,
+   "sharpe": 0.49,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -68359,
+   "invested": 4440000,
+   "ret_pct": -1.54,
+   "spy_pct": 41.5,
+   "alpha_pp": -43.04,
+   "edge_pp": -2.0,
+   "hit_rate": 41.5,
+   "sharpe": -0.71,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-18",
+  "config": {
+   "w_r3": 0.182,
+   "w_r6": 0.51,
+   "w_ma50": 0.133,
+   "w_ma200": 0.174,
+   "mom_scale": 160,
+   "w_mom": 0.6,
+   "long_th": 58,
+   "short_th": 42,
+   "stop": -0.08,
+   "target": 0.15,
+   "max_hold": 20
+  },
+  "train": {
+   "pnl": 51451,
+   "invested": 7085000,
+   "ret_pct": 0.73,
+   "spy_pct": 25.88,
+   "alpha_pp": -25.15,
+   "edge_pp": 0.16,
+   "hit_rate": 48.5,
+   "sharpe": 0.47,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -62431,
+   "invested": 4440000,
+   "ret_pct": -1.41,
+   "spy_pct": 41.5,
+   "alpha_pp": -42.9,
+   "edge_pp": -1.78,
+   "hit_rate": 39.0,
+   "sharpe": -1.06,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-19",
+  "config": {
+   "w_r3": 0.333,
+   "w_r6": 0.318,
+   "w_ma50": 0.292,
+   "w_ma200": 0.057,
+   "mom_scale": 160,
+   "w_mom": 0.8,
+   "long_th": 62,
+   "short_th": 42,
+   "stop": -0.08,
+   "target": 0.2,
+   "max_hold": 90
+  },
+  "train": {
+   "pnl": 197903,
+   "invested": 7085000,
+   "ret_pct": 2.79,
+   "spy_pct": 25.88,
+   "alpha_pp": -23.08,
+   "edge_pp": 1.31,
+   "hit_rate": 42.3,
+   "sharpe": 0.87,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": 58975,
+   "invested": 4440000,
+   "ret_pct": 1.33,
+   "spy_pct": 41.5,
+   "alpha_pp": -40.17,
+   "edge_pp": -0.27,
+   "hit_rate": 37.7,
+   "sharpe": 0.47,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-20",
+  "config": {
+   "w_r3": 0.001,
+   "w_r6": 0.186,
+   "w_ma50": 0.44,
+   "w_ma200": 0.373,
+   "mom_scale": 130,
+   "w_mom": 0.8,
+   "long_th": 70,
+   "short_th": 34,
+   "stop": -0.1,
+   "target": 0.25,
+   "max_hold": 40
+  },
+  "train": {
+   "pnl": 118527,
+   "invested": 7085000,
+   "ret_pct": 1.67,
+   "spy_pct": 25.88,
+   "alpha_pp": -24.2,
+   "edge_pp": 0.69,
+   "hit_rate": 43.7,
+   "sharpe": 0.5,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": 41288,
+   "invested": 4440000,
+   "ret_pct": 0.93,
+   "spy_pct": 41.5,
+   "alpha_pp": -40.57,
+   "edge_pp": -0.18,
+   "hit_rate": 41.1,
+   "sharpe": 0.32,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-21",
+  "config": {
+   "w_r3": 0.341,
+   "w_r6": 0.204,
+   "w_ma50": 0.191,
+   "w_ma200": 0.264,
+   "mom_scale": 80,
+   "w_mom": 0.5,
+   "long_th": 70,
+   "short_th": 34,
+   "stop": -0.08,
+   "target": 0.15,
+   "max_hold": 40
+  },
+  "train": {
+   "pnl": 80066,
+   "invested": 7085000,
+   "ret_pct": 1.13,
+   "spy_pct": 25.88,
+   "alpha_pp": -24.75,
+   "edge_pp": 0.56,
+   "hit_rate": 46.3,
+   "sharpe": 0.57,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -41426,
+   "invested": 4440000,
+   "ret_pct": -0.93,
+   "spy_pct": 41.5,
+   "alpha_pp": -42.43,
+   "edge_pp": -1.3,
+   "hit_rate": 36.3,
+   "sharpe": -0.53,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-22",
+  "config": {
+   "w_r3": 0.049,
+   "w_r6": 0.048,
+   "w_ma50": 0.615,
+   "w_ma200": 0.288,
+   "mom_scale": 100,
+   "w_mom": 0.5,
+   "long_th": 58,
+   "short_th": 42,
+   "stop": -0.12,
+   "target": 0.25,
+   "max_hold": 40
+  },
+  "train": {
+   "pnl": 423,
+   "invested": 7085000,
+   "ret_pct": 0.01,
+   "spy_pct": 25.88,
+   "alpha_pp": -25.87,
+   "edge_pp": -0.55,
+   "hit_rate": 46.6,
+   "sharpe": 0.0,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -111470,
+   "invested": 4440000,
+   "ret_pct": -2.51,
+   "spy_pct": 41.5,
+   "alpha_pp": -44.01,
+   "edge_pp": -2.82,
+   "hit_rate": 36.1,
+   "sharpe": -0.87,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-23",
+  "config": {
+   "w_r3": 0.485,
+   "w_r6": 0.228,
+   "w_ma50": 0.192,
+   "w_ma200": 0.095,
+   "mom_scale": 130,
+   "w_mom": 0.8,
+   "long_th": 66,
+   "short_th": 30,
+   "stop": -0.08,
+   "target": 0.3,
+   "max_hold": 20
+  },
+  "train": {
+   "pnl": 30539,
+   "invested": 7085000,
+   "ret_pct": 0.43,
+   "spy_pct": 25.88,
+   "alpha_pp": -25.45,
+   "edge_pp": -0.09,
+   "hit_rate": 44.3,
+   "sharpe": 0.2,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": 11640,
+   "invested": 4440000,
+   "ret_pct": 0.26,
+   "spy_pct": 41.5,
+   "alpha_pp": -41.24,
+   "edge_pp": -0.37,
+   "hit_rate": 42.7,
+   "sharpe": 0.15,
+   "trades": 4440
+  }
+ },
+ {
+  "tag": "rand-24",
+  "config": {
+   "w_r3": 0.049,
+   "w_r6": 0.144,
+   "w_ma50": 0.179,
+   "w_ma200": 0.629,
+   "mom_scale": 80,
+   "w_mom": 0.6,
+   "long_th": 66,
+   "short_th": 38,
+   "stop": -0.1,
+   "target": 0.3,
+   "max_hold": 60
+  },
+  "train": {
+   "pnl": 92360,
+   "invested": 7085000,
+   "ret_pct": 1.3,
+   "spy_pct": 25.88,
+   "alpha_pp": -24.57,
+   "edge_pp": 0.28,
+   "hit_rate": 40.4,
+   "sharpe": 0.33,
+   "trades": 7085
+  },
+  "test": {
+   "pnl": -49048,
+   "invested": 4440000,
+   "ret_pct": -1.1,
+   "spy_pct": 41.5,
+   "alpha_pp": -42.6,
+   "edge_pp": -1.89,
+   "hit_rate": 33.5,
+   "sharpe": -0.35,
    "trades": 4440
   }
  }
