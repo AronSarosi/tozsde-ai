@@ -1847,7 +1847,7 @@
           ${row.fair_value ? `<div class="kf-cell"><span>Fair érték (modell-medián)</span><strong>${fmt(row.fair_value, 2)} USD</strong><span class="kf-sub"><span class="${upClass}">${Number(row.upside_pct) >= 0 ? "+" : ""}${fmt(row.upside_pct, 1)}%</span> · ${esc(row.valuation_label || "")}${row.fv_agreement ? ` · ${esc(row.fv_agreement)}` : ""}</span></div>` : ""}
           ${row.health !== undefined && row.health !== null ? `<div class="kf-cell"><span>Pénzügyi egészség</span><strong>${fmt(row.health, 1)}/5</strong><span class="kf-sub">${esc(row.health_label || "")}</span></div>` : ""}
           ${an.target_mean ? `<div class="kf-cell"><span>Elemzői célár</span><strong>${fmt(an.target_mean, 2)} USD</strong><span class="kf-sub">${esc(String(an.analysts || "?"))} elemző · ${esc(an.recommendation || "")}</span></div>` : ""}
-          <div class="kf-cell"><span>Konvikció</span><strong>${fmt(row.conviction, 1)}</strong><span class="kf-sub">50-től mért távolság</span></div>
+          <div class="kf-cell"><span>Konvikció</span><strong>${fmt(row.conviction, 1)}/10</strong><span class="kf-sub">a jelzés erőssége</span></div>
         </div>`;
       return `
         <div class="detail-hero">
@@ -1959,13 +1959,25 @@
         if (t === "init") return '<span class="pf-side" style="background:#eef1f5;color:#55627a">ÚJ KÖVETÉS</span>';
         return '<span class="pf-side" style="background:#eef1f5;color:#55627a">MEGERŐSÍTÉS</span>';
       };
-      const actionRows = actions.map(a => `
+      const targetByFirm = {};
+      for (const t of (row.news_targets || [])) targetByFirm[String(t.firm || "").toLowerCase()] = t.target;
+      const firmTarget = firm => {
+        const f = String(firm || "").toLowerCase();
+        if (!f) return null;
+        for (const k in targetByFirm) { if (f.includes(k) || k.includes(f)) return targetByFirm[k]; }
+        return null;
+      };
+      const actionRows = actions.map(a => {
+        const tgt = firmTarget(a.firm);
+        return `
         <tr>
           <td>${esc(a.date)}</td>
           <td><b>${esc(a.firm)}</b></td>
           <td>${actionLabel(a.action)}</td>
           <td>${esc(a.from && a.from !== "None" && a.from !== a.to ? `${a.from} → ${a.to}` : (a.to || ""))}</td>
-        </tr>`).join("");
+          <td>${tgt ? `<b>${fmt(tgt, 0)} USD</b>` : '<span style="color:var(--muted)">n/a</span>'}</td>
+        </tr>`;
+      }).join("");
       if (!an.target_mean && !modelRows && !actions.length) return "";
       return `
         <section class="section">
@@ -1976,11 +1988,11 @@
           ${actions.length ? `
           <div style="overflow-x:auto;margin-top:10px">
           <table class="pf-table">
-            <thead><tr><th>Dátum</th><th>Intézmény</th><th>Művelet</th><th>Minősítés</th></tr></thead>
+            <thead><tr><th>Dátum</th><th>Intézmény</th><th>Művelet</th><th>Minősítés</th><th>Célár</th></tr></thead>
             <tbody>${actionRows}</tbody>
           </table>
           </div>
-          <p class="small" style="color:var(--muted);margin-top:8px">Az egyes intézmények részletes indoklása nem nyilvános adat - a friss hírek szekcióban gyakran megtalálod a kapcsolódó elemzői kommentárt.</p>` : ""}
+          <p class="small" style="color:var(--muted);margin-top:8px">Az intézményenkénti célár akkor jelenik meg, ha nyilvános hírben szerepelt - a bankok teljes céllistája fizetős adat, amit egyik ingyenes forrás sem ad ki. A konszenzus-sáv (min-átlag-max) mindig a teljes elemzői kört fedi.</p>` : ""}
         </section>
       `;
     }

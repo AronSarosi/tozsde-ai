@@ -639,7 +639,7 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict],
             "score": score,
             "tier": tier,
             "tier_label": TIER_LABELS_HU[tier],
-            "conviction": round(abs(score - 50), 1),
+            "conviction": round(abs(score - 50) / 5, 1),  # 0-10 scale
             "health": health,
             "health_label": health_label,
             "health_components": sub,
@@ -708,12 +708,10 @@ def fair_value_ensemble(f: dict, price: float | None, universe: list[dict], fund
     clamped = {k: max(price * 0.4, min(price * 2.5, v)) for k, v in models.items()}
     if not clamped:
         return None, {}
-    # Median instead of mean: robust when the models disagree strongly
-    # (e.g. analyst target 3x the conservative DCF on cyclical stocks).
-    vals = sorted(clamped.values())
-    n = len(vals)
-    median = vals[n // 2] if n % 2 else (vals[n // 2 - 1] + vals[n // 2]) / 2
-    return median, {k: round(v, 2) for k, v in clamped.items()}
+    # Equal-weight average of the applicable models (InvestingPro-style);
+    # the fv_agreement indicator carries the model-disagreement warning.
+    mean = sum(clamped.values()) / len(clamped)
+    return mean, {k: round(v, 2) for k, v in clamped.items()}
 
 
 def valuation_bucket(upside: float | None) -> str:
