@@ -297,6 +297,17 @@ def headline_sentiment(title: str) -> float:
 
 # ------------------------------------------------------------------ scoring
 
+def _ramp(x: float | None, x0: float, y0: float, x1: float, y1: float) -> float | None:
+    """Piecewise-linear map of x from [x0,x1] to [y0,y1], clamped at the ends."""
+    if x is None or (isinstance(x, float) and math.isnan(x)):
+        return None
+    if x <= x0:
+        return float(y0)
+    if x >= x1:
+        return float(y1)
+    return y0 + (x - x0) * (y1 - y0) / (x1 - x0)
+
+
 def pct_rank(values: dict[str, float | None]) -> dict[str, float]:
     """Cross-sectional percentile rank 0..100; missing values -> 50 (neutral)."""
     present = {k: v for k, v in values.items() if v is not None and not (isinstance(v, float) and math.isnan(v))}
@@ -310,8 +321,53 @@ def pct_rank(values: dict[str, float | None]) -> dict[str, float]:
     return out
 
 
+def fetch_analyst_actions(con: sqlite3.Connection, universe: list[dict]) -> None:
+    """Recent analyst rating actions (firm, upgrade/downgrade, grades) per stock."""
+    con.execute(
+        "CREATE TABLE IF NOT EXISTS analyst_actions (symbol TEXT, date TEXT, firm TEXT,"
+        " action TEXT, from_grade TEXT, to_grade TEXT, PRIMARY KEY (symbol, date, firm))"
+    )
+    print("Fetching analyst rating actions...")
+    for stock in universe:
+        sym = stock["symbol"]
+        try:
+            df = yf.Ticker(yahoo_symbol(sym)).upgrades_downgrades
+            if df is None or df.empty:
+                continue
+            for idx, row in df.head(12).iterrows():
+                d = str(idx)[:10]
+                con.execute(
+                    "INSERT OR REPLACE INTO analyst_actions (symbol, date, firm, action, from_grade, to_grade)"
+                    " VALUES (?,?,?,?,?,?)",
+                    (sym, d, str(row.get("Firm") or ""), str(row.get("Action") or ""),
+                     str(row.get("FromGrade") or ""), str(row.get("ToGrade") or "")),
+                )
+        except Exception:
+            continue
+        time.sleep(0.12)
+    con.commit()
+
+
+def load_analyst_actions(con: sqlite3.Connection) -> dict[str, list[dict]]:
+    out: dict[str, list[dict]] = {}
+    try:
+        cur = con.execute(
+            "SELECT symbol, date, firm, action, from_grade, to_grade FROM analyst_actions"
+            " ORDER BY date DESC"
+        )
+    except sqlite3.Error:
+        return out
+    for r in cur.fetchall():
+        lst = out.setdefault(r["symbol"], [])
+        if len(lst) < 8:
+            lst.append({"date": r["date"], "firm": r["firm"], "action": r["action"],
+                        "from": r["from_grade"], "to": r["to_grade"]})
+    return out
+
+
 def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
     as_of = latest_trading_date(con)
+    analyst_actions = load_analyst_actions(con)
     fundamentals: dict[str, dict] = {}
     for stock in universe:
         row = con.execute("SELECT data FROM fundamentals WHERE symbol=?", (stock["symbol"],)).fetchone()
@@ -337,13 +393,17 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
             ma200 = sum(closes[-200:]) / min(200, len(closes))
             ret_3m = last / closes[-63] - 1 if len(closes) >= 63 else None
             ret_6m = last / closes[-126] - 1 if len(closes) >= 126 else None
-            r["momentum"] = ((ret_3m or 0) * 0.4 + (ret_6m or 0) * 0.3
-                             + (last / ma50 - 1) * 0.15 + (last / ma200 - 1) * 0.15)
+            mom_raw = ((ret_3m or 0) * 0.4 + (ret_6m or 0) * 0.3
+                       + (last / ma50 - 1) * 0.15 + (last / ma200 - 1) * 0.15)
+            r["momentum"] = _ramp(mom_raw, -0.40, 5, 0.50, 95)  # 0% momentum ~ 45
             rets = [closes[i] / closes[i - 1] - 1 for i in range(max(1, len(closes) - 60), len(closes))]
             vol = (sum((x - sum(rets) / len(rets)) ** 2 for x in rets) / len(rets)) ** 0.5 if rets else None
             peak = max(closes[-252:]) if closes else None
             dd = last / peak - 1 if peak else 0
-            r["risk"] = -(vol or 0) * 5 + dd * 0.5  # less vol & shallower drawdown = better
+            r["risk"] = _mean_opt([
+                _ramp(-(vol or 0.03), -0.05, 12, -0.008, 88),   # daily vol 0.8% -> 88, 5% -> 12
+                _ramp(dd, -0.45, 15, 0.0, 85),                   # drawdown from 1y peak
+            ])
         else:
             r["momentum"] = None
             r["risk"] = None
@@ -355,30 +415,51 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
         fcf_yield = (fcf / mcap) if fcf and mcap else None
         ps = f.get("priceToSalesTrailing12Months")
         ps_inv = (1.0 / ps) if ps and ps > 0 else None
-        r["value"] = _mean_opt([earn_yield, fcf_yield, ps_inv])
-        r["growth"] = _mean_opt([f.get("revenueGrowth"), f.get("earningsGrowth")])
-        r["profitability"] = _mean_opt([f.get("operatingMargins"), f.get("profitMargins"), f.get("returnOnEquity")])
+        r["value"] = _mean_opt([
+            _ramp(earn_yield, 0.0, 10, 0.08, 90),    # fwd P/E 25 -> 50, P/E 12.5 -> 90
+            _ramp(fcf_yield, -0.01, 12, 0.07, 85),   # FCF yield 3% -> ~55
+            _ramp(ps_inv, 0.02, 15, 0.50, 85),       # P/S 50 -> 15, P/S 2 -> 85
+        ])
+        r["growth"] = _mean_opt([
+            _ramp(f.get("revenueGrowth"), -0.15, 15, 0.45, 90),   # 0% -> 33, 30% -> 71
+            _ramp(f.get("earningsGrowth"), -0.20, 15, 0.60, 90),
+        ])
+        r["profitability"] = _mean_opt([
+            _ramp(f.get("operatingMargins"), -0.05, 20, 0.40, 88),
+            _ramp(f.get("profitMargins"), -0.05, 20, 0.35, 88),
+            _ramp(f.get("returnOnEquity"), 0.0, 25, 0.40, 88),
+        ])
         ocf = f.get("operatingCashflow")
-        r["cashflow"] = _mean_opt([fcf_yield, (ocf / mcap) if ocf and mcap else None])
+        r["cashflow"] = _mean_opt([
+            _ramp(fcf_yield, -0.01, 12, 0.07, 85),
+            _ramp((ocf / mcap) if ocf and mcap else None, 0.0, 20, 0.10, 88),
+        ])
 
         price_now = closes[-1] if closes else f.get("currentPrice")
         tgt = f.get("targetMeanPrice")
         analyst_upside = (tgt / price_now - 1) if tgt and price_now else None
         rec = f.get("recommendationMean")
-        rec_score = (5 - rec) / 4 if rec else None  # 1=strong buy -> 1.0
-        r["analyst"] = _mean_opt([analyst_upside, (rec_score - 0.5) if rec_score is not None else None])
+        rec_score = ((5 - rec) / 4 * 100) if rec else None  # 1=strong buy -> 100, 5=sell -> 0
+        r["analyst"] = _mean_opt([
+            _ramp(analyst_upside, -0.25, 10, 0.35, 90),  # 0% upside -> ~43, +20% -> ~70
+            rec_score,
+        ])
 
         cur = con.execute(
             "SELECT COALESCE(SUM(sentiment),0) s, COUNT(*) c FROM news WHERE symbol=? AND published_at>=?",
             (sym, cutoff_news),
         ).fetchone()
-        r["news"] = float(cur["s"]) if cur["c"] else None
+        news_raw = float(cur["s"]) if cur["c"] else None
+        r["news"] = _ramp(news_raw, -5, 25, 5, 75) if news_raw is not None else None
 
-        raw[sym] = r
+        raw[sym] = dict(r)
+        raw[sym]["news"] = news_raw  # keep raw sentiment for tip generation
         for fac in factor_names:
             per_factor[fac][sym] = r[fac]
 
-    ranks = {fac: pct_rank(vals) for fac, vals in per_factor.items()}
+    # Absolute standalone scores: missing data -> neutral 50. No cross-sectional ranking.
+    ranks = {fac: {sym: (v if v is not None else 50.0) for sym, v in vals.items()}
+             for fac, vals in per_factor.items()}
 
     weights = {"momentum": 0.18, "value": 0.12, "growth": 0.14, "profitability": 0.10,
                "cashflow": 0.08, "analyst": 0.18, "news": 0.08, "risk": 0.12}
@@ -387,7 +468,6 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
     for stock in universe:
         sym = stock["symbol"]
         composite_raw[sym] = sum(ranks[fac][sym] * w for fac, w in weights.items())
-    comp_rank = pct_rank({k: v for k, v in composite_raw.items()})
 
     # Blend absolute composite with cross-sectional rank so scores spread out
     # but extremes still require genuinely strong data.
@@ -406,15 +486,18 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
     n = len(ordered)
     for pos, sym in enumerate(ordered):
         stock = next(s for s in universe if s["symbol"] == sym)
-        score = round(max(0, min(100, composite_raw[sym] * 0.45 + comp_rank[sym] * 0.55)), 1)
-        pctile = 1 - pos / max(1, n - 1)
-        if pctile >= 0.90:
+        # Standalone absolute score: each factor is measured against fixed
+        # benchmarks, so a stock's score does not depend on the other stocks.
+        # The x1.6 stretch around 50 is a fixed transform (8-factor averaging
+        # compresses toward the middle); it adds resolution, not ranking.
+        score = round(max(0, min(100, 50 + (composite_raw[sym] - 50) * 1.6)), 1)
+        if score >= 75:
             tier = "strong_buy"
-        elif pctile >= 0.70:
+        elif score >= 63:
             tier = "buy"
-        elif pctile > 0.30:
+        elif score > 48:
             tier = "hold"
-        elif pctile > 0.10:
+        elif score > 38:
             tier = "sell"
         else:
             tier = "strong_sell"
@@ -425,6 +508,12 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
         fair_value, models = fair_value_ensemble(f, price_now, universe, fundamentals)
         upside = (fair_value / price_now - 1) if fair_value and price_now else None
         valuation_label = valuation_bucket(upside)
+        fv_vals = list(models.values())
+        fv_spread = ((max(fv_vals) - min(fv_vals)) / price_now) if len(fv_vals) > 1 and price_now else None
+        fv_agreement = (None if fv_spread is None else
+                        "magas modell-egyetértés" if fv_spread < 0.25 else
+                        "közepes modell-egyetértés" if fv_spread < 0.6 else
+                        "alacsony modell-egyetértés - óvatosan")
 
         sub = {
             "relative_value": ranks["value"][sym],
@@ -448,7 +537,7 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
             driver_parts.append("Erősségek: " + ", ".join(strengths))
         if weaknesses:
             driver_parts.append("Gyengeségek: " + ", ".join(weaknesses))
-        driver_text = (" · ".join(driver_parts) + ". A pontszám a 104 részvényhez viszonyított rangsor.") if driver_parts else ""
+        driver_text = (" · ".join(driver_parts) + ". A pontszám abszolút, fix mércékhez mért - nem a többi részvényhez viszonyít.") if driver_parts else ""
 
         prev = prev_scores.get(sym)
         score_change = round(score - prev, 1) if prev is not None else None
@@ -475,8 +564,10 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
             "factor_ranks": {k: ranks[k][sym] for k in factor_names},
             "fair_value": round(fair_value, 2) if fair_value else None,
             "fair_value_models": models,
+            "fv_agreement": fv_agreement,
             "upside_pct": round(upside * 100, 1) if upside is not None else None,
             "valuation_label": valuation_label,
+            "analyst_actions": analyst_actions.get(sym, []),
             "analyst": {
                 "target_mean": f.get("targetMeanPrice"),
                 "target_high": f.get("targetHighPrice"),
@@ -533,7 +624,12 @@ def fair_value_ensemble(f: dict, price: float | None, universe: list[dict], fund
     clamped = {k: max(price * 0.4, min(price * 2.5, v)) for k, v in models.items()}
     if not clamped:
         return None, {}
-    return sum(clamped.values()) / len(clamped), {k: round(v, 2) for k, v in clamped.items()}
+    # Median instead of mean: robust when the models disagree strongly
+    # (e.g. analyst target 3x the conservative DCF on cyclical stocks).
+    vals = sorted(clamped.values())
+    n = len(vals)
+    median = vals[n // 2] if n % 2 else (vals[n // 2 - 1] + vals[n // 2]) / 2
+    return median, {k: round(v, 2) for k, v in clamped.items()}
 
 
 def valuation_bucket(upside: float | None) -> str:
@@ -813,6 +909,7 @@ def cmd_daily() -> None:
     fetch_prices(con, [s["symbol"] for s in universe], full=False)
     fetch_fundamentals(con, universe)
     fetch_news(con, universe)
+    fetch_analyst_actions(con, universe)
     state = compute_scores(con, universe)
     shadow = run_shadow(con, state)
     write_snapshots(state, shadow)

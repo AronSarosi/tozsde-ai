@@ -1844,11 +1844,7 @@
       const upClass = Number(row.upside_pct) >= 0 ? "pnl-pos" : "pnl-neg";
       const keyFacts = `
         <div class="kf-grid">
-          ${row.fair_value ? (() => {
-            const models = Object.values(row.fair_value_models || {});
-            const range = models.length > 1 ? `${fmt(Math.min(...models), 0)}-${fmt(Math.max(...models), 0)} USD sáv · ` : "";
-            return `<div class="kf-cell"><span>Fair érték (konzervatív modellek)</span><strong>${fmt(row.fair_value, 2)} USD</strong><span class="kf-sub">${range}<span class="${upClass}">${Number(row.upside_pct) >= 0 ? "+" : ""}${fmt(row.upside_pct, 1)}%</span> · ${esc(row.valuation_label || "")}</span></div>`;
-          })() : ""}
+          ${row.fair_value ? `<div class="kf-cell"><span>Fair érték (modell-medián)</span><strong>${fmt(row.fair_value, 2)} USD</strong><span class="kf-sub"><span class="${upClass}">${Number(row.upside_pct) >= 0 ? "+" : ""}${fmt(row.upside_pct, 1)}%</span> · ${esc(row.valuation_label || "")}${row.fv_agreement ? ` · ${esc(row.fv_agreement)}` : ""}</span></div>` : ""}
           ${row.health !== undefined && row.health !== null ? `<div class="kf-cell"><span>Pénzügyi egészség</span><strong>${fmt(row.health, 1)}/5</strong><span class="kf-sub">${esc(row.health_label || "")}</span></div>` : ""}
           ${an.target_mean ? `<div class="kf-cell"><span>Elemzői célár</span><strong>${fmt(an.target_mean, 2)} USD</strong><span class="kf-sub">${esc(String(an.analysts || "?"))} elemző · ${esc(an.recommendation || "")}</span></div>` : ""}
           <div class="kf-cell"><span>Konvikció</span><strong>${fmt(row.conviction, 1)}</strong><span class="kf-sub">50-től mért távolság</span></div>
@@ -1872,6 +1868,7 @@
         ${keyFacts}
         ${row.driver_text ? `<p class="driver-line">${esc(row.driver_text)}</p>` : ""}
         ${renderV2Insights(row)}
+        ${renderAnalystSection(row)}
         ${renderInvestmentSummary(idea, row)}
         <section class="section">
           <h3>Friss hírek</h3>
@@ -1942,6 +1939,46 @@
           <div class="health-grid">${healthCells}</div>
           ${fv ? `<div class="fv-line"><span>Fair érték (modell-átlag): <b>${fmt(fv, 2)} USD</b></span><span class="${upClass}"><b>${up >= 0 ? "+" : ""}${fmt(up, 1)}%</b></span><span>${esc(row.valuation_label || "")}</span></div>` : ""}
           ${tips ? `<ul class="protip-list">${tips}</ul>` : ""}
+        </section>
+      `;
+    }
+
+    function renderAnalystSection(row) {
+      if (!row.v2) return "";
+      const an = row.analyst_summary || {};
+      const models = row.fair_value_models || {};
+      const modelNames = {analyst_consensus: "Elemzői konszenzus célár", peer_multiple: "Iparági szorzó modell (fwd P/E)", dcf_lite: "Konzervatív DCF (cash flow alapú)"};
+      const modelRows = Object.keys(models).map(k =>
+        `<div class="kf-cell"><span>${modelNames[k] || esc(k)}</span><strong>${fmt(models[k], 2)} USD</strong></div>`).join("");
+      const actions = row.analyst_actions || [];
+      const actionLabel = a => {
+        const t = String(a || "").toLowerCase();
+        if (t === "up") return '<span class="pf-side long">FELMINŐSÍTÉS</span>';
+        if (t === "down") return '<span class="pf-side short">LEMINŐSÍTÉS</span>';
+        if (t === "init") return '<span class="pf-side" style="background:#eef1f5;color:#55627a">ÚJ KÖVETÉS</span>';
+        return '<span class="pf-side" style="background:#eef1f5;color:#55627a">MEGERŐSÍTÉS</span>';
+      };
+      const actionRows = actions.map(a => `
+        <tr>
+          <td>${esc(a.date)}</td>
+          <td><b>${esc(a.firm)}</b></td>
+          <td>${actionLabel(a.action)}</td>
+          <td>${esc(a.from && a.from !== "None" && a.from !== a.to ? `${a.from} → ${a.to}` : (a.to || ""))}</td>
+        </tr>`).join("");
+      if (!an.target_mean && !modelRows && !actions.length) return "";
+      return `
+        <section class="section">
+          <h3>Elemzői vélemények és értékelési modellek</h3>
+          ${an.target_mean ? `<p style="margin:6px 0 10px">Wall Street-i konszenzus: <b>${fmt(an.target_mean, 2)} USD</b> célár (${esc(String(an.analysts || "?"))} elemző, ${esc(an.recommendation || "n/a")}) · sáv: ${fmt(an.target_low, 0)}-${fmt(an.target_high, 0)} USD</p>` : ""}
+          ${modelRows ? `<div class="kf-grid">${modelRows}</div>` : ""}
+          ${actions.length ? `
+          <div style="overflow-x:auto;margin-top:10px">
+          <table class="pf-table">
+            <thead><tr><th>Dátum</th><th>Intézmény</th><th>Művelet</th><th>Minősítés</th></tr></thead>
+            <tbody>${actionRows}</tbody>
+          </table>
+          </div>
+          <p class="small" style="color:var(--muted);margin-top:8px">Az egyes intézmények részletes indoklása nem nyilvános adat - a friss hírek szekcióban gyakran megtalálod a kapcsolódó elemzői kommentárt.</p>` : ""}
         </section>
       `;
     }
