@@ -38,11 +38,11 @@ HISTORY_YEARS = 10
 # Shadow portfolio rules
 LOT_SIZE_USD = 1000.0
 DAILY_PICKS = 5
-LONG_TARGET = 0.20    # +20% -> take profit
+# Longs have NO profit target and NO time limit - winners run for months or
+# years; exit only on stop-loss or the signal flipping to sell.
 LONG_STOP = -0.10     # -10% -> stop out
 SHORT_TARGET = 0.15   # price falls 15% -> take profit on short
 SHORT_STOP = -0.10    # short moves 10% against us -> stop out
-MAX_HOLD_TRADING_DAYS = 60
 
 TIER_LABELS_HU = {
     "strong_buy": "Erős vétel",
@@ -801,14 +801,6 @@ def prev_close(con: sqlite3.Connection, symbol: str, before: str) -> float | Non
     return row["close"] if row else None
 
 
-def trading_days_between(con: sqlite3.Connection, start: str, end: str) -> int:
-    row = con.execute(
-        "SELECT COUNT(*) c FROM prices_daily WHERE symbol=? AND date>? AND date<=?",
-        (BENCHMARK, start, end),
-    ).fetchone()
-    return int(row["c"])
-
-
 def run_shadow(con: sqlite3.Connection, state: dict) -> dict:
     as_of = state["as_of"]
     stocks = state["stocks"]
@@ -824,14 +816,10 @@ def run_shadow(con: sqlite3.Connection, state: dict) -> dict:
         ret = (cur / lot["entry_price"] - 1) * direction
         reason = None
         tier = stocks.get(sym, {}).get("tier", "hold")
-        if lot["side"] == "long" and ret >= LONG_TARGET:
-            reason = "célár elérve"
-        elif lot["side"] == "short" and ret >= SHORT_TARGET:
+        if lot["side"] == "short" and ret >= SHORT_TARGET:
             reason = "célár elérve"
         elif ret <= (LONG_STOP if lot["side"] == "long" else SHORT_STOP):
             reason = "stop-loss"
-        elif trading_days_between(con, lot["opened_date"], cur_date) >= MAX_HOLD_TRADING_DAYS:
-            reason = "időkorlát (60 kereskedési nap)"
         elif lot["side"] == "long" and tier in ("sell", "strong_sell"):
             reason = "jelzés megfordult"
         elif lot["side"] == "short" and tier in ("buy", "strong_buy"):
@@ -934,9 +922,8 @@ def run_shadow(con: sqlite3.Connection, state: dict) -> dict:
         "start_date": batches[-1]["date"] if batches else as_of,
         "rules": {
             "lot_usd": LOT_SIZE_USD, "daily_picks": DAILY_PICKS,
-            "long_target_pct": LONG_TARGET * 100, "long_stop_pct": LONG_STOP * 100,
+            "long_stop_pct": LONG_STOP * 100,
             "short_target_pct": SHORT_TARGET * 100, "short_stop_pct": SHORT_STOP * 100,
-            "max_hold_days": MAX_HOLD_TRADING_DAYS,
         },
         "invested_total": round(invested_total, 2),
         "invested_open": round(invested_open, 2),
