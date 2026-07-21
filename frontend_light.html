@@ -1910,10 +1910,11 @@
               <h3>Pontozási bontás</h3>
               <div class="method-grid">${renderComponents(row)}</div>
             </section>
+            ${row.v2 ? "" : `
             <section class="section">
               <h3>Agent bontás</h3>
               <div id="agentMap" class="agent-map open">${renderAgentMap(row)}</div>
-            </section>
+            </section>`}
             <p class="small">A pontszám döntéstámogató rangsor valós fundamentum-, érték- és kockázati adatok alapján. Nem automatikus vételi vagy eladási utasítás.</p>
           </div>
         </details>
@@ -2006,6 +2007,7 @@
     }
 
     function renderPositionSize(row) {
+      if (row.v2) return "";
       const ps = row.position_size;
       if (!ps) return "";
       let pillClass = "pos-size-pill";
@@ -2306,6 +2308,10 @@
       return earningsHtml + dividendHtml;
     }
     function renderComponents(row) {
+      if (row.factor_ranks) {
+        const names = {momentum: "Momentum (18%)", analyst: "Elemzői kép (18%)", growth: "Növekedés (14%)", value: "Értékeltség (12%)", risk: "Kockázati profil (12%)", profitability: "Jövedelmezőség (10%)", cashflow: "Cash flow (8%)", news: "Hírfolyam - AI (8%)"};
+        return Object.keys(names).map(k => `<div class="kf-cell"><span>${names[k]}</span><strong>${fmt(row.factor_ranks[k], 0)}/100</strong></div>`).join("");
+      }
       const labels = {momentum: "Momentum", fundamentals: "Fundamentum", valuation: "Értékeltség", events: "Esemény", risk: "Kockázat"};
       return Object.entries(labels).map(([key, label]) => `<div class="method-cell"><span>${label}</span><strong>${fmt(row.components?.[key], 0)}</strong></div>`).join("");
     }

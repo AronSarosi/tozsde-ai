@@ -154,7 +154,7 @@ def upsert_prices(con: sqlite3.Connection, symbol: str, frame: pd.DataFrame) -> 
                 symbol,
                 d,
                 _f(row.get("Open")), _f(row.get("High")), _f(row.get("Low")),
-                _f(close), int(row.get("Volume") or 0),
+                _f(close), int(_f(row.get("Volume")) or 0),
             ),
         )
         rows += 1
@@ -267,6 +267,8 @@ def fetch_news(con: sqlite3.Connection, universe: list[dict]) -> None:
                    if isinstance(content.get("canonicalUrl"), dict)
                    else content.get("link") or content.get("url") or "")
             pub = content.get("pubDate") or content.get("displayTime") or ""
+            if str(pub).isdigit():  # epoch seconds -> ISO so string date comparisons work
+                pub = datetime.fromtimestamp(int(str(pub))).isoformat()
             provider = content.get("provider") or {}
             publisher = provider.get("displayName") if isinstance(provider, dict) else str(provider or "")
             try:
@@ -443,6 +445,8 @@ def load_analyst_actions(con: sqlite3.Connection) -> dict[str, list[dict]]:
 def compute_scores(con: sqlite3.Connection, universe: list[dict],
                    llm_news: dict[str, dict] | None = None) -> dict:
     as_of = latest_trading_date(con)
+    if not as_of:
+        raise SystemExit("No benchmark price data in DB (SPY download failed) - aborting run.")
     analyst_actions = load_analyst_actions(con)
     llm_news = llm_news or {}
     fundamentals: dict[str, dict] = {}

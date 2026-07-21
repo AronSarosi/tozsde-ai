@@ -935,6 +935,11 @@ def build_investment_ideas(rows: list[dict], env: dict[str, str]) -> list[dict]:
         else:
             fair_target = ai_target
             target_source = "Tőzsde AI 1-2 éves célár"
+        if row.get("v2") and row.get("fair_value"):
+            # Single source of truth: the price-level table uses the same
+            # v2 fair value shown in the stock detail, not the legacy model.
+            fair_target = float(row["fair_value"])
+            target_source = "Tőzsde AI fair érték (modell-átlag)"
 
         upside_pct = ((fair_target / price) - 1) * 100 if price else None
         risk_score = investment_risk_score(row, upside_pct)
@@ -2322,7 +2327,10 @@ def build_state() -> dict:
     v2_snapshot = load_v2_snapshot()
     if v2_snapshot:
         apply_v2_overlay(rows, v2_snapshot)
-    ensure_minimum_signals(rows, min_each=5)
+    else:
+        # Legacy relative promotion only when no v2 snapshot exists -
+        # v2 tiers are absolute and must not be overridden by rank quotas.
+        ensure_minimum_signals(rows, min_each=5)
     rows_by_action = sorted(rows, key=action_rank, reverse=True)
     rows_by_score = sorted(rows, key=lambda item: item["score"], reverse=True)
     counts: dict[str, int] = {}
