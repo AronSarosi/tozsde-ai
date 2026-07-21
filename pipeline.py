@@ -321,6 +321,81 @@ def pct_rank(values: dict[str, float | None]) -> dict[str, float]:
     return out
 
 
+def load_env_file() -> dict[str, str]:
+    vals: dict[str, str] = {}
+    p = ROOT / ".env"
+    if p.exists():
+        for line in p.read_text(encoding="utf-8").splitlines():
+            if "=" in line and not line.lstrip().startswith("#"):
+                k, v = line.split("=", 1)
+                vals[k.strip()] = v.strip().strip('"').strip("'")
+    return vals
+
+
+def llm_news_scores(con: sqlite3.Connection, universe: list[dict], api_key: str | None,
+                    model: str = "gpt-4o-mini") -> dict[str, dict]:
+    """LLM reads each stock's recent headlines: sentiment -2..+2 + short reason,
+    plus any explicit analyst price targets mentioned. Deterministic (temp 0).
+    Returns {} without a key; caller falls back to keyword sentiment."""
+    if not api_key:
+        return {}
+    import urllib.request as ur
+    cutoff = (datetime.now() - timedelta(days=14)).isoformat()[:19]
+    per_sym: dict[str, list[str]] = {}
+    for stock in universe:
+        rows = con.execute(
+            "SELECT title FROM news WHERE symbol=? AND published_at>=?"
+            " ORDER BY published_at DESC LIMIT 6",
+            (stock["symbol"], cutoff),
+        ).fetchall()
+        if rows:
+            per_sym[stock["symbol"]] = [r["title"] for r in rows]
+    out: dict[str, dict] = {}
+    syms = list(per_sym)
+    print(f"LLM news scoring for {len(syms)} tickers...")
+    system_prompt = (
+        "You are a financial news analyst. For each ticker, rate the aggregate stock-relevant"
+        " sentiment of its recent headlines on an integer scale -2..+2 (-2 clearly negative,"
+        " -1 mildly negative, 0 neutral or mixed, 1 mildly positive, 2 clearly positive)."
+        " Also extract any explicit analyst price targets mentioned in the headlines as"
+        " {firm, target}. Reply with strict JSON:"
+        " {\"TICKER\": {\"s\": int, \"r\": \"reason, max 12 words, in Hungarian\","
+        " \"t\": [{\"firm\": str, \"target\": number}]}} covering every ticker given. No other keys."
+    )
+    for i in range(0, len(syms), 15):
+        batch = syms[i:i + 15]
+        lines = [f"{s}: " + " || ".join(per_sym[s]) for s in batch]
+        body = {
+            "model": model,
+            "temperature": 0,
+            "response_format": {"type": "json_object"},
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": "\n".join(lines)},
+            ],
+        }
+        req = ur.Request(
+            "https://api.openai.com/v1/chat/completions",
+            data=json.dumps(body).encode("utf-8"),
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+        )
+        try:
+            resp = json.load(ur.urlopen(req, timeout=180))
+            parsed = json.loads(resp["choices"][0]["message"]["content"])
+            for sym, v in parsed.items():
+                if isinstance(v, dict) and isinstance(v.get("s"), (int, float)):
+                    out[sym.upper()] = {
+                        "s": max(-2, min(2, int(v["s"]))),
+                        "r": str(v.get("r") or "")[:160],
+                        "t": [t for t in (v.get("t") or [])
+                              if isinstance(t, dict) and isinstance(t.get("target"), (int, float))][:5],
+                    }
+        except Exception as exc:  # noqa: BLE001
+            print(f"  WARN LLM batch {i // 15 + 1} failed: {exc}")
+    print(f"  scored {len(out)} tickers via LLM")
+    return out
+
+
 def fetch_analyst_actions(con: sqlite3.Connection, universe: list[dict]) -> None:
     """Recent analyst rating actions (firm, upgrade/downgrade, grades) per stock."""
     con.execute(
@@ -365,9 +440,11 @@ def load_analyst_actions(con: sqlite3.Connection) -> dict[str, list[dict]]:
     return out
 
 
-def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
+def compute_scores(con: sqlite3.Connection, universe: list[dict],
+                   llm_news: dict[str, dict] | None = None) -> dict:
     as_of = latest_trading_date(con)
     analyst_actions = load_analyst_actions(con)
+    llm_news = llm_news or {}
     fundamentals: dict[str, dict] = {}
     for stock in universe:
         row = con.execute("SELECT data FROM fundamentals WHERE symbol=?", (stock["symbol"],)).fetchone()
@@ -445,12 +522,17 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
             rec_score,
         ])
 
-        cur = con.execute(
-            "SELECT COALESCE(SUM(sentiment),0) s, COUNT(*) c FROM news WHERE symbol=? AND published_at>=?",
-            (sym, cutoff_news),
-        ).fetchone()
-        news_raw = float(cur["s"]) if cur["c"] else None
-        r["news"] = _ramp(news_raw, -5, 25, 5, 75) if news_raw is not None else None
+        llm = llm_news.get(sym)
+        if llm:
+            news_raw = float(llm["s"])
+            r["news"] = _ramp(news_raw, -2, 20, 2, 80)
+        else:
+            cur = con.execute(
+                "SELECT COALESCE(SUM(sentiment),0) s, COUNT(*) c FROM news WHERE symbol=? AND published_at>=?",
+                (sym, cutoff_news),
+            ).fetchone()
+            news_raw = float(cur["s"]) if cur["c"] else None
+            r["news"] = _ramp(news_raw, -5, 25, 5, 75) if news_raw is not None else None
 
         raw[sym] = dict(r)
         raw[sym]["news"] = news_raw  # keep raw sentiment for tip generation
@@ -568,6 +650,8 @@ def compute_scores(con: sqlite3.Connection, universe: list[dict]) -> dict:
             "upside_pct": round(upside * 100, 1) if upside is not None else None,
             "valuation_label": valuation_label,
             "analyst_actions": analyst_actions.get(sym, []),
+            "news_ai_note": (llm_news.get(sym) or {}).get("r"),
+            "news_targets": (llm_news.get(sym) or {}).get("t") or [],
             "analyst": {
                 "target_mean": f.get("targetMeanPrice"),
                 "target_high": f.get("targetHighPrice"),
@@ -910,7 +994,10 @@ def cmd_daily() -> None:
     fetch_fundamentals(con, universe)
     fetch_news(con, universe)
     fetch_analyst_actions(con, universe)
-    state = compute_scores(con, universe)
+    env = load_env_file()
+    llm = llm_news_scores(con, universe, env.get("OPENAI_API_KEY"),
+                          env.get("OPENAI_MODEL") or "gpt-4o-mini")
+    state = compute_scores(con, universe, llm)
     shadow = run_shadow(con, state)
     write_snapshots(state, shadow)
     con.close()

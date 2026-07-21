@@ -1872,6 +1872,7 @@
         ${renderInvestmentSummary(idea, row)}
         <section class="section">
           <h3>Friss hírek</h3>
+          ${row.news_ai_note ? `<p class="driver-line">AI hírértékelés: ${esc(row.news_ai_note)}</p>` : ""}
           <div class="news-list">${renderNews(row)}</div>
         </section>
         ${compact ? "" : `
@@ -1970,6 +1971,7 @@
         <section class="section">
           <h3>Elemzői vélemények és értékelési modellek</h3>
           ${an.target_mean ? `<p style="margin:6px 0 10px">Wall Street-i konszenzus: <b>${fmt(an.target_mean, 2)} USD</b> célár (${esc(String(an.analysts || "?"))} elemző, ${esc(an.recommendation || "n/a")}) · sáv: ${fmt(an.target_low, 0)}-${fmt(an.target_high, 0)} USD</p>` : ""}
+          ${(row.news_targets || []).length ? `<p style="margin:6px 0 10px">Friss célárak a hírekből: ${(row.news_targets || []).map(t => `<b>${esc(t.firm)}</b>: ${fmt(t.target, 0)} USD`).join(" · ")}</p>` : ""}
           ${modelRows ? `<div class="kf-grid">${modelRows}</div>` : ""}
           ${actions.length ? `
           <div style="overflow-x:auto;margin-top:10px">
