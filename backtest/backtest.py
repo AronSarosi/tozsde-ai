@@ -153,14 +153,14 @@ def random_config(rng: random.Random) -> dict:
         "long_th": rng.choice([58, 62, 66, 70]),
         "short_th": rng.choice([30, 34, 38, 42]),
         "stop": rng.choice([-0.08, -0.10, -0.12, -0.15]),
-        "target": rng.choice([0.15, 0.20, 0.25, 0.30]),
-        "max_hold": rng.choice([20, 40, 60, 90]),
+        "target": rng.choice([0.20, 0.30, 9.9]),      # 9.9 = no profit cap (let winners run)
+        "max_hold": rng.choice([60, 120, 250, 10000]),  # 10000 = no time limit
     }
 
 
 LIVE_LIKE = {"w_r3": 0.4, "w_r6": 0.3, "w_ma50": 0.15, "w_ma200": 0.15,
              "mom_scale": 130, "w_mom": 0.6, "long_th": 63, "short_th": 38,
-             "stop": -0.10, "target": 0.20, "max_hold": 60}
+             "stop": -0.10, "target": 9.9, "max_hold": 10000}
 
 
 def main() -> None:
