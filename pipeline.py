@@ -38,10 +38,10 @@ HISTORY_YEARS = 10
 # Shadow portfolio rules
 LOT_SIZE_USD = 1000.0
 DAILY_PICKS = 5
-# Longs have NO profit target and NO time limit - winners run for months or
-# years. Exit only on a WIDE trailing stop from the post-entry peak (backtest:
-# tight stops caused whipsaw, e.g. TSLA -27% timed vs +250% held) or signal flip.
-LONG_TRAIL = -0.25    # -25% below the highest close since entry -> exit
+# Longs NEVER realize a loss (Aron's rule, backtest-confirmed): an underwater
+# long is held - for years if needed - until profitable. Exit only when the
+# position is in profit AND the signal has flipped to sell.
+SHORT_MAX_SCORE = 25  # shorts only on extreme conviction (rare by design)
 SHORT_TARGET = 0.15   # price falls 15% -> take profit on short
 SHORT_STOP = -0.10    # short moves 10% against us -> stop out
 
@@ -821,12 +821,8 @@ def run_shadow(con: sqlite3.Connection, state: dict) -> dict:
             reason = "célár elérve"
         elif lot["side"] == "short" and ret <= SHORT_STOP:
             reason = "stop-loss"
-        elif lot["side"] == "long" and (lambda peak: cur / max(peak or cur, lot["entry_price"]) - 1 <= LONG_TRAIL)(
-                con.execute("SELECT MAX(close) m FROM prices_daily WHERE symbol=? AND date>=?",
-                            (sym, lot["opened_date"])).fetchone()["m"]):
-            reason = "csúszó stop (-25% a csúcstól)"
-        elif lot["side"] == "long" and tier in ("sell", "strong_sell"):
-            reason = "jelzés megfordult"
+        elif lot["side"] == "long" and ret > 0 and tier in ("sell", "strong_sell"):
+            reason = "jelzés megfordult (profitban zárva)"
         elif lot["side"] == "short" and tier in ("buy", "strong_buy"):
             reason = "jelzés megfordult"
         if reason:
@@ -840,7 +836,9 @@ def run_shadow(con: sqlite3.Connection, state: dict) -> dict:
     # 2. Open today's batch (once per trading day).
     existing = con.execute("SELECT 1 FROM shadow_batches WHERE date=?", (as_of,)).fetchone()
     if not existing:
-        candidates = [s for s in stocks.values() if s["tier"] != "hold" and s["last_close"]]
+        candidates = ([s for s in stocks.values() if s["tier"] in ("strong_buy", "buy") and s["last_close"]]
+                      + [s for s in stocks.values() if s["tier"] == "strong_sell"
+                         and s["score"] <= SHORT_MAX_SCORE and s["last_close"]])
         candidates.sort(key=lambda s: s["conviction"], reverse=True)
         picks = candidates[:DAILY_PICKS]
         for s in picks:
@@ -927,7 +925,7 @@ def run_shadow(con: sqlite3.Connection, state: dict) -> dict:
         "start_date": batches[-1]["date"] if batches else as_of,
         "rules": {
             "lot_usd": LOT_SIZE_USD, "daily_picks": DAILY_PICKS,
-            "long_trail_pct": LONG_TRAIL * 100,
+            "long_loss_realization": "soha",
             "short_target_pct": SHORT_TARGET * 100, "short_stop_pct": SHORT_STOP * 100,
         },
         "invested_total": round(invested_total, 2),

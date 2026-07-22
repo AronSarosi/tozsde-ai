@@ -1458,7 +1458,7 @@
           <tbody>${closedRows}</tbody>
         </table>
         </div>` : '<p class="small" style="color:var(--muted)">Még nincs lezárt kötés. Minden lezárt pozíció ide kerül archiválásra.</p>'}
-        <p class="pf-note">Szabályok: minden kereskedési napon a rendszer 5 legerősebb jelzése (long vagy short) kap fejenként $1 000 hipotetikus tőkét. Long pozíciónál nincs profitplafon és nincs időkorlát - a nyerő pozíció futhat évekig; kiszállás csak akkor, ha az árfolyam ${fmt(s.rules && s.rules.long_trail_pct ? s.rules.long_trail_pct : -25, 0)}%-ot esik a belépés utáni csúcsától (csúszó stop), vagy ha a jelzés eladásra fordul. Short: -${fmt(s.rules ? s.rules.short_target_pct : 15, 0)}% cél / +10% stop vagy jelzésváltás. Ez papírkereskedés a rendszer teljesítményének mérésére - nem valós pénz.</p>
+        <p class="pf-note">Szabályok: minden kereskedési napon a rendszer 5 legerősebb jelzése (long vagy short) kap fejenként $1 000 hipotetikus tőkét. Long pozíción a rendszer SOHA nem realizál veszteséget: a mínuszban lévő pozíciót akár évekig tartja, és csak akkor zár, ha a pozíció profitban van ÉS a jelzés eladásra fordult. Short pozíció csak extrém erős jelzésnél nyílik (ritka). Short: -${fmt(s.rules ? s.rules.short_target_pct : 15, 0)}% cél / +10% stop vagy jelzésváltás. Ez papírkereskedés a rendszer teljesítményének mérésére - nem valós pénz.</p>
       `;
     }
     async function openPortfolioDrawer() {
