@@ -31,7 +31,7 @@ momentum (18%), analyst view (18%), growth (14%), value (12%), risk (12%), profi
 Started **2026-07-17** (first trading day booked). Rules:
 
 - Every trading day: $1,000 hypothetical into each of the **5 strongest signals** (long for buys, short for sells), ranked by conviction.
-- Exits: longs have NO profit cap and NO time limit (winners run for months/years) - exit only at -10% stop or when the signal flips to sell. Shorts: -15% target / +10% stop or signal flip.
+- Exits: longs have NO profit cap, NO time limit and NO tight stop - exit only if price falls 25% from its post-entry peak (wide trailing stop) or the signal flips to sell. Shorts: -15% target / +10% stop or signal flip. (Backtest evidence: tight stops/timing lost to holding on 82-87% of stocks.)
 - Benchmark: $5,000/day into SPY - the strategy must beat simple indexing to be worth anything.
 - UI: "Portfolio" button top-right opens a broker-style drawer (positions, P&L, daily batch, closed trades, vs-SPY alpha).
 - State lives in SQLite (`shadow_lots`, `shadow_batches`, `benchmark_lots`) + `snapshot/shadow_state.json`.
