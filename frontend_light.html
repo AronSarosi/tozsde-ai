@@ -919,6 +919,104 @@
     details.adv[open] > summary::before { content:"▾ "; }
     details.adv > .adv-body { padding:0 18px 18px; }
     .driver-line { margin:10px 2px 4px; font-size:0.9rem; color:var(--text); background:var(--surface-soft); border:1px solid var(--line); border-radius:10px; padding:10px 14px; }
+    /* ---- v3: professional price chart ---- */
+    .pc-wrap { position: relative; }
+    .pc-toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .pc-spacer { flex: 1; }
+    .pc-btn {
+      border: 1px solid var(--line); background: var(--surface); color: #475569;
+      border-radius: 8px; padding: 7px 13px; font-size: 14px; font-weight: 700;
+      transition: .15s background, .15s color, .15s border-color;
+    }
+    .pc-btn:hover { background: #f1f5f9; }
+    .pc-btn.active { background: #111827; border-color: #111827; color: #ffffff; }
+    .pc-ma-btn { display: inline-flex; align-items: center; gap: 7px; }
+    .pc-ma-btn.active { background: #eef2f6; border-color: #b9c4d1; color: #111827; }
+    .pc-ma-key { width: 14px; border-top: 3px solid; border-radius: 2px; display: inline-block; }
+    .pc-chg { font-size: 16px; font-weight: 800; margin-left: 4px; font-variant-numeric: tabular-nums; }
+    .pc-body { position: relative; }
+    .pc-body svg { display: block; width: 100%; height: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+    .pc-body.pc-loading { opacity: .45; pointer-events: none; }
+    .pc-draw-active svg { cursor: crosshair; }
+    .pc-tip {
+      position: absolute; top: 14px; z-index: 6; pointer-events: none; display: none;
+      background: #111827; color: #ffffff; border-radius: 10px; padding: 10px 13px;
+      font-size: 13px; line-height: 1.55; min-width: 190px;
+      box-shadow: 0 12px 30px rgba(15,23,42,.25); font-variant-numeric: tabular-nums;
+    }
+    .pc-tip b { font-size: 14px; }
+    .pc-tip .tt-row { display: flex; justify-content: space-between; gap: 16px; }
+    .pc-tip .tt-row span { color: #a7b0be; font-weight: 400; }
+    .pc-hint { font-size: 14px; color: var(--muted); margin: 8px 0 0; }
+    .pc-modal {
+      position: fixed; inset: 0; z-index: 120; background: rgba(15,23,42,.52);
+      backdrop-filter: blur(4px); display: grid; place-items: center; padding: 26px;
+      animation: fadeIn .18s ease-out both;
+    }
+    .pc-modal-card {
+      background: var(--surface); border-radius: 14px; width: min(1240px, 100%);
+      max-height: 94vh; overflow: auto; padding: 22px 26px;
+      box-shadow: 0 30px 90px rgba(15,23,42,.35);
+    }
+    .pc-modal-head { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 12px; }
+    .pc-modal-head h3 { margin: 0; font-size: 23px; }
+    .pc-close { background: none; border: 0; font-size: 28px; color: var(--muted); line-height: 1; padding: 2px 8px; }
+    .pc-close:hover { color: var(--text); }
+    /* ---- v3: price levels card grid ---- */
+    .levels-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin: 4px 0 20px; }
+    .level-card {
+      background: var(--surface); border: 1px solid #e5ebf1; border-left: 3px solid #cbd5e1;
+      border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column;
+      box-shadow: 0 4px 14px rgba(15,23,42,.04);
+    }
+    .level-card > span { color: var(--muted); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+    .level-card strong { color: var(--text); font-size: 26px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+    .level-card small { margin-top: 8px; color: var(--muted); font-size: 13.5px; line-height: 1.45; }
+    .level-card .pill-line { margin: 2px 0 0; }
+    .level-card.lc-hero { border-left-color: #111827; }
+    .level-card.lc-green { border-left-color: var(--green); }
+    .level-card.lc-green > span { color: #0f7b42; }
+    .level-card.lc-red { border-left-color: var(--red); }
+    .level-card.lc-red > span { color: #b42338; }
+    .level-card.lc-blue { border-left-color: #2563eb; }
+    .level-card.lc-blue > span { color: #2457a6; }
+    .level-card.lc-amber { border-left-color: #e5a839; }
+    .level-card.lc-amber > span { color: #92610d; }
+    .level-card.lc-neutral { border-left-color: #cbd5e1; }
+    .lc-warnflag { color: #b45309; font-weight: 700; }
+    .section-note { font-size: 16px; color: #4c5969; line-height: 1.55; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 6px 0 0; }
+    /* ---- v3: news cards ---- */
+    .news-item { display: flex; flex-direction: column; gap: 8px; padding: 18px 20px; }
+    .news-item .news-title { margin: 0; }
+    .news-item p { font-size: 16px; margin: 0; }
+    .news-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
+    .news-meta .news-pub { font-weight: 700; color: #334155; }
+    .news-btn {
+      display: inline-flex; align-items: center; justify-content: center; align-self: flex-start;
+      margin-top: 6px; background: var(--green); color: #ffffff; font-weight: 700; font-size: 16px;
+      border-radius: 10px; padding: 10px 20px; transition: .15s background;
+    }
+    .news-btn:hover { background: #128a49; color: #ffffff; text-decoration: none; }
+    /* ---- v3: unified pill system ---- */
+    .timing-pill, .risk-pill, .pf-side, .tier-badge, .investment-status, .pos-size-pill, .score-change, .summary-pill, .source-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 999px; padding: 5px 12px;
+      font-size: 13px; font-weight: 800; letter-spacing: .02em; line-height: 1.2; white-space: nowrap;
+    }
+    .pf-side { padding: 3px 10px; font-size: 12px; }
+    .source-badge { padding: 4px 10px; font-weight: 760; letter-spacing: 0; }
+    .pos-size-pill { font-size: 15px; padding: 6px 14px; }
+    .investment-status { min-width: 96px; text-transform: uppercase; }
+    .risk-pill { text-transform: uppercase; }
+    .level-card .timing-pill, .level-card .risk-pill { font-size: 14px; }
+    .investment-status.strong-buy, .tier-strong_buy { background: #0f7b42; color: #ffffff; }
+    .investment-status.strong-sell, .tier-strong_sell { background: #b42338; color: #ffffff; }
+    @media (max-width: 1100px) { .levels-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 720px) {
+      .levels-grid { grid-template-columns: 1fr; }
+      .pc-modal { padding: 10px; }
+      .pc-modal-card { padding: 16px; }
+    }
   </style>
 </head>
 <body>
@@ -1753,7 +1851,7 @@
       const regime = netBull >= Math.round(total * 0.15) ? "bull" : netBull <= -Math.round(total * 0.1) ? "bear" : "neutral";
       const icon = regime === "bull" ? "📈" : regime === "bear" ? "📉" : "⚖️";
       const label = regime === "bull" ? "Bika piac" : regime === "bear" ? "Medve piac" : "Semleges piac";
-      const desc = `${buyCount} vételi · ${sellCount} eladási · ${total - buyCount - sellCount} hold — portfólió ${buyPct}% buy, ${sellPct}% sell`;
+      const desc = `${buyCount} vételi · ${sellCount} eladási · ${total - buyCount - sellCount} hold - portfólió ${buyPct}% buy, ${sellPct}% sell`;
       el.innerHTML = `
         <div class="regime-banner ${regime}">
           <span class="regime-icon">${icon}</span>
@@ -2134,41 +2232,391 @@
       loadDetailChart(row.symbol);
     }
 
-    async function loadDetailChart(symbol) {
-      const el = document.getElementById("chartBox");
-      if (!el) return;
-      try {
-        const r = await fetch(`/api/chart/${encodeURIComponent(symbol)}`);
-        const data = await r.json();
-        el.innerHTML = buildChartSVG(data.prices || []);
-      } catch (e) {
-        el.innerHTML = '<p class="small">A chart most nem elérhető.</p>';
+    // ---- Professional price chart (vanilla SVG, no libraries) ----
+    const PC_RANGES = {
+      "1H": { srv: "1y", pts: 23, title: "1 hónap" },
+      "6H": { srv: "1y", pts: 128, title: "6 hónap" },
+      "1E": { srv: "1y", pts: null, title: "1 év" },
+      "5E": { srv: "5y", pts: null, title: "5 év" },
+    };
+    const PC_RANGE_LABELS = { "1H": "1H", "6H": "6H", "1E": "1É", "5E": "5É" };
+    const PC_MAS = {
+      ma20: { p: 20, color: "#92400e", label: "MA20" },
+      ma50: { p: 50, color: "#3b82f6", label: "MA50" },
+      ma200: { p: 200, color: "#6d28d9", label: "MA200" },
+    };
+    const pcState = {
+      symbol: null,
+      range: "1E",
+      ma: { ma20: false, ma50: false, ma200: false },
+      cache: {},
+      modalOpen: false,
+      drawMode: false,
+      pending: null,
+    };
+    let pcRenderSeq = 0;
+
+    function pcLinesLoad() {
+      try { return JSON.parse(localStorage.getItem("tozsdeai_trendlines") || "{}") || {}; } catch (e) { return {}; }
+    }
+    function pcLinesFor(symbol) {
+      const all = pcLinesLoad();
+      return Array.isArray(all[symbol]) ? all[symbol] : [];
+    }
+    function pcLinesSave(symbol, lines) {
+      const all = pcLinesLoad();
+      all[symbol] = lines;
+      try { localStorage.setItem("tozsdeai_trendlines", JSON.stringify(all)); } catch (e) {}
+    }
+
+    function loadDetailChart(symbol) {
+      pcState.symbol = symbol;
+      pcState.pending = null;
+      renderPC();
+    }
+
+    async function pcData() {
+      const cfg = PC_RANGES[pcState.range];
+      const key = `${pcState.symbol}:${cfg.srv}`;
+      if (pcState.cache[key]) return pcState.cache[key];
+      const url = `/api/chart/${encodeURIComponent(pcState.symbol)}${cfg.srv === "1y" ? "" : `?range=${cfg.srv}`}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      const rows = (data.prices || []).filter(p => Number.isFinite(Number(p.close)));
+      if (rows.length) pcState.cache[key] = rows;
+      return rows;
+    }
+
+    function pcSetRange(rangeKey) {
+      if (!PC_RANGES[rangeKey]) return;
+      pcState.range = rangeKey;
+      pcState.pending = null;
+      renderPC();
+    }
+    function pcToggleMA(key) {
+      if (!(key in pcState.ma)) return;
+      pcState.ma[key] = !pcState.ma[key];
+      renderPC();
+    }
+    function pcOpenModal() { pcState.modalOpen = true; renderPC(); }
+    function pcCloseModal() {
+      pcState.modalOpen = false;
+      pcState.drawMode = false;
+      pcState.pending = null;
+      const modal = document.getElementById("pcModal");
+      if (modal) modal.remove();
+      renderPC();
+    }
+    function pcToggleDraw() {
+      pcState.drawMode = !pcState.drawMode;
+      pcState.pending = null;
+      renderPC();
+    }
+    function pcClearLines() {
+      pcLinesSave(pcState.symbol, []);
+      pcState.pending = null;
+      renderPC();
+    }
+
+    async function renderPC() {
+      const seq = ++pcRenderSeq;
+      const panelMount = document.getElementById("chartBox");
+      let modal = document.getElementById("pcModal");
+      if (pcState.modalOpen && !modal) {
+        modal = document.createElement("div");
+        modal.id = "pcModal";
+        modal.className = "pc-modal";
+        modal.addEventListener("click", e => { if (e.target === modal) pcCloseModal(); });
+        document.body.appendChild(modal);
+      }
+      if (!pcState.modalOpen && modal) { modal.remove(); modal = null; }
+      if (!panelMount && !modal) return;
+      // Refetch keeps the frame: dim the previous render instead of blanking it.
+      [panelMount, modal].forEach(el => {
+        if (el) el.querySelectorAll(".pc-body").forEach(b => b.classList.add("pc-loading"));
+      });
+      let rows = [];
+      try { rows = await pcData(); } catch (e) { rows = []; }
+      if (seq !== pcRenderSeq) return;
+      if (panelMount) pcMount(panelMount, rows, false);
+      if (modal) {
+        modal.innerHTML = `
+          <div class="pc-modal-card">
+            <div class="pc-modal-head">
+              <h3>${esc(pcState.symbol)} árfolyam</h3>
+              <button class="pc-close" type="button" aria-label="Bezárás" onclick="pcCloseModal()">x</button>
+            </div>
+            <div id="pcModalMount"></div>
+          </div>`;
+        pcMount(document.getElementById("pcModalMount"), rows, true);
       }
     }
-    function buildChartSVG(rows) {
-      const pts = rows.map(r => Number(r.close)).filter(Number.isFinite);
-      if (pts.length < 10) return '<p class="small">Nincs elég árfolyamadat.</p>';
-      const w = 820, h = 230, min = Math.min(...pts), max = Math.max(...pts);
-      const span = max - min || 1;
-      const path = pts.map((v, i) =>
-        `${(i / (pts.length - 1) * w).toFixed(1)},${(h - 12 - (v - min) / span * (h - 26)).toFixed(1)}`).join(" ");
-      const up = pts[pts.length - 1] >= pts[0];
-      const col = up ? "var(--green)" : "var(--red)";
-      const chg = (pts[pts.length - 1] / pts[0] - 1) * 100;
-      return `
-        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
-          <span style="font-size:0.8rem;color:var(--muted)">1 éves árfolyam</span>
-          <b class="${up ? "pnl-pos" : "pnl-neg"}">${chg >= 0 ? "+" : ""}${fmt(chg, 1)}% / 1 év</b>
-        </div>
-        <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:auto;display:block;background:var(--surface);border:1px solid var(--line);border-radius:12px">
-          <polyline fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" points="${path}"/>
-        </svg>
-        <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--muted);margin-top:4px">
-          <span>${esc(String(rows[0].date || ""))}</span>
-          <span>min ${fmt(min, 2)} · max ${fmt(max, 2)} USD</span>
-          <span>${esc(String(rows[rows.length - 1].date || ""))}</span>
+
+    function pcMount(el, rows, isModal) {
+      if (!el) return;
+      if (!rows || rows.length < 10) {
+        el.innerHTML = '<p class="small">A chart most nem elérhető, nincs elég árfolyamadat.</p>';
+        return;
+      }
+      const cfg = PC_RANGES[pcState.range];
+      const slice = cfg.pts ? rows.slice(-cfg.pts) : rows;
+      const view = pcCompute(rows, slice, isModal);
+      const rangeBtns = Object.keys(PC_RANGES).map(rk =>
+        `<button type="button" class="pc-btn ${rk === pcState.range ? "active" : ""}" onclick="pcSetRange('${rk}')">${PC_RANGE_LABELS[rk]}</button>`).join("");
+      const maBtns = Object.keys(PC_MAS).map(k =>
+        `<button type="button" class="pc-btn pc-ma-btn ${pcState.ma[k] ? "active" : ""}" onclick="pcToggleMA('${k}')" title="${PC_MAS[k].p} periódusú mozgóátlag"><span class="pc-ma-key" style="border-top-color:${PC_MAS[k].color}"></span>${PC_MAS[k].label}</button>`).join("");
+      const chgCls = view.chg >= 0 ? "pnl-pos" : "pnl-neg";
+      const tools = isModal
+        ? `<button type="button" class="pc-btn ${pcState.drawMode ? "active" : ""}" onclick="pcToggleDraw()">Vonal</button><button type="button" class="pc-btn" onclick="pcClearLines()">Törlés</button>`
+        : `<button type="button" class="pc-btn" onclick="pcOpenModal()">Nagyítás</button>`;
+      el.innerHTML = `
+        <div class="pc-wrap">
+          <div class="pc-toolbar">
+            ${rangeBtns}
+            <span class="pc-chg ${chgCls}">${view.chg >= 0 ? "+" : ""}${fmt(view.chg, 2)}% / ${cfg.title}</span>
+            <span class="pc-spacer"></span>
+            ${maBtns}
+            ${tools}
+          </div>
+          <div class="pc-body ${isModal && pcState.drawMode ? "pc-draw-active" : ""}">${view.svg}<div class="pc-tip"></div></div>
+          ${isModal && pcState.drawMode ? '<p class="pc-hint">Rajzolás: kattints két pontra a charton a trendvonalhoz. A vonalak ehhez a részvényhez mentve maradnak.</p>' : ""}
         </div>`;
+      pcBind(el, view, isModal);
     }
+
+    function pcTicks(lo, hi, count) {
+      const span = hi - lo || 1;
+      const step0 = span / Math.max(1, count);
+      const mag = Math.pow(10, Math.floor(Math.log10(step0)));
+      const norm = step0 / mag;
+      const step = (norm >= 5 ? 5 : norm >= 2.5 ? 2.5 : norm >= 2 ? 2 : 1) * mag;
+      const ticks = [];
+      for (let v = Math.ceil(lo / step) * step; v <= hi + step * 1e-6; v += step) ticks.push(v);
+      return ticks;
+    }
+    function pcDateLabel(iso, rangeKey) {
+      const d = new Date(`${iso}T00:00:00`);
+      if (!Number.isFinite(d.getTime())) return iso;
+      if (rangeKey === "1H" || rangeKey === "6H") return d.toLocaleDateString("hu-HU", { month: "short", day: "numeric" });
+      return d.toLocaleDateString("hu-HU", { year: "numeric", month: "short" });
+    }
+    function pcIdxForDate(slice, dateStr) {
+      if (!dateStr || !slice.length) return null;
+      if (dateStr < slice[0].date || dateStr > slice[slice.length - 1].date) return null;
+      let loI = 0, hiI = slice.length - 1;
+      while (loI < hiI) {
+        const mid = (loI + hiI) >> 1;
+        if (slice[mid].date < dateStr) loI = mid + 1; else hiI = mid;
+      }
+      return loI;
+    }
+
+    function pcCompute(fullRows, slice, isModal) {
+      const W = 920, H = isModal ? 520 : 330;
+      const padL = 12, padR = 70, padT = 18, padB = 30;
+      const volH = Math.round(H * 0.14), volGap = 12;
+      const plotW = W - padL - padR;
+      const priceTop = padT;
+      const priceBottom = H - padB - volH - volGap;
+      const priceH = priceBottom - priceTop;
+      const volBottom = H - padB;
+      const n = slice.length;
+      const closes = slice.map(r => Number(r.close));
+      const off = fullRows.length - n;
+      const maData = {};
+      for (const k of Object.keys(PC_MAS)) {
+        if (!pcState.ma[k]) continue;
+        const p = PC_MAS[k].p;
+        const src = fullRows.map(r => Number(r.close));
+        const out = new Array(src.length).fill(null);
+        let sum = 0;
+        for (let i = 0; i < src.length; i++) {
+          sum += src[i];
+          if (i >= p) sum -= src[i - p];
+          if (i >= p - 1) out[i] = sum / p;
+        }
+        maData[k] = out.slice(off);
+      }
+      let lo = Math.min(...closes), hi = Math.max(...closes);
+      for (const k in maData) {
+        for (const v of maData[k]) {
+          if (v !== null && Number.isFinite(v)) { if (v < lo) lo = v; if (v > hi) hi = v; }
+        }
+      }
+      const span0 = (hi - lo) || Math.abs(hi) * 0.02 || 1;
+      lo -= span0 * 0.04;
+      hi += span0 * 0.04;
+      const x = i => padL + (n === 1 ? 0 : i / (n - 1) * plotW);
+      const y = v => priceTop + (1 - (v - lo) / (hi - lo)) * priceH;
+      const up = closes[n - 1] >= closes[0];
+      const lineColor = up ? "#18a957" : "#d9495f";
+      const chg = (closes[n - 1] / closes[0] - 1) * 100;
+      const sfx = isModal ? "m" : "p";
+
+      const pts = closes.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`);
+      const linePath = `M${pts.join("L")}`;
+      const areaPath = `${linePath}L${x(n - 1).toFixed(1)},${priceBottom}L${x(0).toFixed(1)},${priceBottom}Z`;
+
+      const grid = pcTicks(lo, hi, isModal ? 7 : 5).map(t =>
+        `<line x1="${padL}" x2="${padL + plotW}" y1="${y(t).toFixed(1)}" y2="${y(t).toFixed(1)}" stroke="#e8edf2" stroke-width="1"/>` +
+        `<text x="${padL + plotW + 8}" y="${(y(t) + 4).toFixed(1)}" font-size="13" fill="#7c8698">${fmt(t, t >= 1000 ? 0 : 2)}</text>`).join("");
+
+      const labCount = isModal ? 7 : 5;
+      let dateLabs = "";
+      for (let li = 0; li < labCount; li++) {
+        const i = Math.round(li * (n - 1) / (labCount - 1));
+        const anchor = li === 0 ? "start" : li === labCount - 1 ? "end" : "middle";
+        dateLabs += `<text x="${x(i).toFixed(1)}" y="${H - 8}" font-size="13" fill="#7c8698" text-anchor="${anchor}">${esc(pcDateLabel(slice[i].date, pcState.range))}</text>`;
+      }
+
+      const vols = slice.map(r => Math.max(0, Number(r.volume) || 0));
+      const volMax = Math.max(...vols, 1);
+      const barW = Math.max(0.8, plotW / n - 1.4);
+      const volBars = slice.map((r, i) => {
+        const hgt = vols[i] / volMax * volH;
+        if (hgt <= 0.2) return "";
+        const prev = i > 0 ? Number(slice[i - 1].close) : Number(r.close);
+        const c = Number(r.close) >= prev ? "#18a957" : "#d9495f";
+        return `<rect x="${(x(i) - barW / 2).toFixed(1)}" y="${(volBottom - hgt).toFixed(1)}" width="${barW.toFixed(1)}" height="${hgt.toFixed(1)}" fill="${c}" opacity="0.3" rx="1"/>`;
+      }).join("");
+
+      let iMin = 0, iMax = 0;
+      closes.forEach((v, i) => { if (v < closes[iMin]) iMin = i; if (v > closes[iMax]) iMax = i; });
+      const marker = (i, isMax) => {
+        const tx = Math.max(padL + 36, Math.min(padL + plotW - 36, x(i)));
+        const ty = isMax ? Math.max(priceTop + 12, y(closes[i]) - 12) : Math.min(priceBottom - 4, y(closes[i]) + 22);
+        return `<circle cx="${x(i).toFixed(1)}" cy="${y(closes[i]).toFixed(1)}" r="4" fill="${lineColor}" stroke="#ffffff" stroke-width="2"/>` +
+          `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" font-size="13" font-weight="700" fill="#475569">${fmt(closes[i], 2)}</text>`;
+      };
+      const minmax = marker(iMax, true) + marker(iMin, false);
+
+      const maPaths = Object.keys(maData).map(k => {
+        const arr = maData[k];
+        let dstr = "", started = false;
+        for (let i = 0; i < n; i++) {
+          const v = arr[i];
+          if (v === null || !Number.isFinite(v)) { started = false; continue; }
+          dstr += `${started ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`;
+          started = true;
+        }
+        return dstr ? `<path d="${dstr}" fill="none" stroke="${PC_MAS[k].color}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/>` : "";
+      }).join("");
+
+      const trendLines = pcLinesFor(pcState.symbol).map(ln => {
+        const i1 = pcIdxForDate(slice, ln.d1);
+        const i2 = pcIdxForDate(slice, ln.d2);
+        if (i1 === null || i2 === null) return "";
+        return `<line x1="${x(i1).toFixed(1)}" y1="${y(ln.p1).toFixed(1)}" x2="${x(i2).toFixed(1)}" y2="${y(ln.p2).toFixed(1)}" stroke="#334155" stroke-width="1.7" stroke-linecap="round"/>`;
+      }).join("");
+      let pendingMark = "";
+      if (isModal && pcState.pending) {
+        const pi = pcIdxForDate(slice, pcState.pending.d);
+        if (pi !== null) pendingMark = `<circle cx="${x(pi).toFixed(1)}" cy="${y(pcState.pending.p).toFixed(1)}" r="5" fill="none" stroke="#334155" stroke-width="2"/>`;
+      }
+
+      const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(pcState.symbol || "")} árfolyam chart">
+        <defs>
+          <linearGradient id="pcgrad${sfx}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="${lineColor}" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="${lineColor}" stop-opacity="0.02"/>
+          </linearGradient>
+          <clipPath id="pcclip${sfx}"><rect x="${padL}" y="${priceTop}" width="${plotW}" height="${volBottom - priceTop}"/></clipPath>
+        </defs>
+        ${grid}
+        <g>${volBars}</g>
+        <path d="${areaPath}" fill="url(#pcgrad${sfx})"/>
+        <path d="${linePath}" fill="none" stroke="${lineColor}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        ${maPaths}
+        <g clip-path="url(#pcclip${sfx})">${trendLines}${pendingMark}</g>
+        ${minmax}
+        ${dateLabs}
+        <g class="pc-cross" style="display:none">
+          <line class="pc-cx" x1="0" x2="0" y1="${priceTop}" y2="${volBottom}" stroke="#94a3b8" stroke-width="1"/>
+          <circle class="pc-dot" r="4.5" fill="${lineColor}" stroke="#ffffff" stroke-width="2"/>
+        </g>
+      </svg>`;
+      return { svg, chg, geom: { W, H, padL, plotW, priceTop, priceH, lo, hi, n, slice } };
+    }
+
+    function pcTipHTML(r, chg) {
+      const vol = Number(r.volume);
+      const volTxt = Number.isFinite(vol) && vol > 0
+        ? (vol >= 1e9 ? `${(vol / 1e9).toFixed(2)} Mrd` : vol >= 1e6 ? `${(vol / 1e6).toFixed(1)} M` : vol.toLocaleString("hu-HU"))
+        : "n/a";
+      const row = (label, value) => `<div class="tt-row"><span>${label}</span><b>${value}</b></div>`;
+      return `<b>${esc(String(r.date || ""))}</b>` +
+        row("Nyitó", fmt(r.open, 2)) +
+        row("Maximum", fmt(r.high, 2)) +
+        row("Minimum", fmt(r.low, 2)) +
+        row("Záró", fmt(r.close, 2)) +
+        row("Forgalom", volTxt) +
+        row("Időszak eleje óta", `${chg >= 0 ? "+" : ""}${fmt(chg, 2)}%`);
+    }
+
+    function pcBind(el, view, isModal) {
+      const body = el.querySelector(".pc-body");
+      const svg = body ? body.querySelector("svg") : null;
+      if (!body || !svg) return;
+      const tip = body.querySelector(".pc-tip");
+      const cross = svg.querySelector(".pc-cross");
+      const crossLine = svg.querySelector(".pc-cx");
+      const crossDot = svg.querySelector(".pc-dot");
+      const g = view.geom;
+      const xOf = i => g.padL + (g.n === 1 ? 0 : i / (g.n - 1) * g.plotW);
+      const yOf = v => g.priceTop + (1 - (v - g.lo) / (g.hi - g.lo)) * g.priceH;
+      const toView = evt => {
+        const rect = svg.getBoundingClientRect();
+        return {
+          vx: (evt.clientX - rect.left) * g.W / rect.width,
+          vy: (evt.clientY - rect.top) * g.H / rect.height,
+          rect,
+        };
+      };
+      const idxAt = vx => Math.max(0, Math.min(g.n - 1, Math.round((vx - g.padL) / g.plotW * (g.n - 1))));
+      svg.addEventListener("pointermove", evt => {
+        const { vx, rect } = toView(evt);
+        const i = idxAt(vx);
+        const r = g.slice[i];
+        const close = Number(r.close);
+        cross.style.display = "";
+        crossLine.setAttribute("x1", xOf(i));
+        crossLine.setAttribute("x2", xOf(i));
+        crossDot.setAttribute("cx", xOf(i));
+        crossDot.setAttribute("cy", yOf(close));
+        tip.innerHTML = pcTipHTML(r, (close / Number(g.slice[0].close) - 1) * 100);
+        tip.style.display = "block";
+        const px = xOf(i) * rect.width / g.W;
+        const flip = px > rect.width * 0.55;
+        tip.style.left = flip ? "auto" : `${Math.round(px + 16)}px`;
+        tip.style.right = flip ? `${Math.round(rect.width - px + 16)}px` : "auto";
+      });
+      svg.addEventListener("pointerleave", () => {
+        cross.style.display = "none";
+        tip.style.display = "none";
+      });
+      if (isModal) {
+        svg.addEventListener("click", evt => {
+          if (!pcState.drawMode) return;
+          const { vx, vy } = toView(evt);
+          const i = idxAt(vx);
+          const clampedY = Math.max(g.priceTop, Math.min(g.priceTop + g.priceH, vy));
+          const price = g.lo + (1 - (clampedY - g.priceTop) / g.priceH) * (g.hi - g.lo);
+          const point = { d: g.slice[i].date, p: price };
+          if (!pcState.pending) {
+            pcState.pending = point;
+          } else {
+            const lines = pcLinesFor(pcState.symbol);
+            lines.push({ d1: pcState.pending.d, p1: pcState.pending.p, d2: point.d, p2: point.p });
+            pcLinesSave(pcState.symbol, lines);
+            pcState.pending = null;
+          }
+          renderPC();
+        });
+      }
+    }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && pcState.modalOpen) pcCloseModal();
+    });
 
     function renderResearchSummary() {
       const rows = state.rankings || [];
@@ -2228,59 +2676,59 @@
     function renderInvestmentSummary(idea, row) {
       if (!idea) return "";
       const category = row && row.category;
-      const timingHTML = idea.timing_label
-        ? `<div class="price-cell"><span>${hintLabel("Timing", "A pozíció időzítése a 52 hetes csúcshoz képest. Kedvező = 15-25% csúcs alatt (mean-reversion edge mega-cap nevekre); Kedvezőtlen = csúcs közelében, nincs biztonsági ráhagyás. Kedvező (figyelem) = 25%+ esett, vizsgáld meg miért.")}</span><strong>${esc(idea.timing_label)}</strong><small>${idea.ath_distance_pct !== null && idea.ath_distance_pct !== undefined ? `52w csúcstól: ${pct(idea.ath_distance_pct)}${idea.year_high ? ` (${fmt(idea.year_high, 2)} USD)` : ""}` : "n/a"}${idea.timing_flag ? `<br><span style="color:#b45309;font-weight:700;">⚠ Mély visszaesés – ellenőrizd a fundamentumokat</span>` : ""}</small></div>`
+      const timingCard = idea.timing_label
+        ? `<div class="level-card lc-amber"><span>${hintLabel("Timing", "A pozíció időzítése a 52 hetes csúcshoz képest. Kedvező = 15-25% csúcs alatt (mean-reversion edge mega-cap nevekre); Kedvezőtlen = csúcs közelében, nincs biztonsági ráhagyás. Kedvező (figyelem) = 25%+ esett, vizsgáld meg miért.")}</span><div class="pill-line"><span class="timing-pill ${timingPillClass(idea.timing_label)}">${esc(idea.timing_label)}</span></div><small>${idea.ath_distance_pct !== null && idea.ath_distance_pct !== undefined ? `52w csúcstól: ${pct(idea.ath_distance_pct)}${idea.year_high ? ` (${fmt(idea.year_high, 2)} USD)` : ""}` : "n/a"}${idea.timing_flag ? `<br><span class="lc-warnflag">Mély visszaesés - ellenőrizd a fundamentumokat</span>` : ""}</small></div>`
         : "";
+      const currentCard = `<div class="level-card lc-hero"><span>Aktuális ár</span><strong>${fmt(idea.latest_price, 2)} USD</strong></div>`;
+      const riskCard = small => `<div class="level-card lc-neutral"><span>Kockázat</span><div class="pill-line"><span class="risk-pill ${riskClass(idea.risk_level)}">${esc(idea.risk_level)}</span></div><small>${small}</small></div>`;
       // For SELL: short trade structure (entry, target, stop).
       if (String(category || "").toLowerCase().includes("sell")) {
         return `
-          <section class="section">
+          <section class="section levels-section">
             <h3>Short pozíció szintjei</h3>
-            <div class="price-grid">
-              <div class="price-cell"><span>Aktuális ár</span><strong>${fmt(idea.latest_price, 2)} USD</strong></div>
-              <div class="price-cell"><span>${hintLabel("Short belépő", "Itt vagy ennek közelében (esetleg kis felpattanás után) érdemes shortolni.")}</span><strong>${fmt(idea.entry_price, 2)} USD</strong><small>zóna: ${fmt(idea.entry_low, 2)}-${fmt(idea.entry_high, 2)}</small></div>
-              <div class="price-cell"><span>${hintLabel("Short célár", "Az AI által becsült alsó ár - itt érdemes a short pozíciót zárni.")}</span><strong>${fmt(idea.exit_price || idea.target_price, 2)} USD</strong><small>${idea.target_upside_pct !== null && idea.target_upside_pct !== undefined ? `${pct(idea.target_upside_pct)} az aktuálistól` : ""}</small></div>
-              <div class="price-cell"><span>${hintLabel("Stop (felfelé)", "Ha az árfolyam ezen szint fölé megy, a short thesis nem működik - érdemes lezárni.")}</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
-              <div class="price-cell"><span>${hintLabel("Elemzői célár", "Külső elemzői konszenzus célára.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
-              ${timingHTML}
-              <div class="price-cell"><span>Kockázat</span><strong>${esc(idea.risk_level)}</strong><small>${fmt(idea.risk_score, 0)}</small></div>
+            <div class="levels-grid">
+              ${currentCard}
+              <div class="level-card lc-red"><span>${hintLabel("Short belépő", "Itt vagy ennek közelében (esetleg kis felpattanás után) érdemes shortolni.")}</span><strong>${fmt(idea.entry_price, 2)} USD</strong><small>zóna: ${fmt(idea.entry_low, 2)}-${fmt(idea.entry_high, 2)}</small></div>
+              <div class="level-card lc-green"><span>${hintLabel("Short célár", "Az AI által becsült alsó ár - itt érdemes a short pozíciót zárni.")}</span><strong>${fmt(idea.exit_price || idea.target_price, 2)} USD</strong><small>${idea.target_upside_pct !== null && idea.target_upside_pct !== undefined ? `${pct(idea.target_upside_pct)} az aktuálistól` : ""}</small></div>
+              <div class="level-card lc-red"><span>${hintLabel("Stop (felfelé)", "Ha az árfolyam ezen szint fölé megy, a short thesis nem működik - érdemes lezárni.")}</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
+              <div class="level-card lc-blue"><span>${hintLabel("Elemzői célár", "Külső elemzői konszenzus célára.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
+              ${timingCard}
+              ${riskCard(`${fmt(idea.risk_score, 0)} kockázati érték`)}
             </div>
-            <p class="small"><strong>Megjegyzés:</strong> short pozíció magasabb kockázattal jár (korlátlan veszteség elvileg). Csak akkor érdemes, ha kifejezetten short stratégiát futtatsz. Alternatíva: ha hosszú pozíciód van, érdemes átgondolni a kiszállást.</p>
+            <p class="section-note"><strong>Megjegyzés:</strong> short pozíció magasabb kockázattal jár (korlátlan veszteség elvileg). Csak akkor érdemes, ha kifejezetten short stratégiát futtatsz. Alternatíva: ha hosszú pozíciód van, érdemes átgondolni a kiszállást.</p>
           </section>
         `;
       }
       // For HOLD: no specific entry/exit, just monitoring info
       if (category === "hold") {
         return `
-          <section class="section">
+          <section class="section levels-section">
             <h3>Árszintek</h3>
-            <div class="price-grid">
-              <div class="price-cell"><span>Aktuális ár</span><strong>${fmt(idea.latest_price, 2)} USD</strong></div>
-              <div class="price-cell"><span>${hintLabel("Elemzői célár", "Külső elemzői konszenzus célára. Csak referencia, semleges jelzés mellett nem érdemes pozíciót nyitni.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
-              ${timingHTML}
-              <div class="price-cell"><span>Kockázat</span><strong>${esc(idea.risk_level)}</strong><small>${fmt(idea.risk_score, 0)}</small></div>
+            <div class="levels-grid">
+              ${currentCard}
+              <div class="level-card lc-blue"><span>${hintLabel("Elemzői célár", "Külső elemzői konszenzus célára. Csak referencia, semleges jelzés mellett nem érdemes pozíciót nyitni.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
+              ${timingCard}
+              ${riskCard(`${fmt(idea.risk_score, 0)} kockázati érték`)}
             </div>
-            <p class="small"><strong>Megjegyzés:</strong> semleges jelzés (50 körüli pontszám). Most nem érdemes új pozíciót nyitni, érdemes katalizátorra (eredményközlés, célár-revízió) várni.</p>
+            <p class="section-note"><strong>Megjegyzés:</strong> semleges jelzés (50 körüli pontszám). Most nem érdemes új pozíciót nyitni, érdemes katalizátorra (eredményközlés, célár-revízió) várni.</p>
           </section>
         `;
       }
       // BUY: full entry/target panel (original behavior)
       return `
-        <section class="section">
+        <section class="section levels-section">
           <h3>Befektetési árszintek (long pozíció)</h3>
-          <div class="price-grid">
-            <div class="price-cell"><span>Aktuális ár</span><strong>${fmt(idea.latest_price, 2)} USD</strong></div>
-            <div class="price-cell"><span>${hintLabel("Beszállóár", "A becsült felső ár, ahol a rendszer szerint a belépés már értelmezhető. Nem vételi megbízás.")}</span><strong>${fmt(idea.entry_price || idea.entry_high, 2)} USD</strong><small>zóna: ${fmt(idea.entry_low, 2)}-${fmt(idea.entry_high, 2)}</small></div>
-            <div class="price-cell"><span>${hintLabel("Célár / kiszálló", "A Tőzsde AI becsült célára 1-2 éves távra. Ennél az árszintnél érdemes lehet újraértékelni vagy profitot realizálni.")}</span><strong>${fmt(idea.exit_price || idea.target_price, 2)} USD</strong><small>${pct(idea.target_upside_pct)} a jelenlegi árhoz képest</small></div>
-            <div class="price-cell"><span>Kockázat</span><strong>${esc(idea.risk_level)}</strong><small>${fmt(idea.risk_score, 0)} kockázati érték</small></div>
+          <div class="levels-grid">
+            ${currentCard}
+            <div class="level-card lc-green"><span>${hintLabel("Beszállóár", "A becsült felső ár, ahol a rendszer szerint a belépés már értelmezhető. Nem vételi megbízás.")}</span><strong>${fmt(idea.entry_price || idea.entry_high, 2)} USD</strong><small>zóna: ${fmt(idea.entry_low, 2)}-${fmt(idea.entry_high, 2)}</small></div>
+            <div class="level-card lc-green"><span>${hintLabel("Célár / kiszálló", "A Tőzsde AI becsült célára 1-2 éves távra. Ennél az árszintnél érdemes lehet újraértékelni vagy profitot realizálni.")}</span><strong>${fmt(idea.exit_price || idea.target_price, 2)} USD</strong><small>${pct(idea.target_upside_pct)} a jelenlegi árhoz képest</small></div>
+            <div class="level-card lc-red"><span>Stop / kontrollár</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
+            <div class="level-card lc-blue"><span>${hintLabel("Elemzői / AI kontroll", "Ha van külső elemzői konszenzus, azt mutatja. Ha nincs, a Tőzsde AI saját célárbecslése jelenik meg, külön jelölve.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
+            <div class="level-card lc-blue"><span>${hintLabel("Elemzői sáv", "Az elérhető legalacsonyabb és legmagasabb elemzői célár.")}</span><strong>${idea.analyst_target_low && idea.analyst_target_high ? `${fmt(idea.analyst_target_low, 2)}-${fmt(idea.analyst_target_high, 2)} USD` : "nincs adat"}</strong></div>
+            ${timingCard}
+            ${riskCard(`${fmt(idea.risk_score, 0)} kockázati érték`)}
           </div>
-          <div class="price-grid">
-            <div class="price-cell"><span>${hintLabel("Elemzői / AI kontroll", "Ha van külső elemzői konszenzus, azt mutatja. Ha nincs, a Tőzsde AI saját célárbecslése jelenik meg, külön jelölve.")}</span><strong>${fmt(idea.analyst_display_price || idea.analyst_target_consensus || idea.ai_target_price, 2)} USD</strong><small>${esc(idea.analyst_display_label || "Tőzsde AI becslés")}</small></div>
-            <div class="price-cell"><span>${hintLabel("Elemzői sáv", "Az elérhető legalacsonyabb és legmagasabb elemzői célár.")}</span><strong>${idea.analyst_target_low && idea.analyst_target_high ? `${fmt(idea.analyst_target_low, 2)}-${fmt(idea.analyst_target_high, 2)} USD` : "nincs adat"}</strong></div>
-            ${timingHTML}
-            <div class="price-cell"><span>Stop / kontrollár</span><strong>${fmt(idea.review_down, 2)} USD</strong></div>
-          </div>
-          <p class="small"><span class="risk-pill ${riskClass(idea.risk_level)}">${esc(idea.risk_level)}</span> ${esc(idea.warning)}</p>
+          <p class="section-note"><span class="risk-pill ${riskClass(idea.risk_level)}">${esc(idea.risk_level)}</span> <span>${esc(idea.warning)}</span></p>
         </section>
       `;
     }
@@ -2327,6 +2775,19 @@
         holder.innerHTML = `<div class="analyst-cell"><span>Elemzői célár</span><strong>nem elérhető</strong></div>`;
       }
     }
+    function newsRelativeDate(value) {
+      const raw = String(value || "").trim();
+      if (!raw) return "";
+      const iso = raw.includes("T") ? raw : raw.includes(" ") ? raw.replace(" ", "T") : `${raw}T00:00:00`;
+      const d = new Date(iso);
+      if (!Number.isFinite(d.getTime())) return raw;
+      const days = Math.floor((Date.now() - d.getTime()) / 86400000);
+      if (days <= 0) return "ma";
+      if (days === 1) return "tegnap";
+      if (days < 7) return `${days} napja`;
+      if (days < 35) return `${Math.max(1, Math.round(days / 7))} hete`;
+      return d.toLocaleDateString("hu-HU", { year: "numeric", month: "short", day: "numeric" });
+    }
     function renderNews(row) {
       const items = row.news || [];
       if (!items.length) return `<p class="small">Ehhez a részvényhez most nincs friss, strukturált hír. Ilyenkor a rendszer ezt jelzi, nem talál ki történetet.</p>`;
@@ -2334,8 +2795,10 @@
         const title = esc(n.title_hu || n.title || "Cím nélküli hír");
         const body = n.summary_hu || n.interpretation || "A hírhez nincs külön összefoglaló.";
         const sourceClass = n.source_class || "";
-        const open = n.url ? `<a class="news-open" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">Hír megnyitása</a>` : "";
-        return `<article class="news-item"><div class="source-line"><span class="source-badge ${esc(sourceClass)}">${esc(n.source_label || "forrás")}</span><span>${esc(sourceText(n))}</span></div><span class="news-title">${title}</span><p>${esc(body)}</p>${open}</article>`;
+        const rel = newsRelativeDate(n.published_at);
+        const meta = `<div class="news-meta"><span class="source-badge ${esc(sourceClass)}">${esc(n.source_label || "forrás")}</span><span class="news-pub">${esc(n.site || "ismeretlen forrás")}</span>${rel ? `<span>${esc(rel)}</span>` : ""}</div>`;
+        const open = n.url ? `<a class="news-btn" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">Cikk megnyitása</a>` : "";
+        return `<article class="news-item">${meta}<span class="news-title">${title}</span><p>${esc(body)}</p>${open}</article>`;
       }).join("");
     }
     function renderEvents(row) {

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tőzsde AI - Terminál változat</title>
+<style>
+  :root{
+    --bg:#eceef1; --panel:#ffffff; --rule:#c9ced6; --rule-soft:#e2e5ea;
+    --ink:#15181e; --ink-2:#4a5160; --ink-3:#6b7280;
+    --green:#15803d; --green-bg:#e3f3e9; --red:#b91c1c; --red-bg:#fbe9e9;
+    --navy:#1f2937;
+    --mono:"IBM Plex Mono","Cascadia Mono","Consolas",ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font:16px/1.45 "Inter","Segoe UI",system-ui,sans-serif;
+    font-variant-numeric:tabular-nums;
+  }
+  .num{font-family:var(--mono);font-size:15px;font-variant-numeric:tabular-nums;}
+  .up{color:var(--green);} .down{color:var(--red);}
+
+  /* ---- top bar ---- */
+  header{
+    background:var(--navy); color:#fff;
+    display:flex; align-items:center; gap:24px;
+    padding:0 16px; height:44px;
+  }
+  .brand{font-weight:700; font-size:16px; letter-spacing:.04em;}
+  .brand span{color:#6ee7a0;}
+  .clock{font-family:var(--mono); font-size:13px; color:#aeb6c4; margin-left:auto;}
+  .btn{
+    background:var(--green); color:#fff; border:none; cursor:pointer;
+    font:600 14px/1 "Inter","Segoe UI",system-ui,sans-serif;
+    padding:8px 16px; border-radius:3px;
+  }
+  .btn:hover{background:#166b36;}
+  .btn-ghost{background:transparent;border:1px solid var(--rule);color:var(--ink-2);}
+  .btn-ghost:hover{background:var(--rule-soft);}
+
+  /* ---- stats strip ---- */
+  .strip{
+    background:var(--panel); border-bottom:1px solid var(--rule);
+    display:flex; gap:0; padding:0 16px;
+  }
+  .strip .cell{
+    padding:10px 24px 10px 0; margin-right:24px;
+    border-right:1px solid var(--rule-soft);
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .strip .cell:last-child{border-right:none;}
+  .k{font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-3); font-weight:600;}
+  .v{font-family:var(--mono); font-size:20px; font-weight:600;}
+
+  /* ---- layout ---- */
+  .wrap{display:grid; grid-template-columns:290px 1fr 330px; gap:1px; background:var(--rule); min-height:calc(100vh - 92px);}
+  .col{background:var(--bg); padding:12px; display:flex; flex-direction:column; gap:12px;}
+  .panel{background:var(--panel); border:1px solid var(--rule);}
+  .ph{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 12px; border-bottom:1px solid var(--rule);
+    font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-2);
+  }
+  .ph .tag{font-family:var(--mono); font-weight:400; text-transform:none; letter-spacing:0; color:var(--ink-3);}
+
+  table{width:100%; border-collapse:collapse;}
+  th{
+    text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.07em;
+    color:var(--ink-3); font-weight:600; padding:6px 12px; border-bottom:1px solid var(--rule-soft);
+  }
+  td{padding:7px 12px; border-bottom:1px solid var(--rule-soft); font-size:15px;}
+  tr:last-child td{border-bottom:none;}
+  tr.sel td{background:#eef4f0;}
+  td.r,th.r{text-align:right;}
+  .tick{font-family:var(--mono); font-weight:700;}
+
+  .pill{
+    display:inline-block; font:600 12px/1 "Inter",sans-serif;
+    padding:4px 8px; border-radius:2px; letter-spacing:.02em; white-space:nowrap;
+  }
+  .pill-buy{background:var(--green-bg); color:#116232; border:1px solid #b9dfc7;}
+  .pill-sell{background:var(--red-bg); color:#991b1b; border:1px solid #eec6c6;}
+
+  /* ---- detail ---- */
+  .dhead{display:flex; align-items:baseline; gap:14px; padding:12px 16px; border-bottom:1px solid var(--rule); flex-wrap:wrap;}
+  .dhead h1{font-size:22px; font-weight:700;}
+  .dhead .name{color:var(--ink-3); font-size:15px;}
+  .dhead .price{font-family:var(--mono); font-size:22px; font-weight:600;}
+  .dhead .chg{font-family:var(--mono); font-size:15px;}
+  .metrics{display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid var(--rule);}
+  .metric{padding:12px 16px; border-right:1px solid var(--rule-soft);}
+  .metric:last-child{border-right:none;}
+  .metric .k{display:block; margin-bottom:4px;}
+  .metric .big{font-family:var(--mono); font-size:22px; font-weight:600;}
+  .metric .sub{font-size:13px; color:var(--ink-3); margin-top:2px;}
+  .bars{display:flex; gap:3px; margin-top:6px;}
+  .bar{width:22px; height:8px; background:var(--rule-soft);}
+  .bar.on{background:var(--green);}
+
+  .chartbox{padding:12px 16px 8px;}
+  .chartbox svg{display:block; width:100%; height:auto;}
+  .axis{font-family:var(--mono); font-size:11px; fill:var(--ink-3);}
+
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:0; border-top:1px solid var(--rule);}
+  .two > div{padding:12px 16px;}
+  .two > div:first-child{border-right:1px solid var(--rule-soft);}
+  .protip{display:flex; gap:8px; padding:6px 0; font-size:16px; border-bottom:1px dotted var(--rule-soft); align-items:flex-start;}
+  .protip:last-child{border-bottom:none;}
+  .tickmark{color:var(--green); font-weight:700; flex:none;}
+  .news{border-bottom:1px dotted var(--rule-soft); padding:9px 0;}
+  .news:last-child{border-bottom:none;}
+  .news h3{font-size:16px; font-weight:600; line-height:1.35;}
+  .news .src{font-family:var(--mono); font-size:12px; color:var(--ink-3); margin:3px 0 7px;}
+  .news .btn-ghost{font-size:13px; padding:5px 10px;}
+
+  /* ---- drawer ---- */
+  .drawer{background:var(--panel); border:1px solid var(--rule); box-shadow:-6px 0 14px rgba(21,24,30,.10); display:flex; flex-direction:column;}
+  .drawer .totals{display:flex; gap:0; border-bottom:1px solid var(--rule);}
+  .drawer .totals .t{flex:1; padding:10px 12px; border-right:1px solid var(--rule-soft);}
+  .drawer .totals .t:last-child{border-right:none;}
+  .drawer .totals .big{font-family:var(--mono); font-size:19px; font-weight:700;}
+  .drawer td{font-size:14px; padding:6px 10px;}
+  .drawer th{padding:6px 10px;}
+  .drawer .sym{font-weight:700;}
+  .foot{margin-top:auto; padding:10px 12px; border-top:1px solid var(--rule); font-size:12px; color:var(--ink-3);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">TŐZSDE <span>AI</span></div>
+  <div style="font-size:13px;color:#aeb6c4;">Amerikai részvények - napi elemzés</div>
+  <div class="clock">2026-07-22 16:00 ET &nbsp;|&nbsp; SPX 6,412.20 +0.4%</div>
+  <button class="btn">Portfólió</button>
+</header>
+
+<div class="strip">
+  <div class="cell"><span class="k">Elemzett részvény</span><span class="v">104</span></div>
+  <div class="cell"><span class="k">Vétel jelzés</span><span class="v up">40</span></div>
+  <div class="cell"><span class="k">Eladás jelzés</span><span class="v down">7</span></div>
+  <div class="cell"><span class="k">Utolsó frissítés</span><span class="v" style="font-size:15px;">ma 06:30</span></div>
+</div>
+
+<div class="wrap">
+
+  <!-- left: signal lists -->
+  <div class="col">
+    <div class="panel">
+      <div class="ph">Vételi jelzések <span class="tag">top 5 / 40</span></div>
+      <table>
+        <tr><th>Ticker</th><th class="r">Pont</th><th class="r">Jelzés</th></tr>
+        <tr><td class="tick">TSM</td><td class="r num">88</td><td class="r"><span class="pill pill-buy">Erős vétel</span></td></tr>
+        <tr><td class="tick">MU</td><td class="r num">87</td><td class="r"><span class="pill pill-buy">Erős vétel</span></td></tr>
+        <tr><td class="tick">SNDK</td><td class="r num">86</td><td class="r"><span class="pill pill-buy">Erős vétel</span></td></tr>
+        <tr class="sel"><td class="tick">NVDA</td><td class="r num">82</td><td class="r"><span class="pill pill-buy">Erős vétel</span></td></tr>
+        <tr><td class="tick">WDC</td><td class="r num">79</td><td class="r"><span class="pill pill-buy">Vétel</span></td></tr>
+      </table>
+    </div>
+    <div class="panel">
+      <div class="ph">Eladási jelzések <span class="tag">3 / 7</span></div>
+      <table>
+        <tr><th>Ticker</th><th class="r">Pont</th><th class="r">Jelzés</th></tr>
+        <tr><td class="tick">TSLA</td><td class="r num">37</td><td class="r"><span class="pill pill-sell">Eladás</span></td></tr>
+        <tr><td class="tick">KTOS</td><td class="r num">37</td><td class="r"><span class="pill pill-sell">Eladás</span></td></tr>
+        <tr><td class="tick">SOUN</td><td class="r num">38</td><td class="r"><span class="pill pill-sell">Eladás</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- center: detail -->
+  <div class="col">
+    <div class="panel">
+      <div class="dhead">
+        <h1>NVDA</h1>
+        <span class="name">NVIDIA Corporation - NASDAQ</span>
+        <span class="pill pill-buy">Erős vétel</span>
+        <span style="margin-left:auto;" class="price">$202.81</span>
+        <span class="chg down">-0.2%</span>
+      </div>
+
+      <div class="metrics">
+        <div class="metric"><span class="k">Összpontszám</span><span class="big">81.7</span><div class="sub">/ 100</div></div>
+        <div class="metric"><span class="k">Fair érték</span><span class="big">$217.88</span><div class="sub up">+7.4% felértékelési tér</div></div>
+        <div class="metric">
+          <span class="k">Pénzügyi egészség</span><span class="big">3.1<span style="font-size:14px;color:var(--ink-3);">/5</span></span>
+          <div class="bars"><div class="bar on"></div><div class="bar on"></div><div class="bar on"></div><div class="bar" style="background:linear-gradient(90deg,var(--green) 10%,var(--rule-soft) 10%);"></div><div class="bar"></div></div>
+        </div>
+        <div class="metric"><span class="k">Elemzői célár</span><span class="big">$233</span><div class="sub">58 elemző konszenzusa</div></div>
+      </div>
+
+      <div class="chartbox">
+        <div class="k" style="margin-bottom:6px;">Árfolyam - 1 év</div>
+        <svg viewBox="0 0 760 250" role="img" aria-label="NVDA egyéves árfolyamgrafikon, 118 dollárról 202.81 dollárra">
+          <line x1="40" y1="184" x2="760" y2="184" stroke="#e2e5ea"/>
+          <line x1="40" y1="129" x2="760" y2="129" stroke="#e2e5ea"/>
+          <line x1="40" y1="74"  x2="760" y2="74"  stroke="#e2e5ea"/>
+          <line x1="40" y1="20"  x2="760" y2="20"  stroke="#e2e5ea"/>
+          <text class="axis" x="2" y="188">$120</text>
+          <text class="axis" x="2" y="133">$150</text>
+          <text class="axis" x="2" y="78">$180</text>
+          <text class="axis" x="2" y="24">$210</text>
+          <g transform="translate(40,0)">
+            <path d="M0,187 L38,176 L76,191 L114,166 L152,151 L190,160 L227,136 L265,126 L303,142 L341,115 L379,100 L417,89 L455,104 L493,78 L531,64 L568,73 L606,53 L644,62 L682,42 L720,33 L720,220 L0,220 Z"
+                  fill="#15803d" fill-opacity="0.08"/>
+            <path d="M0,187 L38,176 L76,191 L114,166 L152,151 L190,160 L227,136 L265,126 L303,142 L341,115 L379,100 L417,89 L455,104 L493,78 L531,64 L568,73 L606,53 L644,62 L682,42 L720,33"
+                  fill="none" stroke="#15803d" stroke-width="1.5"/>
+            <circle cx="720" cy="33" r="3" fill="#15803d"/>
+          </g>
+          <line x1="40" y1="220" x2="760" y2="220" stroke="#c9ced6"/>
+          <text class="axis" x="46" y="236">2025 aug</text>
+          <text class="axis" x="212" y="236">nov</text>
+          <text class="axis" x="390" y="236">2026 febr</text>
+          <text class="axis" x="580" y="236">máj</text>
+          <text class="axis" x="726" y="236">júl</text>
+        </svg>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="ph" style="padding:0 0 8px; border-bottom:1px solid var(--rule-soft); margin-bottom:4px;">ProTips</div>
+          <div class="protip"><span class="tickmark">&#10003;</span>Az árfolyam a 200 napos mozgóátlag felett halad</div>
+          <div class="protip"><span class="tickmark">&#10003;</span>Erős szabad cash flow termelés az elmúlt 12 hónapban</div>
+          <div class="protip"><span class="tickmark">&#10003;</span>Alacsony eladósodottság a szektortársakhoz képest</div>
+          <div class="protip"><span class="tickmark">&#10003;</span>Kétszámjegyű bevételnövekedés várható idén</div>
+        </div>
+        <div>
+          <div class="ph" style="padding:0 0 8px; border-bottom:1px solid var(--rule-soft); margin-bottom:4px;">Hírek</div>
+          <div class="news">
+            <h3>Az NVIDIA bemutatta az új Blackwell Ultra gyorsítókat</h3>
+            <div class="src">Reuters | 2 órája</div>
+            <button class="btn btn-ghost">Cikk megnyitása</button>
+          </div>
+          <div class="news">
+            <h3>Rekord adatközponti bevétel a negyedéves jelentésben</h3>
+            <div class="src">Bloomberg | 1 napja</div>
+            <button class="btn btn-ghost">Cikk megnyitása</button>
+          </div>
+          <div class="news">
+            <h3>Elemzők sorra emelik a célárakat az AI kereslet miatt</h3>
+            <div class="src">CNBC | 3 napja</div>
+            <button class="btn btn-ghost">Cikk megnyitása</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- right: portfolio drawer (open) -->
+  <div class="col" style="padding:0;">
+    <div class="drawer" style="height:100%;">
+      <div class="ph">Árnyékportfólió - nyitott pozíciók <button class="btn btn-ghost" style="font-size:12px;padding:4px 8px;">Bezárás</button></div>
+      <div class="totals">
+        <div class="t"><span class="k">Összes eredmény</span><div class="big up">+$470</div><div class="num up" style="font-size:13px;">+3.14%</div></div>
+        <div class="t"><span class="k">vs SPY</span><div class="big up">+0.22%</div><div class="num" style="font-size:13px;color:var(--ink-3);">SPY: +2.92%</div></div>
+      </div>
+      <table>
+        <tr><th>Ticker</th><th class="r">Db</th><th class="r">Bekerülés</th><th class="r">Árfolyam</th><th class="r">P/L</th></tr>
+        <tr><td class="sym num">NVDA</td><td class="r num">20</td><td class="r num">$195.00</td><td class="r num">$202.81</td><td class="r num up">+4.0%</td></tr>
+        <tr><td class="sym num">TSM</td><td class="r num">14</td><td class="r num">$232.50</td><td class="r num">$241.30</td><td class="r num up">+3.8%</td></tr>
+        <tr><td class="sym num">MU</td><td class="r num">24</td><td class="r num">$121.00</td><td class="r num">$126.40</td><td class="r num up">+4.5%</td></tr>
+        <tr><td class="sym num">WDC</td><td class="r num">40</td><td class="r num">$53.10</td><td class="r num">$56.03</td><td class="r num up">+5.5%</td></tr>
+        <tr><td class="sym num">TSLA</td><td class="r num">8</td><td class="r num">$336.35</td><td class="r num">$329.35</td><td class="r num down">-2.1%</td></tr>
+      </table>
+      <div class="foot">Virtuális portfólió - a jelzések visszamérésére szolgál, nem valós pozíció.</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

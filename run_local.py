@@ -14,7 +14,7 @@ import re
 import sys
 from statistics import fmean, pstdev
 import xml.etree.ElementTree as ET
-from urllib.parse import quote as url_quote, urlencode, urlparse
+from urllib.parse import parse_qs, quote as url_quote, urlencode, urlparse
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -412,17 +412,31 @@ def normalize_yahoo_chart(payload: dict | list | None) -> list[dict]:
     return [deduped[key] for key in sorted(deduped)]
 
 
-def fetch_yahoo_history(symbol: str) -> list[dict]:
-    cached = cache_get(safe_cache_name("yahoo_history", symbol), 720)
-    if isinstance(cached, list) and len(cached) >= 60:
+CHART_RANGES = {
+    # range_key -> (yahoo interval, minimum rows to accept, max rows kept)
+    "1y": ("1d", 60, 320),
+    "5y": ("1wk", 60, 320),
+}
+
+
+def fetch_yahoo_history(symbol: str, range_key: str = "1y") -> list[dict]:
+    range_key = str(range_key or "1y").lower()
+    if range_key not in CHART_RANGES:
+        range_key = "1y"
+    interval, min_rows, max_rows = CHART_RANGES[range_key]
+    # Keep the legacy cache name for 1y so the pipeline cache stays warm.
+    cache_prefix = "yahoo_history" if range_key == "1y" else f"yahoo_history_{range_key}"
+    cached = cache_get(safe_cache_name(cache_prefix, symbol), 720)
+    if isinstance(cached, list) and len(cached) >= min_rows:
         return cached
-    params = urlencode({"range": "1y", "interval": "1d", "includePrePost": "false"})
+    params = urlencode({"range": range_key, "interval": interval, "includePrePost": "false"})
     encoded_symbol = url_quote(yahoo_symbol(symbol), safe="")
     payload = fetch_json(f"https://query1.finance.yahoo.com/v8/finance/chart/{encoded_symbol}?{params}", timeout=20)
     rows = normalize_yahoo_chart(payload)
-    if len(rows) >= 60:
-        cache_set(safe_cache_name("yahoo_history", symbol), rows[-320:])
-        return rows[-320:]
+    if len(rows) >= min_rows:
+        rows = rows[-max_rows:]
+        cache_set(safe_cache_name(cache_prefix, symbol), rows)
+        return rows
     return []
 
 
@@ -3216,11 +3230,13 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path.startswith("/api/chart/"):
             symbol = path.rsplit("/", 1)[-1].upper()
+            query = parse_qs(urlparse(self.path).query)
+            range_key = (query.get("range") or ["1y"])[0]
             try:
-                rows = fetch_yahoo_history(symbol) or []
+                rows = fetch_yahoo_history(symbol, range_key) or []
             except Exception:
                 rows = []
-            self.send_json({"symbol": symbol, "prices": rows})
+            self.send_json({"symbol": symbol, "range": range_key, "prices": rows})
             return
         if path.startswith("/api/analyst-targets/"):
             symbol = path.rsplit("/", 1)[-1].upper()
