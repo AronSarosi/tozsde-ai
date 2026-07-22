@@ -130,6 +130,11 @@ def init_schema(con: sqlite3.Connection) -> None:
             date TEXT PRIMARY KEY,
             picks TEXT
         );
+        CREATE TABLE IF NOT EXISTS shadow_rebuys (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            symbol TEXT, sale_date TEXT, sale_price REAL, amount REAL,
+            status TEXT DEFAULT 'pending', filled_date TEXT, filled_price REAL
+        );
         CREATE TABLE IF NOT EXISTS benchmark_lots (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             opened_date TEXT, entry_price REAL, qty REAL, invested REAL
@@ -802,6 +807,38 @@ def prev_close(con: sqlite3.Connection, symbol: str, before: str) -> float | Non
     return row["close"] if row else None
 
 
+def _rsi14(closes: list[float]) -> float | None:
+    if len(closes) < 15:
+        return None
+    gains = losses = 0.0
+    for i in range(-14, 0):
+        ch = closes[i] - closes[i - 1]
+        if ch >= 0:
+            gains += ch
+        else:
+            losses -= ch
+    if losses == 0:
+        return 100.0
+    return 100 - 100 / (1 + gains / losses)
+
+
+def harvest_signal(con: sqlite3.Connection, symbol: str) -> str | None:
+    """Profit-harvest trigger (backtest round 2): RSI(14)>80 spike, or price
+    3 std-devs above its 150-day mean. Returns Hungarian reason or None."""
+    closes = [r["close"] for r in price_series(con, symbol, 220) if r["close"]]
+    if len(closes) < 160:
+        return None
+    rsi = _rsi14(closes)
+    if rsi is not None and rsi > 80:
+        return f"RSI {rsi:.0f} > 80 (túlfűtött)"
+    win = closes[-150:]
+    mean = sum(win) / len(win)
+    sd = (sum((x - mean) ** 2 for x in win) / len(win)) ** 0.5
+    if sd > 0 and (closes[-1] - mean) / sd > 3:
+        return "ár 3 szórással a 150 napos átlag felett"
+    return None
+
+
 def run_shadow(con: sqlite3.Connection, state: dict) -> dict:
     as_of = state["as_of"]
     stocks = state["stocks"]
@@ -832,6 +869,62 @@ def run_shadow(con: sqlite3.Connection, state: dict) -> dict:
                 " WHERE id=?",
                 (cur_date, cur, reason, pnl, lot["id"]),
             )
+
+    # 1b. Fill pending rebuy orders: 2% below sale price melting to any tick
+    # below by day 10; never chase above the sale price.
+    for r in con.execute("SELECT * FROM shadow_rebuys WHERE status='pending'").fetchall():
+        lc = last_close(con, r["symbol"])
+        if not lc:
+            continue
+        cur_date, cur = lc
+        tdays = con.execute(
+            "SELECT COUNT(*) c FROM prices_daily WHERE symbol=? AND date>? AND date<=?",
+            (BENCHMARK, r["sale_date"], cur_date)).fetchone()["c"]
+        threshold = r["sale_price"] * (1 - 0.02 * max(0.0, 1 - tdays / 10))
+        if cur < r["sale_price"] and cur <= threshold:
+            con.execute(
+                "INSERT INTO shadow_lots (opened_date, symbol, side, entry_price, qty, invested)"
+                " VALUES (?,?,?,?,?,?)",
+                (cur_date, r["symbol"], "long", round(cur, 4), round(r["amount"] / cur, 6), r["amount"]))
+            con.execute("UPDATE shadow_rebuys SET status='filled', filled_date=?, filled_price=? WHERE id=?",
+                        (cur_date, cur, r["id"]))
+
+    # 1c. Profit harvest: on a spike trigger sell HALF of each profitable long
+    # lot and queue a rebuy order for the proceeds (sell-half variant, per Aron).
+    long_syms = [r["symbol"] for r in con.execute(
+        "SELECT DISTINCT symbol FROM shadow_lots WHERE status='open' AND side='long'").fetchall()]
+    for sym in long_syms:
+        if con.execute("SELECT 1 FROM shadow_rebuys WHERE symbol=? AND status='pending'", (sym,)).fetchone():
+            continue
+        sig = harvest_signal(con, sym)
+        if not sig:
+            continue
+        lc = last_close(con, sym)
+        if not lc:
+            continue
+        cur_date, cur = lc
+        proceeds = 0.0
+        for lot in con.execute(
+                "SELECT * FROM shadow_lots WHERE status='open' AND side='long' AND symbol=?", (sym,)).fetchall():
+            ret = cur / lot["entry_price"] - 1
+            if ret <= 0:
+                continue  # never harvest at a loss
+            half_inv = round(lot["invested"] / 2, 2)
+            half_qty = round(lot["qty"] / 2, 6)
+            pnl = round(half_inv * ret, 2)
+            con.execute("UPDATE shadow_lots SET invested=?, qty=? WHERE id=?",
+                        (half_inv, half_qty, lot["id"]))
+            con.execute(
+                "INSERT INTO shadow_lots (opened_date, symbol, side, entry_price, qty, invested,"
+                " status, exit_date, exit_price, exit_reason, pnl)"
+                " VALUES (?,?,?,?,?,?,'closed',?,?,?,?)",
+                (lot["opened_date"], sym, "long", lot["entry_price"], half_qty, half_inv,
+                 cur_date, cur, f"profit-harvest fél pozíció ({sig})", pnl))
+            proceeds += half_inv + pnl
+        if proceeds:
+            con.execute("INSERT INTO shadow_rebuys (symbol, sale_date, sale_price, amount) VALUES (?,?,?,?)",
+                        (sym, cur_date, round(cur, 4), round(proceeds, 2)))
+            print(f"Profit-harvest {sym}: fél pozíció eladva ({sig}), rebuy order {proceeds:.0f} USD")
 
     # 2. Open today's batch (once per trading day).
     existing = con.execute("SELECT 1 FROM shadow_batches WHERE date=?", (as_of,)).fetchone()
@@ -937,6 +1030,8 @@ def run_shadow(con: sqlite3.Connection, state: dict) -> dict:
         "total_pnl_pct": round(total_pnl / invested_total * 100, 2) if invested_total else 0.0,
         "day_pnl": round(day_pnl, 2),
         "positions": positions,
+        "rebuy_orders": [dict(r) for r in con.execute(
+            "SELECT symbol, sale_date, sale_price, amount FROM shadow_rebuys WHERE status='pending'").fetchall()],
         "closed": closed,
         "batches": batches,
         "benchmark": {
