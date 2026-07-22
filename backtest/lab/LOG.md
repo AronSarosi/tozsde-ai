@@ -163,3 +163,89 @@ seven windows.
   exits into V-recoveries; last sale 2024-08 @192 never refilled below).
 
 Conclusion -> BEAT_BH_REPORT.md
+
+---
+
+# ROUND 2 - smarter re-entry rules (roundA-G, common2.py engine)
+
+Goal (Aron): the tick-below rebuy is nearly B&H (~1pp/yr edge). Find re-entry
+rules between "any tick below" and "fixed deep discount" with materially more
+edge (target >3pp/yr median). New engine common2.py: tranche rebuys, vol-scaled
+discounts (close-based ATR14% / sigma20 frozen at sale), conditional re-entry,
+decaying discounts, bounce-from-low, fallbacks; logs median wait-to-rebuy days,
+achieved rebuy discount, and % of tranches never refilled.
+
+## Round A - the discount cliff (roundA.py)
+
+Grid: 4 proven sells (z50>2.5, z150>3, trail25, rsi80) x fixed rebuy discount
+d in {0, 0.5, 1, 1.5, 2, 2.5, 3, 4, 5}%; tune/valid/full10.
+
+- Small discounts DO lift the median: z50+2.5% = valid +6.03 (vs +3.40 at tick),
+  z50+2.0% +5.66, trail25+2% +4.17. Median wait grows 1.5d (tick) -> 8-12d (2-2.5%);
+  never-refilled grows 7% -> 13% of exits.
+- The MEDIAN cliff: z50 flips 10y-negative between 2.0% (+7.3) and 2.5% (-18.7);
+  trail25 between 1.5% (+7.9) and 2% (-14.6); rsi80 already dead at 1% (-9);
+  z150 tolerates up to ~4% (+6.4) - slower trigger, deeper retracements follow.
+- The TAIL cliff starts at 0.5%: NVDA 10y flips from +5,249pp (tick) to
+  -15,293pp (0.5% discount) - one missed refill before the 2023 run. Same for
+  TSLA. Fast triggers + ANY discount = decade-runaway russian roulette.
+
+## Round B - vol-scaled discounts (roundB.py)
+
+k*ATRp14 or k*sigma20 (frozen at sale), k in 0.25..3, on z50/z150/trail25.
+- Same story as fixed discounts once the implied % is similar; no magic from
+  vol-adjusting on fast triggers (z50 atr*2: valid +4.69, 10y -53).
+- Genuine find: SLOW trigger + small vol unit: z150 atr*0.5 (0/+2.15/10y +21.9,
+  NVDA +8,076, TSLA +2,035) and z150 sigma*0.5 (10y +22.6) - best decade medians
+  of the whole lab, but valid median only ~+2.2 (no material 2024-26 boost).
+
+## Round C - conditional re-entry + fallback caps (roundC.py)
+
+- "Below sale AND (RSI<40..60 / touch MA20/50 / 10-20d low / 3 calm days)":
+  adds NOTHING. For trail25 the conditions are almost always already true when
+  price first ticks below sale (identical rows); for z50/z150 they mostly
+  degrade (below&touch_ma50: valid +2.64, 10y -22.8). Family rejected.
+- Fallback caps on discount rules (force refill after 42/63/126d or when price
+  runs +5/10/15% above sale): cap the never-refill tail to ~0-2% BUT destroy
+  the edge (z50 d1.5% valid +4.52 -> 0.00 with out>42d, -3.8..-4.4 with
+  run+5..15%). Timers buy tops; chases buy breakouts. Confirmed poison.
+
+## Round D - two-tranche ladders, sell-half, vol buckets (roundD.py)
+
+- Ladders (sell all; rebuy w at tick + (1-w) deeper): soften but do not remove
+  the tail. Best: z150 L50tick+50@-2% (valid +3.23, 10y +17.7, but NVDA 10y
+  -10,844 vs +5,280 tick) and trail25 L70tick+30@-2% (valid +3.62, 10y +7.9,
+  ALL FOUR key stocks positive on 10y: TSLA +21/NVDA +6,535/AMZN +82/INTC +79).
+- Deep tranches (-8/-10%) kill everything. Sell-half + discount halves the
+  damage but NVDA 10y still -11,886 (z50 sellhalf@-2%).
+- Vol-bucket triggers (terciles on TUNE-window sigma20; hi-vol rsi80 etc.):
+  no improvement over a single trigger anywhere.
+
+## Round E - decaying discounts + bounce-from-low (roundE.py)
+
+- DECAY (demand d0, linearly decays to "tick below" over T days) is the first
+  tail-safe median improvement: trail25 decay2%/10d beats trail25-tick on
+  EVERY validation window (+3.13/+3.70/+3.40 vs +2.55/+2.84/+2.80) with 10y
+  +17.4 and INTC flipped positive (+35..+70); z150 decay2%/10d and decay3%/10d
+  beat z150-tick on valid with 10y +19..+21 and TSLA/NVDA still positive.
+  z50 decay variants still tail-poisoned (path-dependence: an early discounted
+  fill re-times later sales into the runaway).
+- BOUNCE (rebuy b% off the low since sale): uncapped = disaster (valid -2..-13,
+  buys local tops); capped below sale = flat with 20-37% never-refill. Rejected.
+
+## Round F - 19 finalists x all 7 windows (roundF.py)
+
+Full stats in roundF.json. Rank/robustness summary in BEAT_BH_ROUND2.md.
+Key: z50 d2.0% is the max-median rule that still holds the 10y median
+(+5.66/+7.32/+7.10 valid5/6/7 = ~2.3pp/yr; 10y +7.34) but all four key stocks
+are 10y-catastrophic; trail25 L70tick+30@-2% and trail25/z150 decay2%/10d are
+the robust picks (~1.2-1.5pp/yr, 7/7 windows non-negative, live decade tails).
+
+## Round G - hybrids (roundG.py)
+
+- Ladder+decay (e.g. trail25 L50tick+50decay2%/10d): 7/7 non-negative,
+  valid ~+3.1-3.6, 10y +13.4 - solid but no better than the simpler parents.
+- Combined exit z150|trail25 (any variant): tune/valid fine, 10y median
+  -31..-77 with 7-11 sells/window - overtrading kills the decade. Rejected.
+
+Conclusion -> BEAT_BH_ROUND2.md
