@@ -1,0 +1,452 @@
+[
+ {
+  "name": "vol>2.0x exit, <1.25x reenter below",
+  "tune": {
+   "med_edge": 0.61,
+   "pos_pct": 72.3,
+   "med_sells": 1.0,
+   "med_tim": 94.8,
+   "med_avg_out": 25.0,
+   "TSLA": -0.0,
+   "NVDA": 12.6,
+   "AMZN": 18.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 48.1,
+   "med_sells": 2.0,
+   "med_tim": 70.0,
+   "med_avg_out": 75.3,
+   "TSLA": 3.2,
+   "NVDA": 1.1,
+   "AMZN": -37.7,
+   "INTC": 64.2
+  }
+ },
+ {
+  "name": "vol>2.5x exit, <1.25x reenter free",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 48.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -0.0,
+   "AMZN": 18.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 37.5,
+   "med_sells": 1.0,
+   "med_tim": 96.9,
+   "med_avg_out": 19.0,
+   "TSLA": 0.0,
+   "NVDA": -0.0,
+   "AMZN": -5.9,
+   "INTC": -13.7
+  }
+ },
+ {
+  "name": "vol>2.5x exit, <1.25x reenter below",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 57.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -0.0,
+   "AMZN": 18.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 53.8,
+   "med_sells": 1.0,
+   "med_tim": 95.0,
+   "med_avg_out": 28.8,
+   "TSLA": 0.0,
+   "NVDA": -0.0,
+   "AMZN": -40.8,
+   "INTC": 5.4
+  }
+ },
+ {
+  "name": "vol>2.0x exit, <1.25x reenter free",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 55.4,
+   "med_sells": 1.0,
+   "med_tim": 96.8,
+   "med_avg_out": 19.0,
+   "TSLA": -0.0,
+   "NVDA": 12.6,
+   "AMZN": 18.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -9.17,
+   "pos_pct": 29.8,
+   "med_sells": 2.0,
+   "med_tim": 90.7,
+   "med_avg_out": 23.1,
+   "TSLA": -33.6,
+   "NVDA": -3.2,
+   "AMZN": -2.0,
+   "INTC": 40.2
+  }
+ },
+ {
+  "name": "vol>1.5x exit, <1.25x reenter free",
+  "tune": {
+   "med_edge": 0.16,
+   "pos_pct": 53.5,
+   "med_sells": 4.0,
+   "med_tim": 83.0,
+   "med_avg_out": 25.5,
+   "TSLA": 31.1,
+   "NVDA": 197.4,
+   "AMZN": 13.5,
+   "INTC": -2.2
+  },
+  "valid": {
+   "med_edge": -17.52,
+   "pos_pct": 27.9,
+   "med_sells": 6.0,
+   "med_tim": 77.2,
+   "med_avg_out": 23.2,
+   "TSLA": -30.0,
+   "NVDA": -124.3,
+   "AMZN": -26.4,
+   "INTC": -25.6
+  }
+ },
+ {
+  "name": "trend ma50 buf2% free",
+  "tune": {
+   "med_edge": -14.19,
+   "pos_pct": 32.7,
+   "med_sells": 10.0,
+   "med_tim": 54.1,
+   "med_avg_out": 26.2,
+   "TSLA": 61.9,
+   "NVDA": 24.4,
+   "AMZN": 43.9,
+   "INTC": -25.5
+  },
+  "valid": {
+   "med_edge": -26.64,
+   "pos_pct": 27.9,
+   "med_sells": 10.0,
+   "med_tim": 57.6,
+   "med_avg_out": 26.4,
+   "TSLA": -57.8,
+   "NVDA": -275.1,
+   "AMZN": -43.4,
+   "INTC": -37.8
+  }
+ },
+ {
+  "name": "trend ma200 buf0% free",
+  "tune": {
+   "med_edge": -11.46,
+   "pos_pct": 36.6,
+   "med_sells": 9.0,
+   "med_tim": 57.7,
+   "med_avg_out": 26.7,
+   "TSLA": -13.6,
+   "NVDA": 39.7,
+   "AMZN": 13.4,
+   "INTC": 21.0
+  },
+  "valid": {
+   "med_edge": -26.94,
+   "pos_pct": 29.8,
+   "med_sells": 9.0,
+   "med_tim": 68.4,
+   "med_avg_out": 20.8,
+   "TSLA": -86.4,
+   "NVDA": -99.8,
+   "AMZN": -53.6,
+   "INTC": 55.7
+  }
+ },
+ {
+  "name": "trend ma200 buf2% free",
+  "tune": {
+   "med_edge": -7.64,
+   "pos_pct": 37.6,
+   "med_sells": 4.0,
+   "med_tim": 58.0,
+   "med_avg_out": 61.8,
+   "TSLA": -25.2,
+   "NVDA": 11.1,
+   "AMZN": 20.3,
+   "INTC": 22.9
+  },
+  "valid": {
+   "med_edge": -27.28,
+   "pos_pct": 28.8,
+   "med_sells": 4.0,
+   "med_tim": 67.8,
+   "med_avg_out": 44.5,
+   "TSLA": -80.7,
+   "NVDA": -129.6,
+   "AMZN": -54.9,
+   "INTC": -0.7
+  }
+ },
+ {
+  "name": "trend ma200 buf0% below",
+  "tune": {
+   "med_edge": -8.51,
+   "pos_pct": 37.6,
+   "med_sells": 2.0,
+   "med_tim": 23.4,
+   "med_avg_out": 191.0,
+   "TSLA": -10.0,
+   "NVDA": 61.1,
+   "AMZN": -2.3,
+   "INTC": -10.8
+  },
+  "valid": {
+   "med_edge": -27.95,
+   "pos_pct": 27.9,
+   "med_sells": 1.0,
+   "med_tim": 21.8,
+   "med_avg_out": 340.5,
+   "TSLA": -66.0,
+   "NVDA": -185.3,
+   "AMZN": -53.2,
+   "INTC": -155.9
+  }
+ },
+ {
+  "name": "trend ma200 buf5% below",
+  "tune": {
+   "med_edge": -6.64,
+   "pos_pct": 37.6,
+   "med_sells": 1.0,
+   "med_tim": 32.4,
+   "med_avg_out": 290.0,
+   "TSLA": -1.9,
+   "NVDA": 49.7,
+   "AMZN": 38.4,
+   "INTC": 54.1
+  },
+  "valid": {
+   "med_edge": -28.64,
+   "pos_pct": 27.9,
+   "med_sells": 1.0,
+   "med_tim": 30.6,
+   "med_avg_out": 350.0,
+   "TSLA": -74.5,
+   "NVDA": -181.7,
+   "AMZN": -46.2,
+   "INTC": -164.3
+  }
+ },
+ {
+  "name": "trend ma200 buf5% free",
+  "tune": {
+   "med_edge": -8.6,
+   "pos_pct": 39.6,
+   "med_sells": 3.0,
+   "med_tim": 57.2,
+   "med_avg_out": 97.7,
+   "TSLA": -31.3,
+   "NVDA": 12.1,
+   "AMZN": 38.4,
+   "INTC": 54.1
+  },
+  "valid": {
+   "med_edge": -28.87,
+   "pos_pct": 27.9,
+   "med_sells": 2.5,
+   "med_tim": 68.9,
+   "med_avg_out": 74.7,
+   "TSLA": -83.1,
+   "NVDA": -106.1,
+   "AMZN": -42.6,
+   "INTC": -0.2
+  }
+ },
+ {
+  "name": "vol>1.5x exit, <1.25x reenter below",
+  "tune": {
+   "med_edge": 9.08,
+   "pos_pct": 69.3,
+   "med_sells": 3.0,
+   "med_tim": 76.2,
+   "med_avg_out": 49.0,
+   "TSLA": 40.3,
+   "NVDA": 118.2,
+   "AMZN": 13.5,
+   "INTC": 15.0
+  },
+  "valid": {
+   "med_edge": -29.4,
+   "pos_pct": 29.8,
+   "med_sells": 3.0,
+   "med_tim": 34.9,
+   "med_avg_out": 136.5,
+   "TSLA": -34.2,
+   "NVDA": -268.0,
+   "AMZN": -53.2,
+   "INTC": -137.1
+  }
+ },
+ {
+  "name": "trend ma200 buf2% below",
+  "tune": {
+   "med_edge": -10.29,
+   "pos_pct": 37.6,
+   "med_sells": 2.0,
+   "med_tim": 25.4,
+   "med_avg_out": 256.0,
+   "TSLA": 3.4,
+   "NVDA": 58.0,
+   "AMZN": -2.1,
+   "INTC": -10.3
+  },
+  "valid": {
+   "med_edge": -30.53,
+   "pos_pct": 26.0,
+   "med_sells": 1.0,
+   "med_tim": 23.1,
+   "med_avg_out": 417.0,
+   "TSLA": -71.6,
+   "NVDA": -185.3,
+   "AMZN": -57.8,
+   "INTC": -161.2
+  }
+ },
+ {
+  "name": "trend ma50 buf5% free",
+  "tune": {
+   "med_edge": -20.56,
+   "pos_pct": 25.7,
+   "med_sells": 6.0,
+   "med_tim": 53.6,
+   "med_avg_out": 46.2,
+   "TSLA": 5.9,
+   "NVDA": -30.8,
+   "AMZN": 26.8,
+   "INTC": -28.9
+  },
+  "valid": {
+   "med_edge": -35.43,
+   "pos_pct": 23.1,
+   "med_sells": 6.0,
+   "med_tim": 59.7,
+   "med_avg_out": 42.1,
+   "TSLA": -39.6,
+   "NVDA": -269.5,
+   "AMZN": -51.7,
+   "INTC": -97.5
+  }
+ },
+ {
+  "name": "trend ma50 buf0% free",
+  "tune": {
+   "med_edge": -13.68,
+   "pos_pct": 37.6,
+   "med_sells": 21.0,
+   "med_tim": 53.6,
+   "med_avg_out": 12.5,
+   "TSLA": 17.5,
+   "NVDA": 42.4,
+   "AMZN": 28.6,
+   "INTC": -30.3
+  },
+  "valid": {
+   "med_edge": -37.07,
+   "pos_pct": 22.1,
+   "med_sells": 22.0,
+   "med_tim": 57.6,
+   "med_avg_out": 11.4,
+   "TSLA": -65.8,
+   "NVDA": -247.8,
+   "AMZN": -39.0,
+   "INTC": -75.3
+  }
+ },
+ {
+  "name": "trend ma50 buf2% below",
+  "tune": {
+   "med_edge": -15.72,
+   "pos_pct": 34.7,
+   "med_sells": 3.0,
+   "med_tim": 14.5,
+   "med_avg_out": 177.0,
+   "TSLA": 129.6,
+   "NVDA": -151.1,
+   "AMZN": 7.3,
+   "INTC": -13.4
+  },
+  "valid": {
+   "med_edge": -57.71,
+   "pos_pct": 27.9,
+   "med_sells": 2.0,
+   "med_tim": 11.7,
+   "med_avg_out": 298.0,
+   "TSLA": -59.0,
+   "NVDA": -272.8,
+   "AMZN": -49.3,
+   "INTC": -142.3
+  }
+ },
+ {
+  "name": "trend ma50 buf5% below",
+  "tune": {
+   "med_edge": -17.13,
+   "pos_pct": 29.7,
+   "med_sells": 2.0,
+   "med_tim": 19.4,
+   "med_avg_out": 211.5,
+   "TSLA": 46.4,
+   "NVDA": -159.2,
+   "AMZN": 28.0,
+   "INTC": -26.1
+  },
+  "valid": {
+   "med_edge": -59.53,
+   "pos_pct": 26.9,
+   "med_sells": 1.0,
+   "med_tim": 13.4,
+   "med_avg_out": 342.0,
+   "TSLA": -65.7,
+   "NVDA": -272.8,
+   "AMZN": -53.2,
+   "INTC": -153.3
+  }
+ },
+ {
+  "name": "trend ma50 buf0% below",
+  "tune": {
+   "med_edge": -16.0,
+   "pos_pct": 32.7,
+   "med_sells": 4.0,
+   "med_tim": 11.8,
+   "med_avg_out": 132.5,
+   "TSLA": 83.0,
+   "NVDA": -158.1,
+   "AMZN": 3.2,
+   "INTC": -13.6
+  },
+  "valid": {
+   "med_edge": -59.64,
+   "pos_pct": 24.0,
+   "med_sells": 2.0,
+   "med_tim": 11.2,
+   "med_avg_out": 289.2,
+   "TSLA": -69.7,
+   "NVDA": -272.8,
+   "AMZN": -48.7,
+   "INTC": -143.4
+  }
+ }
+]

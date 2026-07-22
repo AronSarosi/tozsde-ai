@@ -1,0 +1,3242 @@
+[
+ {
+  "name": "z50>2.5 drop5 sf1.0",
+  "tune": {
+   "med_edge": 5.87,
+   "pos_pct": 71.3,
+   "med_sells": 1.0,
+   "med_tim": 94.9,
+   "med_avg_out": 17.3,
+   "TSLA": 9.5,
+   "NVDA": 48.7,
+   "AMZN": 6.0,
+   "INTC": -13.4
+  },
+  "valid": {
+   "med_edge": 5.27,
+   "pos_pct": 60.6,
+   "med_sells": 2.0,
+   "med_tim": 77.9,
+   "med_avg_out": 57.5,
+   "TSLA": 20.0,
+   "NVDA": -287.0,
+   "AMZN": 48.9,
+   "INTC": -153.3
+  },
+  "full10": {
+   "med_edge": -116.36,
+   "pos_pct": 36.5,
+   "med_sells": 3.0,
+   "med_tim": 60.9,
+   "med_avg_out": 253.0,
+   "TSLA": -2354.9,
+   "NVDA": -15243.5,
+   "AMZN": -522.7,
+   "INTC": -241.0
+  }
+ },
+ {
+  "name": "z150>2.5 drop5 sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 61.4,
+   "med_sells": 1.0,
+   "med_tim": 94.9,
+   "med_avg_out": 20.5,
+   "TSLA": 7.8,
+   "NVDA": 47.7,
+   "AMZN": -0.0,
+   "INTC": -2.7
+  },
+  "valid": {
+   "med_edge": 4.55,
+   "pos_pct": 56.7,
+   "med_sells": 2.0,
+   "med_tim": 71.8,
+   "med_avg_out": 87.6,
+   "TSLA": 8.9,
+   "NVDA": -268.0,
+   "AMZN": 36.0,
+   "INTC": -145.7
+  },
+  "full10": {
+   "med_edge": -122.71,
+   "pos_pct": 37.5,
+   "med_sells": 4.0,
+   "med_tim": 63.7,
+   "med_avg_out": 206.5,
+   "TSLA": -2365.0,
+   "NVDA": -15205.7,
+   "AMZN": 414.3,
+   "INTC": -213.6
+  }
+ },
+ {
+  "name": "z150>2.5 below sf1.0",
+  "tune": {
+   "med_edge": 0.36,
+   "pos_pct": 66.3,
+   "med_sells": 2.0,
+   "med_tim": 98.4,
+   "med_avg_out": 2.0,
+   "TSLA": 0.8,
+   "NVDA": 28.6,
+   "AMZN": -0.0,
+   "INTC": -3.3
+  },
+  "valid": {
+   "med_edge": 4.38,
+   "pos_pct": 68.3,
+   "med_sells": 4.0,
+   "med_tim": 82.6,
+   "med_avg_out": 16.4,
+   "TSLA": 9.7,
+   "NVDA": 30.6,
+   "AMZN": 23.1,
+   "INTC": -145.7
+  },
+  "full10": {
+   "med_edge": 1.67,
+   "pos_pct": 51.0,
+   "med_sells": 12.5,
+   "med_tim": 76.1,
+   "med_avg_out": 36.6,
+   "TSLA": 2000.0,
+   "NVDA": -15215.1,
+   "AMZN": 149.3,
+   "INTC": -223.9
+  }
+ },
+ {
+  "name": "z50>3.0 drop5 sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 55.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 19.6,
+   "NVDA": 13.7,
+   "AMZN": -0.0,
+   "INTC": -13.4
+  },
+  "valid": {
+   "med_edge": 4.3,
+   "pos_pct": 62.5,
+   "med_sells": 1.0,
+   "med_tim": 92.1,
+   "med_avg_out": 25.0,
+   "TSLA": 53.8,
+   "NVDA": -268.0,
+   "AMZN": 20.2,
+   "INTC": -153.3
+  },
+  "full10": {
+   "med_edge": 12.32,
+   "pos_pct": 53.8,
+   "med_sells": 2.0,
+   "med_tim": 87.2,
+   "med_avg_out": 107.1,
+   "TSLA": -2355.6,
+   "NVDA": -15232.0,
+   "AMZN": -522.7,
+   "INTC": -241.9
+  }
+ },
+ {
+  "name": "z100>3.0 drop5 sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 56.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 13.7,
+   "AMZN": -0.0,
+   "INTC": -13.4
+  },
+  "valid": {
+   "med_edge": 3.59,
+   "pos_pct": 59.6,
+   "med_sells": 1.0,
+   "med_tim": 89.9,
+   "med_avg_out": 39.5,
+   "TSLA": 28.7,
+   "NVDA": -268.0,
+   "AMZN": 10.8,
+   "INTC": -157.5
+  },
+  "full10": {
+   "med_edge": -35.55,
+   "pos_pct": 43.3,
+   "med_sells": 2.0,
+   "med_tim": 77.5,
+   "med_avg_out": 135.2,
+   "TSLA": -2354.2,
+   "NVDA": -15112.0,
+   "AMZN": -505.3,
+   "INTC": -255.9
+  }
+ },
+ {
+  "name": "z150>3.0 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 60.4,
+   "med_sells": 1.0,
+   "med_tim": 99.3,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 9.4,
+   "AMZN": -0.0,
+   "INTC": 0.2
+  },
+  "valid": {
+   "med_edge": 3.52,
+   "pos_pct": 62.5,
+   "med_sells": 1.0,
+   "med_tim": 92.1,
+   "med_avg_out": 0.0,
+   "TSLA": 14.5,
+   "NVDA": 52.6,
+   "AMZN": 4.3,
+   "INTC": -94.1
+  },
+  "full10": {
+   "med_edge": 5.92,
+   "pos_pct": 53.8,
+   "med_sells": 3.0,
+   "med_tim": 87.3,
+   "med_avg_out": 0.0,
+   "TSLA": 1088.4,
+   "NVDA": -11433.5,
+   "AMZN": 88.6,
+   "INTC": -144.0
+  }
+ },
+ {
+  "name": "z100>2.5 drop5 sf1.0",
+  "tune": {
+   "med_edge": 1.6,
+   "pos_pct": 66.3,
+   "med_sells": 1.0,
+   "med_tim": 95.1,
+   "med_avg_out": 20.0,
+   "TSLA": 19.6,
+   "NVDA": -120.8,
+   "AMZN": -0.0,
+   "INTC": -13.4
+  },
+  "valid": {
+   "med_edge": 3.44,
+   "pos_pct": 55.8,
+   "med_sells": 2.0,
+   "med_tim": 76.1,
+   "med_avg_out": 74.5,
+   "TSLA": 45.6,
+   "NVDA": -287.0,
+   "AMZN": 33.4,
+   "INTC": -152.5
+  },
+  "full10": {
+   "med_edge": -117.99,
+   "pos_pct": 39.4,
+   "med_sells": 4.0,
+   "med_tim": 67.1,
+   "med_avg_out": 181.4,
+   "TSLA": -2354.2,
+   "NVDA": -15238.5,
+   "AMZN": -512.1,
+   "INTC": -225.7
+  }
+ },
+ {
+  "name": "z150>3.0 drop5 sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 60.4,
+   "med_sells": 1.0,
+   "med_tim": 98.6,
+   "med_avg_out": 5.0,
+   "TSLA": -0.0,
+   "NVDA": 13.8,
+   "AMZN": -0.0,
+   "INTC": 0.4
+  },
+  "valid": {
+   "med_edge": 3.41,
+   "pos_pct": 60.6,
+   "med_sells": 1.0,
+   "med_tim": 84.2,
+   "med_avg_out": 39.6,
+   "TSLA": 28.7,
+   "NVDA": 100.4,
+   "AMZN": 8.7,
+   "INTC": -157.3
+  },
+  "full10": {
+   "med_edge": -11.6,
+   "pos_pct": 47.1,
+   "med_sells": 3.0,
+   "med_tim": 74.5,
+   "med_avg_out": 155.0,
+   "TSLA": 2139.5,
+   "NVDA": -15074.1,
+   "AMZN": 134.1,
+   "INTC": -249.2
+  }
+ },
+ {
+  "name": "z50>2.5 below sf1.0",
+  "tune": {
+   "med_edge": 1.42,
+   "pos_pct": 76.2,
+   "med_sells": 2.0,
+   "med_tim": 98.9,
+   "med_avg_out": 2.5,
+   "TSLA": 9.5,
+   "NVDA": 19.6,
+   "AMZN": 0.9,
+   "INTC": -2.4
+  },
+  "valid": {
+   "med_edge": 3.4,
+   "pos_pct": 68.3,
+   "med_sells": 4.0,
+   "med_tim": 91.9,
+   "med_avg_out": 9.2,
+   "TSLA": 19.1,
+   "NVDA": 90.3,
+   "AMZN": 9.9,
+   "INTC": -155.3
+  },
+  "full10": {
+   "med_edge": 9.29,
+   "pos_pct": 57.7,
+   "med_sells": 8.0,
+   "med_tim": 90.7,
+   "med_avg_out": 24.4,
+   "TSLA": 1232.2,
+   "NVDA": 5248.6,
+   "AMZN": -520.6,
+   "INTC": -256.0
+  }
+ },
+ {
+  "name": "z50>2.5 drop5 sf0.5",
+  "tune": {
+   "med_edge": 3.22,
+   "pos_pct": 72.3,
+   "med_sells": 1.0,
+   "med_tim": 97.5,
+   "med_avg_out": 0.0,
+   "TSLA": 5.0,
+   "NVDA": 26.2,
+   "AMZN": 3.0,
+   "INTC": -6.8
+  },
+  "valid": {
+   "med_edge": 2.98,
+   "pos_pct": 61.5,
+   "med_sells": 2.0,
+   "med_tim": 88.9,
+   "med_avg_out": 0.0,
+   "TSLA": 12.7,
+   "NVDA": -163.2,
+   "AMZN": 24.4,
+   "INTC": -90.2
+  },
+  "full10": {
+   "med_edge": -29.32,
+   "pos_pct": 42.3,
+   "med_sells": 3.0,
+   "med_tim": 80.5,
+   "med_avg_out": 0.0,
+   "TSLA": -1628.4,
+   "NVDA": -11886.5,
+   "AMZN": -313.1,
+   "INTC": -113.4
+  }
+ },
+ {
+  "name": "z150>2.5 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 61.4,
+   "med_sells": 1.0,
+   "med_tim": 97.5,
+   "med_avg_out": 0.0,
+   "TSLA": 4.0,
+   "NVDA": 25.8,
+   "AMZN": -0.0,
+   "INTC": -1.3
+  },
+  "valid": {
+   "med_edge": 2.9,
+   "pos_pct": 56.7,
+   "med_sells": 2.0,
+   "med_tim": 85.9,
+   "med_avg_out": 0.0,
+   "TSLA": 6.6,
+   "NVDA": -147.0,
+   "AMZN": 18.2,
+   "INTC": -82.9
+  },
+  "full10": {
+   "med_edge": -40.63,
+   "pos_pct": 42.3,
+   "med_sells": 4.0,
+   "med_tim": 81.8,
+   "med_avg_out": 0.0,
+   "TSLA": -1658.6,
+   "NVDA": -11768.6,
+   "AMZN": 220.7,
+   "INTC": -112.2
+  }
+ },
+ {
+  "name": "z200>3.0 drop5 sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 58.4,
+   "med_sells": 1.0,
+   "med_tim": 97.9,
+   "med_avg_out": 9.0,
+   "TSLA": -0.0,
+   "NVDA": 13.5,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 2.86,
+   "pos_pct": 60.6,
+   "med_sells": 1.0,
+   "med_tim": 80.0,
+   "med_avg_out": 63.0,
+   "TSLA": 8.9,
+   "NVDA": 77.9,
+   "AMZN": 35.8,
+   "INTC": -151.4
+  },
+  "full10": {
+   "med_edge": -48.18,
+   "pos_pct": 44.2,
+   "med_sells": 3.0,
+   "med_tim": 72.8,
+   "med_avg_out": 182.9,
+   "TSLA": 1927.5,
+   "NVDA": -15142.7,
+   "AMZN": 325.3,
+   "INTC": -234.5
+  }
+ },
+ {
+  "name": "z100>2.5 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.93,
+   "pos_pct": 67.3,
+   "med_sells": 1.0,
+   "med_tim": 97.5,
+   "med_avg_out": 0.0,
+   "TSLA": 9.7,
+   "NVDA": -64.4,
+   "AMZN": -0.0,
+   "INTC": -6.8
+  },
+  "valid": {
+   "med_edge": 2.8,
+   "pos_pct": 57.7,
+   "med_sells": 2.0,
+   "med_tim": 88.0,
+   "med_avg_out": 0.0,
+   "TSLA": 23.8,
+   "NVDA": -163.2,
+   "AMZN": 17.2,
+   "INTC": -89.1
+  },
+  "full10": {
+   "med_edge": -30.16,
+   "pos_pct": 44.2,
+   "med_sells": 4.0,
+   "med_tim": 83.6,
+   "med_avg_out": 0.0,
+   "TSLA": -1627.0,
+   "NVDA": -11872.5,
+   "AMZN": -300.7,
+   "INTC": -120.9
+  }
+ },
+ {
+  "name": "z50>3.0 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 55.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 9.7,
+   "NVDA": 8.0,
+   "AMZN": -0.0,
+   "INTC": -6.8
+  },
+  "valid": {
+   "med_edge": 2.66,
+   "pos_pct": 63.5,
+   "med_sells": 1.0,
+   "med_tim": 96.0,
+   "med_avg_out": 0.0,
+   "TSLA": 26.4,
+   "NVDA": -147.0,
+   "AMZN": 10.2,
+   "INTC": -90.2
+  },
+  "full10": {
+   "med_edge": 11.4,
+   "pos_pct": 58.7,
+   "med_sells": 2.0,
+   "med_tim": 93.6,
+   "med_avg_out": 0.0,
+   "TSLA": -1630.9,
+   "NVDA": -11858.7,
+   "AMZN": -313.1,
+   "INTC": -115.5
+  }
+ },
+ {
+  "name": "z200>3.0 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 58.4,
+   "med_sells": 1.0,
+   "med_tim": 99.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 9.3,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 2.59,
+   "pos_pct": 60.6,
+   "med_sells": 1.0,
+   "med_tim": 90.0,
+   "med_avg_out": 0.0,
+   "TSLA": 6.6,
+   "NVDA": 42.3,
+   "AMZN": 17.5,
+   "INTC": -88.7
+  },
+  "full10": {
+   "med_edge": -9.74,
+   "pos_pct": 47.1,
+   "med_sells": 3.0,
+   "med_tim": 86.4,
+   "med_avg_out": 0.0,
+   "TSLA": 1074.0,
+   "NVDA": -11620.7,
+   "AMZN": 181.7,
+   "INTC": -131.0
+  }
+ },
+ {
+  "name": "z150>2.5 below sf0.5",
+  "tune": {
+   "med_edge": 0.44,
+   "pos_pct": 66.3,
+   "med_sells": 2.0,
+   "med_tim": 99.2,
+   "med_avg_out": 0.0,
+   "TSLA": 0.5,
+   "NVDA": 16.7,
+   "AMZN": -0.0,
+   "INTC": -1.6
+  },
+  "valid": {
+   "med_edge": 2.49,
+   "pos_pct": 69.2,
+   "med_sells": 4.0,
+   "med_tim": 91.3,
+   "med_avg_out": 0.0,
+   "TSLA": 6.4,
+   "NVDA": 20.2,
+   "AMZN": 11.4,
+   "INTC": -82.9
+  },
+  "full10": {
+   "med_edge": 5.29,
+   "pos_pct": 54.8,
+   "med_sells": 12.5,
+   "med_tim": 88.0,
+   "med_avg_out": 0.0,
+   "TSLA": 1096.8,
+   "NVDA": -11805.2,
+   "AMZN": 96.7,
+   "INTC": -121.1
+  }
+ },
+ {
+  "name": "z100>3.0 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 56.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 8.0,
+   "AMZN": -0.0,
+   "INTC": -6.8
+  },
+  "valid": {
+   "med_edge": 2.46,
+   "pos_pct": 62.5,
+   "med_sells": 1.0,
+   "med_tim": 95.0,
+   "med_avg_out": 0.0,
+   "TSLA": 14.5,
+   "NVDA": -147.0,
+   "AMZN": 5.6,
+   "INTC": -94.2
+  },
+  "full10": {
+   "med_edge": -2.35,
+   "pos_pct": 48.1,
+   "med_sells": 2.0,
+   "med_tim": 88.7,
+   "med_avg_out": 0.0,
+   "TSLA": -1627.0,
+   "NVDA": -11539.3,
+   "AMZN": -293.0,
+   "INTC": -148.6
+  }
+ },
+ {
+  "name": "z100>2.5 below sf1.0",
+  "tune": {
+   "med_edge": 0.87,
+   "pos_pct": 77.2,
+   "med_sells": 2.0,
+   "med_tim": 98.7,
+   "med_avg_out": 1.5,
+   "TSLA": 7.9,
+   "NVDA": 23.4,
+   "AMZN": -0.0,
+   "INTC": -7.1
+  },
+  "valid": {
+   "med_edge": 2.27,
+   "pos_pct": 68.3,
+   "med_sells": 4.0,
+   "med_tim": 89.0,
+   "med_avg_out": 12.4,
+   "TSLA": 22.1,
+   "NVDA": 64.0,
+   "AMZN": 5.5,
+   "INTC": -151.7
+  },
+  "full10": {
+   "med_edge": 2.42,
+   "pos_pct": 52.9,
+   "med_sells": 10.0,
+   "med_tim": 85.8,
+   "med_avg_out": 28.5,
+   "TSLA": 1806.5,
+   "NVDA": -15101.0,
+   "AMZN": -508.8,
+   "INTC": -243.8
+  }
+ },
+ {
+  "name": "z150>3.0 below sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 64.4,
+   "med_sells": 1.0,
+   "med_tim": 99.5,
+   "med_avg_out": 0.2,
+   "TSLA": -0.0,
+   "NVDA": 4.4,
+   "AMZN": -0.0,
+   "INTC": -0.1
+  },
+  "valid": {
+   "med_edge": 2.21,
+   "pos_pct": 70.2,
+   "med_sells": 3.0,
+   "med_tim": 91.7,
+   "med_avg_out": 9.1,
+   "TSLA": 11.6,
+   "NVDA": 35.7,
+   "AMZN": 2.3,
+   "INTC": -157.3
+  },
+  "full10": {
+   "med_edge": 18.4,
+   "pos_pct": 64.4,
+   "med_sells": 8.0,
+   "med_tim": 90.9,
+   "med_avg_out": 15.7,
+   "TSLA": 495.2,
+   "NVDA": 5279.6,
+   "AMZN": 48.6,
+   "INTC": -253.1
+  }
+ },
+ {
+  "name": "z200>3.0 below sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 66.3,
+   "med_sells": 1.0,
+   "med_tim": 99.2,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 9.7,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 2.01,
+   "pos_pct": 68.3,
+   "med_sells": 3.0,
+   "med_tim": 89.7,
+   "med_avg_out": 11.6,
+   "TSLA": 8.1,
+   "NVDA": 72.9,
+   "AMZN": 6.5,
+   "INTC": -1.1
+  },
+  "full10": {
+   "med_edge": 12.64,
+   "pos_pct": 59.6,
+   "med_sells": 10.0,
+   "med_tim": 86.7,
+   "med_avg_out": 29.7,
+   "TSLA": 918.9,
+   "NVDA": -15180.8,
+   "AMZN": 81.5,
+   "INTC": 38.0
+  }
+ },
+ {
+  "name": "z50>2.5 below sf0.5",
+  "tune": {
+   "med_edge": 0.88,
+   "pos_pct": 76.2,
+   "med_sells": 2.0,
+   "med_tim": 99.4,
+   "med_avg_out": 0.0,
+   "TSLA": 5.0,
+   "NVDA": 12.2,
+   "AMZN": 0.5,
+   "INTC": -1.2
+  },
+  "valid": {
+   "med_edge": 2.0,
+   "pos_pct": 69.2,
+   "med_sells": 4.0,
+   "med_tim": 96.0,
+   "med_avg_out": 0.0,
+   "TSLA": 11.1,
+   "NVDA": 45.5,
+   "AMZN": 5.2,
+   "INTC": -92.1
+  },
+  "full10": {
+   "med_edge": 11.61,
+   "pos_pct": 61.5,
+   "med_sells": 8.0,
+   "med_tim": 95.3,
+   "med_avg_out": 0.0,
+   "TSLA": 684.9,
+   "NVDA": 2779.9,
+   "AMZN": -310.6,
+   "INTC": -130.3
+  }
+ },
+ {
+  "name": "z100>3.0 below sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 61.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 7.4,
+   "AMZN": -0.0,
+   "INTC": -4.2
+  },
+  "valid": {
+   "med_edge": 1.82,
+   "pos_pct": 68.3,
+   "med_sells": 2.5,
+   "med_tim": 95.8,
+   "med_avg_out": 4.7,
+   "TSLA": 11.6,
+   "NVDA": 37.7,
+   "AMZN": 1.9,
+   "INTC": -159.3
+  },
+  "full10": {
+   "med_edge": 13.8,
+   "pos_pct": 67.3,
+   "med_sells": 5.5,
+   "med_tim": 94.8,
+   "med_avg_out": 15.4,
+   "TSLA": 917.5,
+   "NVDA": 2967.9,
+   "AMZN": -505.3,
+   "INTC": -264.4
+  }
+ },
+ {
+  "name": "pct100>0.98 drop5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 54.5,
+   "med_sells": 1.0,
+   "med_tim": 99.4,
+   "med_avg_out": 3.0,
+   "TSLA": -0.0,
+   "NVDA": -121.7,
+   "AMZN": -0.0,
+   "INTC": -6.7
+  },
+  "valid": {
+   "med_edge": 1.81,
+   "pos_pct": 55.8,
+   "med_sells": 2.0,
+   "med_tim": 75.1,
+   "med_avg_out": 66.9,
+   "TSLA": 22.9,
+   "NVDA": -268.0,
+   "AMZN": 25.0,
+   "INTC": -145.8
+  },
+  "full10": {
+   "med_edge": -107.19,
+   "pos_pct": 38.5,
+   "med_sells": 3.0,
+   "med_tim": 70.3,
+   "med_avg_out": 228.6,
+   "TSLA": -2338.8,
+   "NVDA": -15053.8,
+   "AMZN": 231.1,
+   "INTC": -210.4
+  }
+ },
+ {
+  "name": "z100>2.5 below sf0.5",
+  "tune": {
+   "med_edge": 0.44,
+   "pos_pct": 77.2,
+   "med_sells": 2.0,
+   "med_tim": 99.4,
+   "med_avg_out": 0.0,
+   "TSLA": 3.9,
+   "NVDA": 14.5,
+   "AMZN": -0.0,
+   "INTC": -3.5
+  },
+  "valid": {
+   "med_edge": 1.79,
+   "pos_pct": 70.2,
+   "med_sells": 4.0,
+   "med_tim": 94.5,
+   "med_avg_out": 0.0,
+   "TSLA": 11.7,
+   "NVDA": 33.4,
+   "AMZN": 2.8,
+   "INTC": -88.4
+  },
+  "full10": {
+   "med_edge": 6.56,
+   "pos_pct": 56.7,
+   "med_sells": 10.0,
+   "med_tim": 92.9,
+   "med_avg_out": 0.0,
+   "TSLA": 992.9,
+   "NVDA": -11499.1,
+   "AMZN": -297.0,
+   "INTC": -137.9
+  }
+ },
+ {
+  "name": "z200>3.0 below sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 66.3,
+   "med_sells": 1.0,
+   "med_tim": 99.6,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 7.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.61,
+   "pos_pct": 71.2,
+   "med_sells": 3.0,
+   "med_tim": 94.9,
+   "med_avg_out": 0.0,
+   "TSLA": 5.1,
+   "NVDA": 40.0,
+   "AMZN": 3.4,
+   "INTC": 6.1
+  },
+  "full10": {
+   "med_edge": 10.75,
+   "pos_pct": 62.5,
+   "med_sells": 10.0,
+   "med_tim": 93.3,
+   "med_avg_out": 0.0,
+   "TSLA": 582.1,
+   "NVDA": -11725.7,
+   "AMZN": 66.9,
+   "INTC": 30.5
+  }
+ },
+ {
+  "name": "z200>2.5 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 59.4,
+   "med_sells": 1.0,
+   "med_tim": 97.1,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -9.7,
+   "AMZN": -0.0,
+   "INTC": 0.2
+  },
+  "valid": {
+   "med_edge": 1.57,
+   "pos_pct": 52.9,
+   "med_sells": 2.0,
+   "med_tim": 82.3,
+   "med_avg_out": 0.0,
+   "TSLA": 6.2,
+   "NVDA": -137.5,
+   "AMZN": 17.1,
+   "INTC": -90.2
+  },
+  "full10": {
+   "med_edge": -64.66,
+   "pos_pct": 35.6,
+   "med_sells": 3.0,
+   "med_tim": 78.2,
+   "med_avg_out": 0.0,
+   "TSLA": -708.2,
+   "NVDA": -11932.9,
+   "AMZN": 170.3,
+   "INTC": -131.5
+  }
+ },
+ {
+  "name": "z50>3.0 below sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 57.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 3.2,
+   "NVDA": 7.4,
+   "AMZN": -0.0,
+   "INTC": 2.1
+  },
+  "valid": {
+   "med_edge": 1.56,
+   "pos_pct": 66.3,
+   "med_sells": 2.0,
+   "med_tim": 98.4,
+   "med_avg_out": 2.0,
+   "TSLA": 23.6,
+   "NVDA": 9.3,
+   "AMZN": 2.0,
+   "INTC": -155.2
+  },
+  "full10": {
+   "med_edge": 11.36,
+   "pos_pct": 70.2,
+   "med_sells": 4.0,
+   "med_tim": 97.5,
+   "med_avg_out": 12.8,
+   "TSLA": 879.3,
+   "NVDA": 2180.9,
+   "AMZN": 71.9,
+   "INTC": -256.1
+  }
+ },
+ {
+  "name": "z200>2.5 below sf1.0",
+  "tune": {
+   "med_edge": 0.46,
+   "pos_pct": 64.4,
+   "med_sells": 2.0,
+   "med_tim": 97.1,
+   "med_avg_out": 3.0,
+   "TSLA": -0.0,
+   "NVDA": 29.5,
+   "AMZN": -0.0,
+   "INTC": -0.1
+  },
+  "valid": {
+   "med_edge": 1.33,
+   "pos_pct": 59.6,
+   "med_sells": 4.0,
+   "med_tim": 77.5,
+   "med_avg_out": 28.8,
+   "TSLA": 2.9,
+   "NVDA": 72.0,
+   "AMZN": 46.8,
+   "INTC": -155.2
+  },
+  "full10": {
+   "med_edge": -38.5,
+   "pos_pct": 44.2,
+   "med_sells": 13.0,
+   "med_tim": 73.1,
+   "med_avg_out": 42.7,
+   "TSLA": 1156.2,
+   "NVDA": -15230.8,
+   "AMZN": 251.2,
+   "INTC": -253.1
+  }
+ },
+ {
+  "name": "z150>3.0 below sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 66.3,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 4.6,
+   "AMZN": -0.0,
+   "INTC": -0.0
+  },
+  "valid": {
+   "med_edge": 1.31,
+   "pos_pct": 71.2,
+   "med_sells": 3.0,
+   "med_tim": 95.9,
+   "med_avg_out": 0.0,
+   "TSLA": 6.0,
+   "NVDA": 19.5,
+   "AMZN": 1.1,
+   "INTC": -94.1
+  },
+  "full10": {
+   "med_edge": 18.41,
+   "pos_pct": 67.3,
+   "med_sells": 8.0,
+   "med_tim": 95.5,
+   "med_avg_out": 0.0,
+   "TSLA": 325.5,
+   "NVDA": 4000.7,
+   "AMZN": 46.8,
+   "INTC": -147.7
+  }
+ },
+ {
+  "name": "z100>3.0 below sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 61.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 3.9,
+   "AMZN": -0.0,
+   "INTC": -2.1
+  },
+  "valid": {
+   "med_edge": 1.26,
+   "pos_pct": 70.2,
+   "med_sells": 2.5,
+   "med_tim": 97.9,
+   "med_avg_out": 0.0,
+   "TSLA": 6.0,
+   "NVDA": 20.5,
+   "AMZN": 0.9,
+   "INTC": -96.1
+  },
+  "full10": {
+   "med_edge": 12.34,
+   "pos_pct": 71.2,
+   "med_sells": 5.5,
+   "med_tim": 97.4,
+   "med_avg_out": 0.0,
+   "TSLA": 492.2,
+   "NVDA": 2869.3,
+   "AMZN": -293.0,
+   "INTC": -158.4
+  }
+ },
+ {
+  "name": "pct300>0.98 drop5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 46.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -43.8,
+   "AMZN": -2.5,
+   "INTC": -11.9
+  },
+  "valid": {
+   "med_edge": 1.22,
+   "pos_pct": 57.7,
+   "med_sells": 1.0,
+   "med_tim": 79.3,
+   "med_avg_out": 55.7,
+   "TSLA": 28.5,
+   "NVDA": 83.5,
+   "AMZN": -64.2,
+   "INTC": -146.0
+  },
+  "full10": {
+   "med_edge": 4.7,
+   "pos_pct": 55.8,
+   "med_sells": 3.0,
+   "med_tim": 83.9,
+   "med_avg_out": 119.3,
+   "TSLA": 716.1,
+   "NVDA": -12406.4,
+   "AMZN": -247.3,
+   "INTC": -223.0
+  }
+ },
+ {
+  "name": "z300>2.5 below sf0.5",
+  "tune": {
+   "med_edge": 0.84,
+   "pos_pct": 63.4,
+   "med_sells": 3.0,
+   "med_tim": 97.6,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -9.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.01,
+   "pos_pct": 55.8,
+   "med_sells": 4.0,
+   "med_tim": 86.3,
+   "med_avg_out": 0.0,
+   "TSLA": 3.7,
+   "NVDA": -173.4,
+   "AMZN": 16.8,
+   "INTC": -24.0
+  },
+  "full10": {
+   "med_edge": -18.87,
+   "pos_pct": 44.2,
+   "med_sells": 14.0,
+   "med_tim": 84.9,
+   "med_avg_out": 0.0,
+   "TSLA": -831.0,
+   "NVDA": -11366.3,
+   "AMZN": 195.7,
+   "INTC": -33.0
+  }
+ },
+ {
+  "name": "z200>2.5 below sf0.5",
+  "tune": {
+   "med_edge": 0.57,
+   "pos_pct": 67.3,
+   "med_sells": 2.0,
+   "med_tim": 98.6,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 17.5,
+   "AMZN": -0.0,
+   "INTC": -0.0
+  },
+  "valid": {
+   "med_edge": 0.93,
+   "pos_pct": 59.6,
+   "med_sells": 4.0,
+   "med_tim": 88.8,
+   "med_avg_out": 0.0,
+   "TSLA": 3.7,
+   "NVDA": 40.2,
+   "AMZN": 22.7,
+   "INTC": -92.1
+  },
+  "full10": {
+   "med_edge": -11.91,
+   "pos_pct": 46.2,
+   "med_sells": 13.0,
+   "med_tim": 86.5,
+   "med_avg_out": 0.0,
+   "TSLA": 1047.8,
+   "NVDA": -11850.8,
+   "AMZN": 148.9,
+   "INTC": -147.3
+  }
+ },
+ {
+  "name": "z250>3.0 below sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 61.4,
+   "med_sells": 1.0,
+   "med_tim": 98.7,
+   "med_avg_out": 1.0,
+   "TSLA": -0.0,
+   "NVDA": 5.1,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.87,
+   "pos_pct": 61.5,
+   "med_sells": 3.0,
+   "med_tim": 84.2,
+   "med_avg_out": 22.9,
+   "TSLA": 8.1,
+   "NVDA": 88.4,
+   "AMZN": 24.8,
+   "INTC": -38.4
+  },
+  "full10": {
+   "med_edge": 3.45,
+   "pos_pct": 54.8,
+   "med_sells": 10.0,
+   "med_tim": 84.0,
+   "med_avg_out": 34.5,
+   "TSLA": 1467.5,
+   "NVDA": 3821.8,
+   "AMZN": 199.8,
+   "INTC": -31.0
+  }
+ },
+ {
+  "name": "z250>3.0 below sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 62.4,
+   "med_sells": 1.0,
+   "med_tim": 99.4,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 5.3,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.83,
+   "pos_pct": 62.5,
+   "med_sells": 3.0,
+   "med_tim": 92.1,
+   "med_avg_out": 0.0,
+   "TSLA": 5.1,
+   "NVDA": 48.2,
+   "AMZN": 12.5,
+   "INTC": -14.9
+  },
+  "full10": {
+   "med_edge": 6.82,
+   "pos_pct": 56.7,
+   "med_sells": 10.0,
+   "med_tim": 92.0,
+   "med_avg_out": 0.0,
+   "TSLA": 856.5,
+   "NVDA": 3439.3,
+   "AMZN": 122.0,
+   "INTC": -6.5
+  }
+ },
+ {
+  "name": "z50>3.0 below sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 59.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 1.6,
+   "NVDA": 3.9,
+   "AMZN": -0.0,
+   "INTC": 1.1
+  },
+  "valid": {
+   "med_edge": 0.81,
+   "pos_pct": 67.3,
+   "med_sells": 2.0,
+   "med_tim": 99.2,
+   "med_avg_out": 0.0,
+   "TSLA": 11.8,
+   "NVDA": 5.9,
+   "AMZN": 1.0,
+   "INTC": -92.1
+  },
+  "full10": {
+   "med_edge": 7.89,
+   "pos_pct": 74.0,
+   "med_sells": 4.0,
+   "med_tim": 98.8,
+   "med_avg_out": 0.0,
+   "TSLA": 476.0,
+   "NVDA": 1151.1,
+   "AMZN": 37.2,
+   "INTC": -150.5
+  }
+ },
+ {
+  "name": "z500>3.0 below sf0.5",
+  "tune": {
+   "med_edge": 1.0,
+   "pos_pct": 71.3,
+   "med_sells": 3.0,
+   "med_tim": 95.5,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 22.0,
+   "AMZN": 0.5,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.76,
+   "pos_pct": 53.8,
+   "med_sells": 4.0,
+   "med_tim": 86.5,
+   "med_avg_out": 0.0,
+   "TSLA": 6.4,
+   "NVDA": -187.2,
+   "AMZN": 5.8,
+   "INTC": -15.0
+  },
+  "full10": {
+   "med_edge": -0.0,
+   "pos_pct": 50.0,
+   "med_sells": 13.5,
+   "med_tim": 86.9,
+   "med_avg_out": 0.0,
+   "TSLA": 852.8,
+   "NVDA": -5867.7,
+   "AMZN": 51.0,
+   "INTC": -21.2
+  }
+ },
+ {
+  "name": "z400>3.0 below sf0.5",
+  "tune": {
+   "med_edge": 0.64,
+   "pos_pct": 66.3,
+   "med_sells": 3.0,
+   "med_tim": 97.2,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 18.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.73,
+   "pos_pct": 56.7,
+   "med_sells": 4.0,
+   "med_tim": 88.6,
+   "med_avg_out": 0.0,
+   "TSLA": 6.4,
+   "NVDA": -182.7,
+   "AMZN": 5.9,
+   "INTC": -17.2
+  },
+  "full10": {
+   "med_edge": -0.0,
+   "pos_pct": 49.0,
+   "med_sells": 10.0,
+   "med_tim": 87.2,
+   "med_avg_out": 0.0,
+   "TSLA": 792.1,
+   "NVDA": -5640.3,
+   "AMZN": 62.8,
+   "INTC": -10.9
+  }
+ },
+ {
+  "name": "z250>2.5 below sf0.5",
+  "tune": {
+   "med_edge": 0.81,
+   "pos_pct": 68.3,
+   "med_sells": 3.0,
+   "med_tim": 98.3,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 18.7,
+   "AMZN": -0.0,
+   "INTC": -0.0
+  },
+  "valid": {
+   "med_edge": 0.65,
+   "pos_pct": 56.7,
+   "med_sells": 4.0,
+   "med_tim": 87.2,
+   "med_avg_out": 0.0,
+   "TSLA": 8.8,
+   "NVDA": -169.3,
+   "AMZN": 16.9,
+   "INTC": -24.0
+  },
+  "full10": {
+   "med_edge": -0.59,
+   "pos_pct": 49.0,
+   "med_sells": 13.0,
+   "med_tim": 86.1,
+   "med_avg_out": 0.0,
+   "TSLA": 1259.6,
+   "NVDA": -11566.6,
+   "AMZN": 120.3,
+   "INTC": -25.6
+  }
+ },
+ {
+  "name": "z300>3.0 below sf0.5",
+  "tune": {
+   "med_edge": 0.34,
+   "pos_pct": 65.3,
+   "med_sells": 2.0,
+   "med_tim": 99.1,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 9.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.6,
+   "pos_pct": 59.6,
+   "med_sells": 4.0,
+   "med_tim": 90.0,
+   "med_avg_out": 0.0,
+   "TSLA": 6.4,
+   "NVDA": -117.0,
+   "AMZN": 11.3,
+   "INTC": -14.9
+  },
+  "full10": {
+   "med_edge": 4.28,
+   "pos_pct": 55.8,
+   "med_sells": 12.0,
+   "med_tim": 90.9,
+   "med_avg_out": 0.0,
+   "TSLA": 651.2,
+   "NVDA": -3105.0,
+   "AMZN": 120.8,
+   "INTC": -6.5
+  }
+ },
+ {
+  "name": "z300>2.5 below sf1.0",
+  "tune": {
+   "med_edge": 0.14,
+   "pos_pct": 63.4,
+   "med_sells": 3.0,
+   "med_tim": 95.2,
+   "med_avg_out": 5.9,
+   "TSLA": -0.0,
+   "NVDA": -30.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.22,
+   "pos_pct": 53.8,
+   "med_sells": 4.0,
+   "med_tim": 72.7,
+   "med_avg_out": 31.6,
+   "TSLA": 2.9,
+   "NVDA": -297.9,
+   "AMZN": 33.2,
+   "INTC": -58.0
+  },
+  "full10": {
+   "med_edge": -54.13,
+   "pos_pct": 42.3,
+   "med_sells": 14.0,
+   "med_tim": 69.7,
+   "med_avg_out": 41.0,
+   "TSLA": -1914.6,
+   "NVDA": -15048.8,
+   "AMZN": 364.6,
+   "INTC": -86.3
+  }
+ },
+ {
+  "name": "z400>3.0 below sf1.0",
+  "tune": {
+   "med_edge": 0.13,
+   "pos_pct": 65.3,
+   "med_sells": 3.0,
+   "med_tim": 94.4,
+   "med_avg_out": 5.7,
+   "TSLA": -0.0,
+   "NVDA": 22.5,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.18,
+   "pos_pct": 54.8,
+   "med_sells": 4.0,
+   "med_tim": 77.2,
+   "med_avg_out": 22.1,
+   "TSLA": 9.7,
+   "NVDA": -307.4,
+   "AMZN": 10.8,
+   "INTC": -42.0
+  },
+  "full10": {
+   "med_edge": -27.26,
+   "pos_pct": 46.2,
+   "med_sells": 10.0,
+   "med_tim": 74.5,
+   "med_avg_out": 47.0,
+   "TSLA": 774.7,
+   "NVDA": -10535.4,
+   "AMZN": 77.8,
+   "INTC": -38.5
+  }
+ },
+ {
+  "name": "pct200>0.98 drop5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 50.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -46.9,
+   "AMZN": 6.1,
+   "INTC": 2.2
+  },
+  "valid": {
+   "med_edge": 0.14,
+   "pos_pct": 57.7,
+   "med_sells": 1.0,
+   "med_tim": 81.6,
+   "med_avg_out": 57.0,
+   "TSLA": 8.9,
+   "NVDA": 49.3,
+   "AMZN": 10.7,
+   "INTC": -145.7
+  },
+  "full10": {
+   "med_edge": 0.0,
+   "pos_pct": 51.9,
+   "med_sells": 2.0,
+   "med_tim": 75.7,
+   "med_avg_out": 181.1,
+   "TSLA": 988.1,
+   "NVDA": -15070.6,
+   "AMZN": 176.7,
+   "INTC": -206.0
+  }
+ },
+ {
+  "name": "z300>3.0 below sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 63.4,
+   "med_sells": 2.0,
+   "med_tim": 98.3,
+   "med_avg_out": 1.4,
+   "TSLA": -0.0,
+   "NVDA": 12.7,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.09,
+   "pos_pct": 56.7,
+   "med_sells": 4.0,
+   "med_tim": 80.0,
+   "med_avg_out": 24.8,
+   "TSLA": 9.7,
+   "NVDA": -231.6,
+   "AMZN": 22.6,
+   "INTC": -38.4
+  },
+  "full10": {
+   "med_edge": 0.0,
+   "pos_pct": 51.0,
+   "med_sells": 12.0,
+   "med_tim": 81.7,
+   "med_avg_out": 28.4,
+   "TSLA": 933.2,
+   "NVDA": -7233.3,
+   "AMZN": 200.8,
+   "INTC": -31.0
+  }
+ },
+ {
+  "name": "z250>2.5 below sf1.0",
+  "tune": {
+   "med_edge": 0.43,
+   "pos_pct": 67.3,
+   "med_sells": 3.0,
+   "med_tim": 96.5,
+   "med_avg_out": 5.0,
+   "TSLA": -0.0,
+   "NVDA": 27.9,
+   "AMZN": -0.0,
+   "INTC": -0.1
+  },
+  "valid": {
+   "med_edge": 0.04,
+   "pos_pct": 53.8,
+   "med_sells": 4.0,
+   "med_tim": 74.3,
+   "med_avg_out": 29.8,
+   "TSLA": 13.6,
+   "NVDA": -293.6,
+   "AMZN": 33.7,
+   "INTC": -58.0
+  },
+  "full10": {
+   "med_edge": -38.47,
+   "pos_pct": 45.2,
+   "med_sells": 13.0,
+   "med_tim": 72.1,
+   "med_avg_out": 43.9,
+   "TSLA": 1590.7,
+   "NVDA": -15124.1,
+   "AMZN": 192.6,
+   "INTC": -73.8
+  }
+ },
+ {
+  "name": "pct50>0.98 drop5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 52.5,
+   "med_sells": 1.0,
+   "med_tim": 94.3,
+   "med_avg_out": 18.0,
+   "TSLA": -0.0,
+   "NVDA": -123.0,
+   "AMZN": 14.0,
+   "INTC": -1.6
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 54.8,
+   "med_sells": 2.0,
+   "med_tim": 78.0,
+   "med_avg_out": 60.0,
+   "TSLA": 49.9,
+   "NVDA": -257.1,
+   "AMZN": 11.1,
+   "INTC": -136.9
+  },
+  "full10": {
+   "med_edge": -146.07,
+   "pos_pct": 35.6,
+   "med_sells": 2.0,
+   "med_tim": 56.5,
+   "med_avg_out": 376.9,
+   "TSLA": -2377.5,
+   "NVDA": -15253.2,
+   "AMZN": 280.0,
+   "INTC": -160.3
+  }
+ },
+ {
+  "name": "pct150>0.98 drop5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 51.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -108.4,
+   "AMZN": -0.0,
+   "INTC": -1.4
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 57.7,
+   "med_sells": 1.0,
+   "med_tim": 80.8,
+   "med_avg_out": 54.0,
+   "TSLA": 8.9,
+   "NVDA": 110.8,
+   "AMZN": 0.0,
+   "INTC": -150.4
+  },
+  "full10": {
+   "med_edge": -6.23,
+   "pos_pct": 47.1,
+   "med_sells": 3.0,
+   "med_tim": 75.0,
+   "med_avg_out": 175.4,
+   "TSLA": 1257.9,
+   "NVDA": -15238.5,
+   "AMZN": 37.7,
+   "INTC": -203.4
+  }
+ },
+ {
+  "name": "z200>2.5 drop5 sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 57.4,
+   "med_sells": 1.0,
+   "med_tim": 94.3,
+   "med_avg_out": 24.0,
+   "TSLA": -0.0,
+   "NVDA": -32.0,
+   "AMZN": -0.0,
+   "INTC": 0.4
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 51.0,
+   "med_sells": 2.0,
+   "med_tim": 64.6,
+   "med_avg_out": 94.5,
+   "TSLA": 7.8,
+   "NVDA": -257.1,
+   "AMZN": 33.6,
+   "INTC": -153.3
+  },
+  "full10": {
+   "med_edge": -158.99,
+   "pos_pct": 32.7,
+   "med_sells": 3.0,
+   "med_tim": 56.4,
+   "med_avg_out": 284.7,
+   "TSLA": -1822.7,
+   "NVDA": -15259.5,
+   "AMZN": 285.4,
+   "INTC": -235.8
+  }
+ },
+ {
+  "name": "z250>3.0 drop5 sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 58.4,
+   "med_sells": 1.0,
+   "med_tim": 97.1,
+   "med_avg_out": 12.0,
+   "TSLA": -0.0,
+   "NVDA": 25.0,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 52.9,
+   "med_sells": 1.0,
+   "med_tim": 76.3,
+   "med_avg_out": 70.0,
+   "TSLA": 8.9,
+   "NVDA": -257.1,
+   "AMZN": 58.9,
+   "INTC": -151.4
+  },
+  "full10": {
+   "med_edge": -28.77,
+   "pos_pct": 47.1,
+   "med_sells": 3.0,
+   "med_tim": 74.3,
+   "med_avg_out": 159.2,
+   "TSLA": 1968.2,
+   "NVDA": -15142.7,
+   "AMZN": 421.3,
+   "INTC": -234.5
+  }
+ },
+ {
+  "name": "z250>3.0 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 60.4,
+   "med_sells": 1.0,
+   "med_tim": 98.6,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 18.6,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 55.8,
+   "med_sells": 1.0,
+   "med_tim": 88.1,
+   "med_avg_out": 0.0,
+   "TSLA": 6.6,
+   "NVDA": -137.5,
+   "AMZN": 28.1,
+   "INTC": -88.7
+  },
+  "full10": {
+   "med_edge": -0.96,
+   "pos_pct": 48.1,
+   "med_sells": 3.0,
+   "med_tim": 87.1,
+   "med_avg_out": 0.0,
+   "TSLA": 1389.9,
+   "NVDA": -11623.2,
+   "AMZN": 222.9,
+   "INTC": -131.0
+  }
+ },
+ {
+  "name": "pct250>0.98 drop5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 47.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -46.9,
+   "AMZN": -5.5,
+   "INTC": 0.1
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 58.7,
+   "med_sells": 1.0,
+   "med_tim": 78.3,
+   "med_avg_out": 65.2,
+   "TSLA": 8.9,
+   "NVDA": 67.7,
+   "AMZN": -57.6,
+   "INTC": -152.3
+  },
+  "full10": {
+   "med_edge": -0.0,
+   "pos_pct": 49.0,
+   "med_sells": 2.0,
+   "med_tim": 80.9,
+   "med_avg_out": 138.2,
+   "TSLA": -1904.7,
+   "NVDA": -15165.1,
+   "AMZN": -261.6,
+   "INTC": -218.5
+  }
+ },
+ {
+  "name": "z300>3.0 drop5 sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 63.4,
+   "med_sells": 1.0,
+   "med_tim": 95.9,
+   "med_avg_out": 16.0,
+   "TSLA": -0.0,
+   "NVDA": -16.8,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 50.0,
+   "med_sells": 1.0,
+   "med_tim": 70.0,
+   "med_avg_out": 78.3,
+   "TSLA": 8.9,
+   "NVDA": -287.0,
+   "AMZN": 49.5,
+   "INTC": -151.4
+  },
+  "full10": {
+   "med_edge": -12.81,
+   "pos_pct": 47.1,
+   "med_sells": 4.0,
+   "med_tim": 71.0,
+   "med_avg_out": 168.7,
+   "TSLA": -1873.4,
+   "NVDA": -12186.2,
+   "AMZN": 386.5,
+   "INTC": -234.5
+  }
+ },
+ {
+  "name": "z300>3.0 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.01,
+   "pos_pct": 64.4,
+   "med_sells": 1.0,
+   "med_tim": 97.9,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 0.0,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 52.9,
+   "med_sells": 1.0,
+   "med_tim": 85.0,
+   "med_avg_out": 0.0,
+   "TSLA": 6.6,
+   "NVDA": -163.2,
+   "AMZN": 24.0,
+   "INTC": -88.7
+  },
+  "full10": {
+   "med_edge": -0.22,
+   "pos_pct": 48.1,
+   "med_sells": 4.0,
+   "med_tim": 85.5,
+   "med_avg_out": 0.0,
+   "TSLA": -785.6,
+   "NVDA": -7175.0,
+   "AMZN": 206.9,
+   "INTC": -131.0
+  }
+ },
+ {
+  "name": "z400>2.5 drop5 sf1.0",
+  "tune": {
+   "med_edge": 0.38,
+   "pos_pct": 61.4,
+   "med_sells": 2.0,
+   "med_tim": 85.5,
+   "med_avg_out": 31.0,
+   "TSLA": -0.0,
+   "NVDA": -28.8,
+   "AMZN": -0.0,
+   "INTC": 0.4
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 48.1,
+   "med_sells": 1.0,
+   "med_tim": 57.9,
+   "med_avg_out": 120.2,
+   "TSLA": 16.0,
+   "NVDA": -317.1,
+   "AMZN": 70.2,
+   "INTC": -151.4
+  },
+  "full10": {
+   "med_edge": -162.63,
+   "pos_pct": 30.8,
+   "med_sells": 3.0,
+   "med_tim": 54.7,
+   "med_avg_out": 311.2,
+   "TSLA": -1908.2,
+   "NVDA": -15259.5,
+   "AMZN": 410.6,
+   "INTC": -236.4
+  }
+ },
+ {
+  "name": "z400>2.5 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.69,
+   "pos_pct": 63.4,
+   "med_sells": 2.0,
+   "med_tim": 92.8,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -4.6,
+   "AMZN": -0.0,
+   "INTC": 0.2
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 48.1,
+   "med_sells": 1.0,
+   "med_tim": 79.0,
+   "med_avg_out": 0.0,
+   "TSLA": 10.3,
+   "NVDA": -192.5,
+   "AMZN": 34.0,
+   "INTC": -88.7
+  },
+  "full10": {
+   "med_edge": -72.4,
+   "pos_pct": 31.7,
+   "med_sells": 3.0,
+   "med_tim": 77.3,
+   "med_avg_out": 0.0,
+   "TSLA": -820.5,
+   "NVDA": -11932.9,
+   "AMZN": 220.5,
+   "INTC": -132.2
+  }
+ },
+ {
+  "name": "z400>2.5 below sf1.0",
+  "tune": {
+   "med_edge": 0.03,
+   "pos_pct": 62.4,
+   "med_sells": 4.0,
+   "med_tim": 90.5,
+   "med_avg_out": 8.0,
+   "TSLA": -0.0,
+   "NVDA": -35.1,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 49.0,
+   "med_sells": 4.0,
+   "med_tim": 68.8,
+   "med_avg_out": 30.4,
+   "TSLA": 10.9,
+   "NVDA": -311.9,
+   "AMZN": 18.2,
+   "INTC": -63.3
+  },
+  "full10": {
+   "med_edge": -101.81,
+   "pos_pct": 39.4,
+   "med_sells": 11.0,
+   "med_tim": 66.4,
+   "med_avg_out": 58.8,
+   "TSLA": -1986.8,
+   "NVDA": -15230.8,
+   "AMZN": 92.7,
+   "INTC": -100.7
+  }
+ },
+ {
+  "name": "z400>2.5 below sf0.5",
+  "tune": {
+   "med_edge": 0.21,
+   "pos_pct": 65.3,
+   "med_sells": 4.0,
+   "med_tim": 95.2,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -9.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 50.0,
+   "med_sells": 4.0,
+   "med_tim": 84.4,
+   "med_avg_out": 0.0,
+   "TSLA": 7.7,
+   "NVDA": -187.2,
+   "AMZN": 9.8,
+   "INTC": -27.3
+  },
+  "full10": {
+   "med_edge": -37.43,
+   "pos_pct": 41.3,
+   "med_sells": 11.0,
+   "med_tim": 83.2,
+   "med_avg_out": 0.0,
+   "TSLA": -940.8,
+   "NVDA": -11850.8,
+   "AMZN": 71.9,
+   "INTC": -41.9
+  }
+ },
+ {
+  "name": "z400>3.0 drop5 sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 61.4,
+   "med_sells": 1.0,
+   "med_tim": 91.9,
+   "med_avg_out": 27.0,
+   "TSLA": -0.0,
+   "NVDA": 0.8,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 50.0,
+   "med_sells": 1.5,
+   "med_tim": 68.2,
+   "med_avg_out": 91.5,
+   "TSLA": 8.9,
+   "NVDA": -307.4,
+   "AMZN": 39.0,
+   "INTC": -25.6
+  },
+  "full10": {
+   "med_edge": -100.1,
+   "pos_pct": 41.3,
+   "med_sells": 3.0,
+   "med_tim": 64.8,
+   "med_avg_out": 198.6,
+   "TSLA": -1842.1,
+   "NVDA": -12097.9,
+   "AMZN": 226.5,
+   "INTC": -1.4
+  }
+ },
+ {
+  "name": "z400>3.0 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 62.4,
+   "med_sells": 1.0,
+   "med_tim": 95.9,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 10.1,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 51.9,
+   "med_sells": 1.5,
+   "med_tim": 84.1,
+   "med_avg_out": 0.0,
+   "TSLA": 6.6,
+   "NVDA": -182.7,
+   "AMZN": 19.7,
+   "INTC": -7.4
+  },
+  "full10": {
+   "med_edge": -32.48,
+   "pos_pct": 42.3,
+   "med_sells": 3.0,
+   "med_tim": 82.4,
+   "med_avg_out": 0.0,
+   "TSLA": -744.2,
+   "NVDA": -6989.4,
+   "AMZN": 135.0,
+   "INTC": 10.0
+  }
+ },
+ {
+  "name": "pct400>0.98 drop5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 53.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 50.3,
+   "AMZN": -0.0,
+   "INTC": -22.2
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 54.8,
+   "med_sells": 1.0,
+   "med_tim": 79.2,
+   "med_avg_out": 81.5,
+   "TSLA": 11.3,
+   "NVDA": -293.6,
+   "AMZN": -59.0,
+   "INTC": -118.7
+  },
+  "full10": {
+   "med_edge": 6.79,
+   "pos_pct": 56.7,
+   "med_sells": 2.0,
+   "med_tim": 88.9,
+   "med_avg_out": 102.0,
+   "TSLA": 186.2,
+   "NVDA": -9829.3,
+   "AMZN": -240.5,
+   "INTC": -197.8
+  }
+ },
+ {
+  "name": "z500>2.5 drop5 sf0.5",
+  "tune": {
+   "med_edge": 1.19,
+   "pos_pct": 66.3,
+   "med_sells": 2.0,
+   "med_tim": 89.8,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -4.6,
+   "AMZN": 7.4,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 49.0,
+   "med_sells": 2.0,
+   "med_tim": 74.6,
+   "med_avg_out": 0.0,
+   "TSLA": 19.9,
+   "NVDA": -198.2,
+   "AMZN": 27.9,
+   "INTC": -26.5
+  },
+  "full10": {
+   "med_edge": -38.49,
+   "pos_pct": 37.5,
+   "med_sells": 3.0,
+   "med_tim": 76.6,
+   "med_avg_out": 0.0,
+   "TSLA": -838.6,
+   "NVDA": -11932.9,
+   "AMZN": 170.8,
+   "INTC": -7.2
+  }
+ },
+ {
+  "name": "z500>2.5 below sf0.5",
+  "tune": {
+   "med_edge": 0.53,
+   "pos_pct": 65.3,
+   "med_sells": 6.0,
+   "med_tim": 92.4,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -12.6,
+   "AMZN": 3.1,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 48.1,
+   "med_sells": 4.0,
+   "med_tim": 81.4,
+   "med_avg_out": 0.0,
+   "TSLA": 18.0,
+   "NVDA": -198.2,
+   "AMZN": 11.2,
+   "INTC": -32.8
+  },
+  "full10": {
+   "med_edge": -36.22,
+   "pos_pct": 45.2,
+   "med_sells": 14.0,
+   "med_tim": 82.7,
+   "med_avg_out": 0.0,
+   "TSLA": -935.0,
+   "NVDA": -11850.8,
+   "AMZN": 85.9,
+   "INTC": -38.4
+  }
+ },
+ {
+  "name": "z500>3.0 drop5 sf1.0",
+  "tune": {
+   "med_edge": 3.93,
+   "pos_pct": 68.3,
+   "med_sells": 1.0,
+   "med_tim": 86.3,
+   "med_avg_out": 31.4,
+   "TSLA": -0.0,
+   "NVDA": -28.8,
+   "AMZN": 9.1,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 48.1,
+   "med_sells": 1.0,
+   "med_tim": 62.1,
+   "med_avg_out": 102.0,
+   "TSLA": 8.9,
+   "NVDA": -317.1,
+   "AMZN": 18.2,
+   "INTC": -85.4
+  },
+  "full10": {
+   "med_edge": -93.86,
+   "pos_pct": 41.3,
+   "med_sells": 4.0,
+   "med_tim": 65.6,
+   "med_avg_out": 219.8,
+   "TSLA": -1842.1,
+   "NVDA": -15088.0,
+   "AMZN": 117.9,
+   "INTC": -130.8
+  }
+ },
+ {
+  "name": "z500>3.0 drop5 sf0.5",
+  "tune": {
+   "med_edge": 2.04,
+   "pos_pct": 69.3,
+   "med_sells": 1.0,
+   "med_tim": 93.2,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -4.6,
+   "AMZN": 4.5,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 49.0,
+   "med_sells": 1.0,
+   "med_tim": 81.0,
+   "med_avg_out": 0.0,
+   "TSLA": 6.6,
+   "NVDA": -192.5,
+   "AMZN": 10.0,
+   "INTC": -42.4
+  },
+  "full10": {
+   "med_edge": -26.96,
+   "pos_pct": 44.2,
+   "med_sells": 4.0,
+   "med_tim": 82.8,
+   "med_avg_out": 0.0,
+   "TSLA": -744.2,
+   "NVDA": -11477.0,
+   "AMZN": 84.7,
+   "INTC": -62.5
+  }
+ },
+ {
+  "name": "z500>3.0 below sf1.0",
+  "tune": {
+   "med_edge": 0.96,
+   "pos_pct": 69.3,
+   "med_sells": 3.0,
+   "med_tim": 91.1,
+   "med_avg_out": 5.5,
+   "TSLA": -0.0,
+   "NVDA": 29.5,
+   "AMZN": 1.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 51.9,
+   "med_sells": 4.0,
+   "med_tim": 73.0,
+   "med_avg_out": 25.4,
+   "TSLA": 9.7,
+   "NVDA": -311.9,
+   "AMZN": 10.5,
+   "INTC": -38.1
+  },
+  "full10": {
+   "med_edge": -5.92,
+   "pos_pct": 48.1,
+   "med_sells": 13.5,
+   "med_tim": 73.9,
+   "med_avg_out": 47.4,
+   "TSLA": 893.5,
+   "NVDA": -11224.8,
+   "AMZN": 53.9,
+   "INTC": -58.1
+  }
+ },
+ {
+  "name": "pct500>0.98 drop5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 52.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 13.7,
+   "AMZN": -0.0,
+   "INTC": -13.4
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 57.7,
+   "med_sells": 1.0,
+   "med_tim": 80.8,
+   "med_avg_out": 42.6,
+   "TSLA": 26.6,
+   "NVDA": -287.0,
+   "AMZN": 23.1,
+   "INTC": -119.4
+  },
+  "full10": {
+   "med_edge": 10.7,
+   "pos_pct": 58.7,
+   "med_sells": 2.0,
+   "med_tim": 93.0,
+   "med_avg_out": 80.5,
+   "TSLA": 438.8,
+   "NVDA": -10329.9,
+   "AMZN": 94.2,
+   "INTC": -200.7
+  }
+ },
+ {
+  "name": "vol126 >2.5x",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 47.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -0.0,
+   "AMZN": -5.8,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 36.5,
+   "med_sells": 0.5,
+   "med_tim": 99.5,
+   "med_avg_out": 2.5,
+   "TSLA": 0.0,
+   "NVDA": -0.0,
+   "AMZN": 0.0,
+   "INTC": -13.7
+  },
+  "full10": {
+   "med_edge": -49.49,
+   "pos_pct": 21.2,
+   "med_sells": 2.0,
+   "med_tim": 96.0,
+   "med_avg_out": 35.0,
+   "TSLA": 28.0,
+   "NVDA": 543.7,
+   "AMZN": -281.5,
+   "INTC": -121.0
+  }
+ },
+ {
+  "name": "vol252 >2.5x",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 48.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -0.0,
+   "AMZN": 18.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 37.5,
+   "med_sells": 1.0,
+   "med_tim": 96.9,
+   "med_avg_out": 19.0,
+   "TSLA": 0.0,
+   "NVDA": -0.0,
+   "AMZN": -5.9,
+   "INTC": -13.7
+  },
+  "full10": {
+   "med_edge": -65.61,
+   "pos_pct": 23.1,
+   "med_sells": 2.0,
+   "med_tim": 95.3,
+   "med_avg_out": 39.8,
+   "TSLA": -499.0,
+   "NVDA": -5747.5,
+   "AMZN": -195.9,
+   "INTC": -142.3
+  }
+ },
+ {
+  "name": "vol504 >2.5x",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 46.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -0.0,
+   "AMZN": -12.1,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 36.5,
+   "med_sells": 1.0,
+   "med_tim": 96.8,
+   "med_avg_out": 19.0,
+   "TSLA": 0.0,
+   "NVDA": -0.0,
+   "AMZN": 0.0,
+   "INTC": -13.0
+  },
+  "full10": {
+   "med_edge": -72.58,
+   "pos_pct": 16.3,
+   "med_sells": 2.0,
+   "med_tim": 95.6,
+   "med_avg_out": 43.3,
+   "TSLA": -504.4,
+   "NVDA": -5747.5,
+   "AMZN": -233.6,
+   "INTC": -65.6
+  }
+ },
+ {
+  "name": "z500>2.5 below sf1.0",
+  "tune": {
+   "med_edge": 0.28,
+   "pos_pct": 64.4,
+   "med_sells": 6.0,
+   "med_tim": 84.7,
+   "med_avg_out": 8.6,
+   "TSLA": -0.0,
+   "NVDA": -40.7,
+   "AMZN": 6.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -1.9,
+   "pos_pct": 45.2,
+   "med_sells": 4.0,
+   "med_tim": 62.8,
+   "med_avg_out": 38.9,
+   "TSLA": 32.2,
+   "NVDA": -322.4,
+   "AMZN": 20.6,
+   "INTC": -71.9
+  },
+  "full10": {
+   "med_edge": -95.15,
+   "pos_pct": 44.2,
+   "med_sells": 14.0,
+   "med_tim": 65.4,
+   "med_avg_out": 51.5,
+   "TSLA": -1982.9,
+   "NVDA": -15230.8,
+   "AMZN": 119.8,
+   "INTC": -94.6
+  }
+ },
+ {
+  "name": "z500>2.5 drop5 sf1.0",
+  "tune": {
+   "med_edge": 1.16,
+   "pos_pct": 63.4,
+   "med_sells": 2.0,
+   "med_tim": 79.7,
+   "med_avg_out": 35.7,
+   "TSLA": -0.0,
+   "NVDA": -28.8,
+   "AMZN": 15.1,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -2.51,
+   "pos_pct": 45.2,
+   "med_sells": 2.0,
+   "med_tim": 49.1,
+   "med_avg_out": 128.4,
+   "TSLA": 36.1,
+   "NVDA": -322.4,
+   "AMZN": 56.7,
+   "INTC": -62.6
+  },
+  "full10": {
+   "med_edge": -110.0,
+   "pos_pct": 34.6,
+   "med_sells": 3.0,
+   "med_tim": 53.1,
+   "med_avg_out": 306.7,
+   "TSLA": -1921.3,
+   "NVDA": -15259.5,
+   "AMZN": 304.4,
+   "INTC": -44.6
+  }
+ },
+ {
+  "name": "vol126 >2.0x",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 52.5,
+   "med_sells": 1.0,
+   "med_tim": 95.9,
+   "med_avg_out": 19.0,
+   "TSLA": 20.6,
+   "NVDA": 12.6,
+   "AMZN": -5.1,
+   "INTC": -1.0
+  },
+  "valid": {
+   "med_edge": -2.53,
+   "pos_pct": 37.5,
+   "med_sells": 2.0,
+   "med_tim": 93.1,
+   "med_avg_out": 20.5,
+   "TSLA": 0.0,
+   "NVDA": -54.1,
+   "AMZN": -2.0,
+   "INTC": 12.8
+  },
+  "full10": {
+   "med_edge": -61.62,
+   "pos_pct": 26.9,
+   "med_sells": 6.0,
+   "med_tim": 92.7,
+   "med_avg_out": 30.3,
+   "TSLA": 660.5,
+   "NVDA": 374.9,
+   "AMZN": -309.4,
+   "INTC": -63.5
+  }
+ },
+ {
+  "name": "z250>2.5 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.63,
+   "pos_pct": 63.4,
+   "med_sells": 1.0,
+   "med_tim": 96.8,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -6.5,
+   "AMZN": -0.0,
+   "INTC": 0.2
+  },
+  "valid": {
+   "med_edge": -2.64,
+   "pos_pct": 47.1,
+   "med_sells": 1.0,
+   "med_tim": 77.0,
+   "med_avg_out": 0.0,
+   "TSLA": 6.6,
+   "NVDA": -169.3,
+   "AMZN": 15.4,
+   "INTC": -88.7
+  },
+  "full10": {
+   "med_edge": -48.89,
+   "pos_pct": 37.5,
+   "med_sells": 4.0,
+   "med_tim": 79.9,
+   "med_avg_out": 0.0,
+   "TSLA": -749.0,
+   "NVDA": -11858.7,
+   "AMZN": 177.7,
+   "INTC": -127.6
+  }
+ },
+ {
+  "name": "z300>2.5 drop5 sf0.5",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 59.4,
+   "med_sells": 1.0,
+   "med_tim": 96.2,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 1.4,
+   "AMZN": -0.0,
+   "INTC": 0.2
+  },
+  "valid": {
+   "med_edge": -3.06,
+   "pos_pct": 47.1,
+   "med_sells": 1.5,
+   "med_tim": 79.1,
+   "med_avg_out": 0.0,
+   "TSLA": 6.2,
+   "NVDA": -178.8,
+   "AMZN": 23.9,
+   "INTC": -88.7
+  },
+  "full10": {
+   "med_edge": -32.1,
+   "pos_pct": 40.4,
+   "med_sells": 4.0,
+   "med_tim": 79.4,
+   "med_avg_out": 0.0,
+   "TSLA": -831.0,
+   "NVDA": -11448.8,
+   "AMZN": 281.9,
+   "INTC": -129.4
+  }
+ },
+ {
+  "name": "vol504 >2.0x",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 50.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 29.6,
+   "AMZN": 6.3,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -7.56,
+   "pos_pct": 30.8,
+   "med_sells": 2.0,
+   "med_tim": 90.7,
+   "med_avg_out": 23.1,
+   "TSLA": -23.4,
+   "NVDA": -12.0,
+   "AMZN": -2.0,
+   "INTC": 60.4
+  },
+  "full10": {
+   "med_edge": -73.83,
+   "pos_pct": 23.1,
+   "med_sells": 5.0,
+   "med_tim": 91.5,
+   "med_avg_out": 36.0,
+   "TSLA": -967.5,
+   "NVDA": 1387.4,
+   "AMZN": -230.3,
+   "INTC": -24.8
+  }
+ },
+ {
+  "name": "vol252 >2.0x",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 55.4,
+   "med_sells": 1.0,
+   "med_tim": 96.8,
+   "med_avg_out": 19.0,
+   "TSLA": -0.0,
+   "NVDA": 12.6,
+   "AMZN": 18.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -9.17,
+   "pos_pct": 29.8,
+   "med_sells": 2.0,
+   "med_tim": 90.7,
+   "med_avg_out": 23.1,
+   "TSLA": -33.6,
+   "NVDA": -3.2,
+   "AMZN": -2.0,
+   "INTC": 40.2
+  },
+  "full10": {
+   "med_edge": -76.81,
+   "pos_pct": 26.0,
+   "med_sells": 6.0,
+   "med_tim": 90.9,
+   "med_avg_out": 32.0,
+   "TSLA": 9.4,
+   "NVDA": 1032.7,
+   "AMZN": -231.3,
+   "INTC": -83.8
+  }
+ },
+ {
+  "name": "z300>2.5 drop5 sf1.0",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 56.4,
+   "med_sells": 1.0,
+   "med_tim": 92.4,
+   "med_avg_out": 24.0,
+   "TSLA": -0.0,
+   "NVDA": -14.8,
+   "AMZN": -0.0,
+   "INTC": 0.4
+  },
+  "valid": {
+   "med_edge": -12.75,
+   "pos_pct": 46.2,
+   "med_sells": 1.5,
+   "med_tim": 58.2,
+   "med_avg_out": 123.0,
+   "TSLA": 7.8,
+   "NVDA": -303.5,
+   "AMZN": 48.3,
+   "INTC": -151.4
+  },
+  "full10": {
+   "med_edge": -125.93,
+   "pos_pct": 39.4,
+   "med_sells": 4.0,
+   "med_tim": 58.7,
+   "med_avg_out": 221.3,
+   "TSLA": -1914.6,
+   "NVDA": -15082.1,
+   "AMZN": 564.0,
+   "INTC": -233.9
+  }
+ },
+ {
+  "name": "z250>2.5 drop5 sf1.0",
+  "tune": {
+   "med_edge": 0.38,
+   "pos_pct": 61.4,
+   "med_sells": 1.0,
+   "med_tim": 93.6,
+   "med_avg_out": 25.0,
+   "TSLA": -0.0,
+   "NVDA": -29.0,
+   "AMZN": -0.0,
+   "INTC": 0.4
+  },
+  "valid": {
+   "med_edge": -16.72,
+   "pos_pct": 44.2,
+   "med_sells": 1.0,
+   "med_tim": 53.9,
+   "med_avg_out": 148.7,
+   "TSLA": 8.9,
+   "NVDA": -293.6,
+   "AMZN": 29.8,
+   "INTC": -151.4
+  },
+  "full10": {
+   "med_edge": -145.11,
+   "pos_pct": 35.6,
+   "med_sells": 4.0,
+   "med_tim": 59.9,
+   "med_avg_out": 230.5,
+   "TSLA": -1852.6,
+   "NVDA": -15232.0,
+   "AMZN": 309.6,
+   "INTC": -231.8
+  }
+ },
+ {
+  "name": "trend ma500 buf0",
+  "tune": {
+   "med_edge": -18.69,
+   "pos_pct": 21.8,
+   "med_sells": 7.0,
+   "med_tim": 62.3,
+   "med_avg_out": 25.1,
+   "TSLA": -50.6,
+   "NVDA": -75.1,
+   "AMZN": -11.8,
+   "INTC": 7.4
+  },
+  "valid": {
+   "med_edge": -19.64,
+   "pos_pct": 24.0,
+   "med_sells": 5.0,
+   "med_tim": 82.9,
+   "med_avg_out": 14.5,
+   "TSLA": -52.5,
+   "NVDA": -0.0,
+   "AMZN": -27.1,
+   "INTC": -18.0
+  },
+  "full10": {
+   "med_edge": -174.46,
+   "pos_pct": 17.3,
+   "med_sells": 18.0,
+   "med_tim": 82.0,
+   "med_avg_out": 20.4,
+   "TSLA": -1936.1,
+   "NVDA": -8440.9,
+   "AMZN": -246.6,
+   "INTC": -203.0
+  }
+ },
+ {
+  "name": "trend ma500 buf5",
+  "tune": {
+   "med_edge": -17.69,
+   "pos_pct": 17.8,
+   "med_sells": 2.0,
+   "med_tim": 60.6,
+   "med_avg_out": 93.7,
+   "TSLA": -62.6,
+   "NVDA": -72.5,
+   "AMZN": -16.2,
+   "INTC": 8.1
+  },
+  "valid": {
+   "med_edge": -21.84,
+   "pos_pct": 28.8,
+   "med_sells": 1.5,
+   "med_tim": 83.8,
+   "med_avg_out": 50.0,
+   "TSLA": -79.7,
+   "NVDA": -0.0,
+   "AMZN": 0.0,
+   "INTC": 6.7
+  },
+  "full10": {
+   "med_edge": -178.04,
+   "pos_pct": 16.3,
+   "med_sells": 5.0,
+   "med_tim": 82.3,
+   "med_avg_out": 86.8,
+   "TSLA": -2192.6,
+   "NVDA": -7300.9,
+   "AMZN": -183.7,
+   "INTC": -141.8
+  }
+ },
+ {
+  "name": "trend ma400 buf0",
+  "tune": {
+   "med_edge": -17.56,
+   "pos_pct": 21.8,
+   "med_sells": 7.0,
+   "med_tim": 59.1,
+   "med_avg_out": 29.1,
+   "TSLA": -24.7,
+   "NVDA": -59.6,
+   "AMZN": 13.0,
+   "INTC": -6.7
+  },
+  "valid": {
+   "med_edge": -24.09,
+   "pos_pct": 23.1,
+   "med_sells": 6.0,
+   "med_tim": 77.9,
+   "med_avg_out": 14.3,
+   "TSLA": -81.4,
+   "NVDA": -96.8,
+   "AMZN": -33.4,
+   "INTC": -13.5
+  },
+  "full10": {
+   "med_edge": -195.63,
+   "pos_pct": 14.4,
+   "med_sells": 22.0,
+   "med_tim": 78.7,
+   "med_avg_out": 23.2,
+   "TSLA": -2129.0,
+   "NVDA": -7201.8,
+   "AMZN": -195.9,
+   "INTC": -236.7
+  }
+ },
+ {
+  "name": "trend ma400 buf5",
+  "tune": {
+   "med_edge": -18.89,
+   "pos_pct": 24.8,
+   "med_sells": 2.0,
+   "med_tim": 57.7,
+   "med_avg_out": 109.0,
+   "TSLA": -43.5,
+   "NVDA": -37.8,
+   "AMZN": 14.4,
+   "INTC": 13.2
+  },
+  "valid": {
+   "med_edge": -25.9,
+   "pos_pct": 26.9,
+   "med_sells": 2.0,
+   "med_tim": 80.0,
+   "med_avg_out": 58.8,
+   "TSLA": -87.4,
+   "NVDA": -0.0,
+   "AMZN": -56.0,
+   "INTC": 6.7
+  },
+  "full10": {
+   "med_edge": -213.39,
+   "pos_pct": 15.4,
+   "med_sells": 5.0,
+   "med_tim": 79.1,
+   "med_avg_out": 84.3,
+   "TSLA": -2175.5,
+   "NVDA": -5509.6,
+   "AMZN": -218.0,
+   "INTC": -174.8
+  }
+ },
+ {
+  "name": "trend ma150 buf5",
+  "tune": {
+   "med_edge": -12.98,
+   "pos_pct": 33.7,
+   "med_sells": 3.0,
+   "med_tim": 56.3,
+   "med_avg_out": 80.0,
+   "TSLA": -18.9,
+   "NVDA": -26.0,
+   "AMZN": 29.8,
+   "INTC": 43.8
+  },
+  "valid": {
+   "med_edge": -26.32,
+   "pos_pct": 31.7,
+   "med_sells": 3.0,
+   "med_tim": 66.4,
+   "med_avg_out": 63.4,
+   "TSLA": -58.5,
+   "NVDA": -177.3,
+   "AMZN": -55.5,
+   "INTC": 0.4
+  },
+  "full10": {
+   "med_edge": -208.64,
+   "pos_pct": 19.2,
+   "med_sells": 9.0,
+   "med_tim": 69.8,
+   "med_avg_out": 74.8,
+   "TSLA": -2036.9,
+   "NVDA": -10024.0,
+   "AMZN": -315.4,
+   "INTC": -113.7
+  }
+ },
+ {
+  "name": "trend ma200 buf0",
+  "tune": {
+   "med_edge": -11.46,
+   "pos_pct": 36.6,
+   "med_sells": 9.0,
+   "med_tim": 57.7,
+   "med_avg_out": 26.7,
+   "TSLA": -13.6,
+   "NVDA": 39.7,
+   "AMZN": 13.4,
+   "INTC": 21.0
+  },
+  "valid": {
+   "med_edge": -26.94,
+   "pos_pct": 29.8,
+   "med_sells": 9.0,
+   "med_tim": 68.4,
+   "med_avg_out": 20.8,
+   "TSLA": -86.4,
+   "NVDA": -99.8,
+   "AMZN": -53.6,
+   "INTC": 55.7
+  },
+  "full10": {
+   "med_edge": -226.32,
+   "pos_pct": 19.2,
+   "med_sells": 31.5,
+   "med_tim": 73.0,
+   "med_avg_out": 20.4,
+   "TSLA": -2164.4,
+   "NVDA": -405.2,
+   "AMZN": -438.3,
+   "INTC": -119.2
+  }
+ },
+ {
+  "name": "trend ma250 buf0",
+  "tune": {
+   "med_edge": -13.49,
+   "pos_pct": 33.7,
+   "med_sells": 9.0,
+   "med_tim": 57.9,
+   "med_avg_out": 27.8,
+   "TSLA": -22.8,
+   "NVDA": -5.6,
+   "AMZN": 22.9,
+   "INTC": 15.5
+  },
+  "valid": {
+   "med_edge": -28.84,
+   "pos_pct": 24.0,
+   "med_sells": 8.0,
+   "med_tim": 70.0,
+   "med_avg_out": 20.3,
+   "TSLA": -106.7,
+   "NVDA": -83.8,
+   "AMZN": -41.5,
+   "INTC": 79.5
+  },
+  "full10": {
+   "med_edge": -232.2,
+   "pos_pct": 14.4,
+   "med_sells": 28.0,
+   "med_tim": 74.3,
+   "med_avg_out": 20.7,
+   "TSLA": -2208.3,
+   "NVDA": -1484.3,
+   "AMZN": -318.7,
+   "INTC": -182.9
+  }
+ },
+ {
+  "name": "trend ma200 buf5",
+  "tune": {
+   "med_edge": -8.6,
+   "pos_pct": 39.6,
+   "med_sells": 3.0,
+   "med_tim": 57.2,
+   "med_avg_out": 97.7,
+   "TSLA": -31.3,
+   "NVDA": 12.1,
+   "AMZN": 38.4,
+   "INTC": 54.1
+  },
+  "valid": {
+   "med_edge": -28.87,
+   "pos_pct": 27.9,
+   "med_sells": 2.5,
+   "med_tim": 68.9,
+   "med_avg_out": 74.7,
+   "TSLA": -83.1,
+   "NVDA": -106.1,
+   "AMZN": -42.6,
+   "INTC": -0.2
+  },
+  "full10": {
+   "med_edge": -203.06,
+   "pos_pct": 17.3,
+   "med_sells": 8.0,
+   "med_tim": 72.3,
+   "med_avg_out": 77.9,
+   "TSLA": -2165.9,
+   "NVDA": -3325.0,
+   "AMZN": -155.6,
+   "INTC": -122.9
+  }
+ },
+ {
+  "name": "trend ma150 buf0",
+  "tune": {
+   "med_edge": -14.0,
+   "pos_pct": 37.6,
+   "med_sells": 12.0,
+   "med_tim": 55.5,
+   "med_avg_out": 21.1,
+   "TSLA": -25.0,
+   "NVDA": 5.8,
+   "AMZN": -1.3,
+   "INTC": 50.2
+  },
+  "valid": {
+   "med_edge": -30.56,
+   "pos_pct": 25.0,
+   "med_sells": 10.5,
+   "med_tim": 65.6,
+   "med_avg_out": 17.6,
+   "TSLA": -55.1,
+   "NVDA": -138.4,
+   "AMZN": -58.6,
+   "INTC": 15.4
+  },
+  "full10": {
+   "med_edge": -264.24,
+   "pos_pct": 13.5,
+   "med_sells": 43.0,
+   "med_tim": 69.7,
+   "med_avg_out": 16.6,
+   "TSLA": -2057.6,
+   "NVDA": -7835.8,
+   "AMZN": -462.3,
+   "INTC": -87.0
+  }
+ },
+ {
+  "name": "trend ma300 buf0",
+  "tune": {
+   "med_edge": -11.97,
+   "pos_pct": 31.7,
+   "med_sells": 9.0,
+   "med_tim": 57.6,
+   "med_avg_out": 27.9,
+   "TSLA": -7.8,
+   "NVDA": -23.5,
+   "AMZN": 19.7,
+   "INTC": 20.1
+  },
+  "valid": {
+   "med_edge": -31.4,
+   "pos_pct": 25.0,
+   "med_sells": 7.0,
+   "med_tim": 72.8,
+   "med_avg_out": 17.4,
+   "TSLA": -103.3,
+   "NVDA": -74.4,
+   "AMZN": -39.2,
+   "INTC": 88.1
+  },
+  "full10": {
+   "med_edge": -214.17,
+   "pos_pct": 16.3,
+   "med_sells": 26.5,
+   "med_tim": 75.4,
+   "med_avg_out": 19.6,
+   "TSLA": -2077.8,
+   "NVDA": -2431.2,
+   "AMZN": -297.5,
+   "INTC": -130.7
+  }
+ },
+ {
+  "name": "trend ma250 buf5",
+  "tune": {
+   "med_edge": -9.89,
+   "pos_pct": 40.6,
+   "med_sells": 2.0,
+   "med_tim": 59.0,
+   "med_avg_out": 117.0,
+   "TSLA": -7.0,
+   "NVDA": 28.8,
+   "AMZN": 35.2,
+   "INTC": 44.3
+  },
+  "valid": {
+   "med_edge": -33.66,
+   "pos_pct": 24.0,
+   "med_sells": 2.0,
+   "med_tim": 71.8,
+   "med_avg_out": 68.7,
+   "TSLA": -89.4,
+   "NVDA": -79.6,
+   "AMZN": -40.5,
+   "INTC": 65.6
+  },
+  "full10": {
+   "med_edge": -184.48,
+   "pos_pct": 15.4,
+   "med_sells": 7.0,
+   "med_tim": 74.7,
+   "med_avg_out": 79.9,
+   "TSLA": -1946.2,
+   "NVDA": 1366.9,
+   "AMZN": -235.7,
+   "INTC": -41.0
+  }
+ },
+ {
+  "name": "trend ma300 buf5",
+  "tune": {
+   "med_edge": -10.29,
+   "pos_pct": 37.6,
+   "med_sells": 2.0,
+   "med_tim": 57.7,
+   "med_avg_out": 127.5,
+   "TSLA": -34.2,
+   "NVDA": -9.5,
+   "AMZN": 26.4,
+   "INTC": 35.6
+  },
+  "valid": {
+   "med_edge": -35.69,
+   "pos_pct": 25.0,
+   "med_sells": 2.0,
+   "med_tim": 73.8,
+   "med_avg_out": 65.0,
+   "TSLA": -101.9,
+   "NVDA": -93.9,
+   "AMZN": -40.5,
+   "INTC": 83.8
+  },
+  "full10": {
+   "med_edge": -172.28,
+   "pos_pct": 22.1,
+   "med_sells": 6.0,
+   "med_tim": 75.7,
+   "med_avg_out": 86.5,
+   "TSLA": -2194.6,
+   "NVDA": -3852.5,
+   "AMZN": -172.3,
+   "INTC": -77.3
+  }
+ }
+]

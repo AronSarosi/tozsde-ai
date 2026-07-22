@@ -1,0 +1,2852 @@
+[
+ {
+  "name": "trail25 gain0.25 | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 61.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 37.2,
+   "NVDA": 33.1,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 7.11,
+   "pos_pct": 72.1,
+   "med_sells": 1.0,
+   "med_tim": 96.3,
+   "med_avg_out": 10.8,
+   "TSLA": 18.4,
+   "NVDA": 27.0,
+   "AMZN": 10.6,
+   "INTC": 13.7
+  }
+ },
+ {
+  "name": "trail10 gain0.25 | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 65.3,
+   "med_sells": 1.0,
+   "med_tim": 99.2,
+   "med_avg_out": 4.0,
+   "TSLA": 6.3,
+   "NVDA": 27.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 6.91,
+   "pos_pct": 63.5,
+   "med_sells": 2.0,
+   "med_tim": 83.8,
+   "med_avg_out": 38.9,
+   "TSLA": 32.5,
+   "NVDA": 199.6,
+   "AMZN": 31.1,
+   "INTC": 35.1
+  }
+ },
+ {
+  "name": "trail10 gain0.5 | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 48.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 6.3,
+   "NVDA": 27.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 6.68,
+   "pos_pct": 67.3,
+   "med_sells": 1.0,
+   "med_tim": 96.0,
+   "med_avg_out": 16.7,
+   "TSLA": 16.4,
+   "NVDA": 107.8,
+   "AMZN": 9.0,
+   "INTC": 14.2
+  }
+ },
+ {
+  "name": "PT50 | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 50.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 6.4,
+   "NVDA": 31.1,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 4.74,
+   "pos_pct": 65.4,
+   "med_sells": 1.0,
+   "med_tim": 93.6,
+   "med_avg_out": 22.2,
+   "TSLA": 11.3,
+   "NVDA": -71.4,
+   "AMZN": 10.8,
+   "INTC": -48.7
+  }
+ },
+ {
+  "name": "PT30 | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 61.4,
+   "med_sells": 1.0,
+   "med_tim": 99.0,
+   "med_avg_out": 4.0,
+   "TSLA": 15.8,
+   "NVDA": -47.8,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 4.55,
+   "pos_pct": 61.5,
+   "med_sells": 2.0,
+   "med_tim": 87.1,
+   "med_avg_out": 37.2,
+   "TSLA": 22.3,
+   "NVDA": -300.6,
+   "AMZN": 20.0,
+   "INTC": -92.7
+  }
+ },
+ {
+  "name": "trail15 gain0.25 | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 62.4,
+   "med_sells": 1.0,
+   "med_tim": 99.4,
+   "med_avg_out": 3.0,
+   "TSLA": 6.3,
+   "NVDA": -30.7,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 4.46,
+   "pos_pct": 62.5,
+   "med_sells": 2.0,
+   "med_tim": 88.1,
+   "med_avg_out": 36.3,
+   "TSLA": 20.1,
+   "NVDA": -272.8,
+   "AMZN": -53.2,
+   "INTC": 37.8
+  }
+ },
+ {
+  "name": "trail25 gain0.25 | rebuy drop0.05 | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 58.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 37.2,
+   "NVDA": 33.1,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 4.33,
+   "pos_pct": 64.4,
+   "med_sells": 1.0,
+   "med_tim": 96.3,
+   "med_avg_out": 10.8,
+   "TSLA": 18.4,
+   "NVDA": -116.4,
+   "AMZN": 10.6,
+   "INTC": 13.7
+  }
+ },
+ {
+  "name": "trail20 gainNone | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 2.84,
+   "pos_pct": 78.2,
+   "med_sells": 4.0,
+   "med_tim": 95.1,
+   "med_avg_out": 4.3,
+   "TSLA": 21.8,
+   "NVDA": 38.2,
+   "AMZN": 6.2,
+   "INTC": 2.4
+  },
+  "valid": {
+   "med_edge": 3.39,
+   "pos_pct": 64.4,
+   "med_sells": 4.0,
+   "med_tim": 91.9,
+   "med_avg_out": 8.1,
+   "TSLA": -25.7,
+   "NVDA": -75.0,
+   "AMZN": 0.1,
+   "INTC": 48.3
+  }
+ },
+ {
+  "name": "trail10 gain0.25 | rebuy drop0.05 | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 66.3,
+   "med_sells": 1.0,
+   "med_tim": 99.2,
+   "med_avg_out": 4.0,
+   "TSLA": 6.3,
+   "NVDA": 27.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 3.27,
+   "pos_pct": 56.7,
+   "med_sells": 2.0,
+   "med_tim": 85.8,
+   "med_avg_out": 33.2,
+   "TSLA": 32.5,
+   "NVDA": 199.6,
+   "AMZN": 31.1,
+   "INTC": 35.1
+  }
+ },
+ {
+  "name": "trail15 gain0.5 | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 45.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 6.3,
+   "NVDA": -30.7,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 3.24,
+   "pos_pct": 64.4,
+   "med_sells": 1.0,
+   "med_tim": 97.7,
+   "med_avg_out": 11.8,
+   "TSLA": 9.5,
+   "NVDA": -272.8,
+   "AMZN": 8.5,
+   "INTC": 21.1
+  }
+ },
+ {
+  "name": "trail20 gain0.25 | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 66.3,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 1.0,
+   "TSLA": 38.8,
+   "NVDA": 14.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 2.93,
+   "pos_pct": 57.7,
+   "med_sells": 1.0,
+   "med_tim": 90.1,
+   "med_avg_out": 29.0,
+   "TSLA": 22.1,
+   "NVDA": -54.9,
+   "AMZN": -21.6,
+   "INTC": -13.5
+  }
+ },
+ {
+  "name": "trail25 gain0.25 | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 68.3,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 24.5,
+   "NVDA": 7.6,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 2.77,
+   "pos_pct": 78.8,
+   "med_sells": 1.0,
+   "med_tim": 99.4,
+   "med_avg_out": 1.0,
+   "TSLA": 12.6,
+   "NVDA": 19.6,
+   "AMZN": 6.8,
+   "INTC": -0.2
+  }
+ },
+ {
+  "name": "trail15 gain0.25 | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 68.3,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 6.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 2.71,
+   "pos_pct": 76.9,
+   "med_sells": 2.0,
+   "med_tim": 98.7,
+   "med_avg_out": 2.0,
+   "TSLA": 12.8,
+   "NVDA": -272.8,
+   "AMZN": 11.4,
+   "INTC": 0.6
+  }
+ },
+ {
+  "name": "trail25 gain0.25 | rebuy below | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 67.3,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 24.5,
+   "NVDA": 7.6,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 2.67,
+   "pos_pct": 76.9,
+   "med_sells": 1.0,
+   "med_tim": 99.4,
+   "med_avg_out": 1.0,
+   "TSLA": 12.6,
+   "NVDA": 19.6,
+   "AMZN": 6.8,
+   "INTC": -0.2
+  }
+ },
+ {
+  "name": "trail25 gainNone | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 2.49,
+   "pos_pct": 79.2,
+   "med_sells": 2.0,
+   "med_tim": 97.6,
+   "med_avg_out": 3.3,
+   "TSLA": 32.2,
+   "NVDA": 37.0,
+   "AMZN": 2.5,
+   "INTC": 2.9
+  },
+  "valid": {
+   "med_edge": 2.55,
+   "pos_pct": 68.3,
+   "med_sells": 2.5,
+   "med_tim": 96.9,
+   "med_avg_out": 5.7,
+   "TSLA": -73.5,
+   "NVDA": 19.6,
+   "AMZN": 6.8,
+   "INTC": -181.9
+  }
+ },
+ {
+  "name": "trail15 gainNone | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 4.08,
+   "pos_pct": 66.3,
+   "med_sells": 6.0,
+   "med_tim": 85.5,
+   "med_avg_out": 10.5,
+   "TSLA": 42.7,
+   "NVDA": -175.9,
+   "AMZN": 25.6,
+   "INTC": -39.3
+  },
+  "valid": {
+   "med_edge": 2.36,
+   "pos_pct": 56.7,
+   "med_sells": 5.0,
+   "med_tim": 79.3,
+   "med_avg_out": 14.9,
+   "TSLA": -40.0,
+   "NVDA": -272.8,
+   "AMZN": 12.4,
+   "INTC": -93.0
+  }
+ },
+ {
+  "name": "trail15 gain0.25 | rebuy below | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 68.3,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 6.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 2.25,
+   "pos_pct": 71.2,
+   "med_sells": 2.0,
+   "med_tim": 98.7,
+   "med_avg_out": 2.0,
+   "TSLA": 12.8,
+   "NVDA": -141.5,
+   "AMZN": 11.4,
+   "INTC": 0.6
+  }
+ },
+ {
+  "name": "trail20 gain0.25 | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 71.3,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 2.1,
+   "NVDA": 5.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.93,
+   "pos_pct": 76.0,
+   "med_sells": 2.0,
+   "med_tim": 99.1,
+   "med_avg_out": 2.0,
+   "TSLA": 4.2,
+   "NVDA": -75.0,
+   "AMZN": 0.1,
+   "INTC": 4.6
+  }
+ },
+ {
+  "name": "trail25 gainNone | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 52.5,
+   "med_sells": 2.0,
+   "med_tim": 83.9,
+   "med_avg_out": 46.5,
+   "TSLA": -45.0,
+   "NVDA": 56.9,
+   "AMZN": 20.3,
+   "INTC": 15.2
+  },
+  "valid": {
+   "med_edge": 1.77,
+   "pos_pct": 55.8,
+   "med_sells": 2.0,
+   "med_tim": 86.5,
+   "med_avg_out": 36.0,
+   "TSLA": -69.5,
+   "NVDA": 27.0,
+   "AMZN": 10.6,
+   "INTC": 76.5
+  }
+ },
+ {
+  "name": "trail15 gain0.25 | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 63.4,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 6.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.58,
+   "pos_pct": 66.3,
+   "med_sells": 2.0,
+   "med_tim": 98.7,
+   "med_avg_out": 2.0,
+   "TSLA": 12.8,
+   "NVDA": -138.6,
+   "AMZN": 11.4,
+   "INTC": 0.6
+  }
+ },
+ {
+  "name": "trail10 gain0.25 | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 66.3,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 3.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.55,
+   "pos_pct": 76.0,
+   "med_sells": 2.0,
+   "med_tim": 98.6,
+   "med_avg_out": 2.1,
+   "TSLA": 8.1,
+   "NVDA": 22.4,
+   "AMZN": 14.5,
+   "INTC": 35.1
+  }
+ },
+ {
+  "name": "trail20 gainNone | rebuy below | maxout 90",
+  "tune": {
+   "med_edge": 3.06,
+   "pos_pct": 77.2,
+   "med_sells": 4.0,
+   "med_tim": 95.1,
+   "med_avg_out": 4.3,
+   "TSLA": 21.8,
+   "NVDA": 38.2,
+   "AMZN": 6.2,
+   "INTC": 2.4
+  },
+  "valid": {
+   "med_edge": 1.46,
+   "pos_pct": 58.7,
+   "med_sells": 4.0,
+   "med_tim": 91.9,
+   "med_avg_out": 7.5,
+   "TSLA": -39.2,
+   "NVDA": -290.7,
+   "AMZN": 0.1,
+   "INTC": 48.3
+  }
+ },
+ {
+  "name": "trail10 gain0.25 | rebuy below | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 64.4,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 3.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.45,
+   "pos_pct": 73.1,
+   "med_sells": 2.0,
+   "med_tim": 98.6,
+   "med_avg_out": 2.1,
+   "TSLA": 8.1,
+   "NVDA": 22.4,
+   "AMZN": 14.5,
+   "INTC": 35.1
+  }
+ },
+ {
+  "name": "trail10 gain0.5 | rebuy drop0.05 | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 47.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 6.3,
+   "NVDA": 27.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.39,
+   "pos_pct": 61.5,
+   "med_sells": 1.0,
+   "med_tim": 96.0,
+   "med_avg_out": 16.7,
+   "TSLA": 16.4,
+   "NVDA": 107.8,
+   "AMZN": 9.0,
+   "INTC": 14.2
+  }
+ },
+ {
+  "name": "trail25 gainNone | rebuy below | maxout 90",
+  "tune": {
+   "med_edge": 2.48,
+   "pos_pct": 77.2,
+   "med_sells": 2.0,
+   "med_tim": 97.6,
+   "med_avg_out": 3.3,
+   "TSLA": 32.2,
+   "NVDA": 37.0,
+   "AMZN": 2.5,
+   "INTC": 2.9
+  },
+  "valid": {
+   "med_edge": 1.26,
+   "pos_pct": 62.5,
+   "med_sells": 3.0,
+   "med_tim": 96.9,
+   "med_avg_out": 5.7,
+   "TSLA": -82.4,
+   "NVDA": 19.6,
+   "AMZN": 6.8,
+   "INTC": -50.8
+  }
+ },
+ {
+  "name": "trail20 gain0.25 | rebuy below | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 71.3,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 2.1,
+   "NVDA": 5.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.19,
+   "pos_pct": 71.2,
+   "med_sells": 2.0,
+   "med_tim": 99.1,
+   "med_avg_out": 2.0,
+   "TSLA": 4.2,
+   "NVDA": -167.7,
+   "AMZN": 0.1,
+   "INTC": 4.6
+  }
+ },
+ {
+  "name": "trail15 gain0.5 | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 49.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 6.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.12,
+   "pos_pct": 74.0,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 0.6,
+   "TSLA": 9.5,
+   "NVDA": -272.8,
+   "AMZN": 0.7,
+   "INTC": 0.8
+  }
+ },
+ {
+  "name": "trail20 gain0.25 | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 66.3,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 2.1,
+   "NVDA": 5.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.12,
+   "pos_pct": 68.3,
+   "med_sells": 2.0,
+   "med_tim": 99.1,
+   "med_avg_out": 2.0,
+   "TSLA": 4.2,
+   "NVDA": -199.3,
+   "AMZN": 0.1,
+   "INTC": 4.6
+  }
+ },
+ {
+  "name": "trail25 gain0.25 | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 64.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 24.5,
+   "NVDA": 7.6,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.1,
+   "pos_pct": 68.3,
+   "med_sells": 1.0,
+   "med_tim": 99.4,
+   "med_avg_out": 1.0,
+   "TSLA": 12.6,
+   "NVDA": 19.6,
+   "AMZN": 6.8,
+   "INTC": -0.2
+  }
+ },
+ {
+  "name": "trail15 gain0.5 | rebuy below | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 49.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 6.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.04,
+   "pos_pct": 73.1,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 0.6,
+   "TSLA": 9.5,
+   "NVDA": -146.1,
+   "AMZN": 0.7,
+   "INTC": 0.8
+  }
+ },
+ {
+  "name": "trail10 gain0.5 | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 48.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 3.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.03,
+   "pos_pct": 74.0,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 1.0,
+   "TSLA": 1.0,
+   "NVDA": 6.3,
+   "AMZN": 2.7,
+   "INTC": 14.2
+  }
+ },
+ {
+  "name": "trail10 gain0.5 | rebuy below | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 47.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 3.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 1.03,
+   "pos_pct": 72.1,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 1.0,
+   "TSLA": 1.0,
+   "NVDA": 6.3,
+   "AMZN": 2.7,
+   "INTC": 14.2
+  }
+ },
+ {
+  "name": "PT30 | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 64.4,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 9.7,
+   "NVDA": 8.0,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.99,
+   "pos_pct": 71.2,
+   "med_sells": 2.0,
+   "med_tim": 98.9,
+   "med_avg_out": 2.2,
+   "TSLA": 9.4,
+   "NVDA": 83.9,
+   "AMZN": 6.4,
+   "INTC": -92.7
+  }
+ },
+ {
+  "name": "trail10 gain0.5 | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 48.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 3.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.98,
+   "pos_pct": 71.2,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 1.0,
+   "TSLA": 1.0,
+   "NVDA": 6.3,
+   "AMZN": 2.7,
+   "INTC": 14.2
+  }
+ },
+ {
+  "name": "trail15 gain0.5 | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 48.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 6.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.95,
+   "pos_pct": 71.2,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 0.6,
+   "TSLA": 9.5,
+   "NVDA": -143.3,
+   "AMZN": 0.7,
+   "INTC": 0.8
+  }
+ },
+ {
+  "name": "trail10 gain0.25 | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 64.4,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 3.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.93,
+   "pos_pct": 67.3,
+   "med_sells": 2.0,
+   "med_tim": 98.6,
+   "med_avg_out": 2.1,
+   "TSLA": -35.2,
+   "NVDA": 22.4,
+   "AMZN": 14.5,
+   "INTC": 35.1
+  }
+ },
+ {
+  "name": "trail25 gain0.5 | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 50.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 9.1,
+   "NVDA": 19.5,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.84,
+   "pos_pct": 70.2,
+   "med_sells": 1.0,
+   "med_tim": 99.0,
+   "med_avg_out": 3.2,
+   "TSLA": 10.0,
+   "NVDA": 27.0,
+   "AMZN": 10.6,
+   "INTC": 13.7
+  }
+ },
+ {
+  "name": "PT50 | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 53.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.5,
+   "NVDA": 2.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.83,
+   "pos_pct": 70.2,
+   "med_sells": 1.0,
+   "med_tim": 99.5,
+   "med_avg_out": 1.0,
+   "TSLA": 3.7,
+   "NVDA": 28.0,
+   "AMZN": 0.4,
+   "INTC": -48.7
+  }
+ },
+ {
+  "name": "trail25 gain0.25 | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 54.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 10.4,
+   "NVDA": 33.1,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.56,
+   "pos_pct": 59.6,
+   "med_sells": 1.0,
+   "med_tim": 96.3,
+   "med_avg_out": 10.8,
+   "TSLA": 18.4,
+   "NVDA": -17.9,
+   "AMZN": 10.6,
+   "INTC": 13.7
+  }
+ },
+ {
+  "name": "PT30 | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 61.4,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": -12.7,
+   "NVDA": -14.1,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.37,
+   "pos_pct": 58.7,
+   "med_sells": 2.0,
+   "med_tim": 98.9,
+   "med_avg_out": 2.2,
+   "TSLA": 9.4,
+   "NVDA": -4.4,
+   "AMZN": 6.4,
+   "INTC": -108.5
+  }
+ },
+ {
+  "name": "trail10 gain0.25 | rebuy below | maxout 10",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 59.4,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 3.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.28,
+   "pos_pct": 56.7,
+   "med_sells": 2.0,
+   "med_tim": 98.6,
+   "med_avg_out": 2.0,
+   "TSLA": -19.0,
+   "NVDA": -38.5,
+   "AMZN": 14.5,
+   "INTC": 35.1
+  }
+ },
+ {
+  "name": "PT50 | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 51.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.5,
+   "NVDA": 2.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.27,
+   "pos_pct": 63.5,
+   "med_sells": 1.0,
+   "med_tim": 99.5,
+   "med_avg_out": 1.0,
+   "TSLA": 3.7,
+   "NVDA": 28.0,
+   "AMZN": 0.4,
+   "INTC": -52.9
+  }
+ },
+ {
+  "name": "trail10 gain0.5 | rebuy below | maxout 10",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 47.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": 3.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.22,
+   "pos_pct": 63.5,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 1.0,
+   "TSLA": 1.0,
+   "NVDA": -48.5,
+   "AMZN": 2.7,
+   "INTC": 14.2
+  }
+ },
+ {
+  "name": "trail25 gain0.5 | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 51.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 9.1,
+   "NVDA": 7.6,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.17,
+   "pos_pct": 72.1,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 10.0,
+   "NVDA": 19.6,
+   "AMZN": 6.8,
+   "INTC": -0.2
+  }
+ },
+ {
+  "name": "trail20 gainNone | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 1.61,
+   "pos_pct": 68.3,
+   "med_sells": 4.0,
+   "med_tim": 95.1,
+   "med_avg_out": 4.2,
+   "TSLA": 21.8,
+   "NVDA": 38.2,
+   "AMZN": 6.2,
+   "INTC": 0.2
+  },
+  "valid": {
+   "med_edge": 0.16,
+   "pos_pct": 52.9,
+   "med_sells": 5.0,
+   "med_tim": 94.2,
+   "med_avg_out": 5.5,
+   "TSLA": -4.1,
+   "NVDA": -261.4,
+   "AMZN": 0.1,
+   "INTC": 9.9
+  }
+ },
+ {
+  "name": "trail20 gain0.5 | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 51.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.7,
+   "NVDA": 5.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.15,
+   "pos_pct": 69.2,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.1,
+   "NVDA": -77.8,
+   "AMZN": -0.2,
+   "INTC": 4.6
+  }
+ },
+ {
+  "name": "trail20 gain0.25 | rebuy below | maxout 10",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 62.4,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 2.1,
+   "NVDA": 5.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.13,
+   "pos_pct": 56.7,
+   "med_sells": 2.0,
+   "med_tim": 99.1,
+   "med_avg_out": 2.0,
+   "TSLA": -16.4,
+   "NVDA": -101.7,
+   "AMZN": 0.1,
+   "INTC": -56.2
+  }
+ },
+ {
+  "name": "PT30 | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 54.5,
+   "med_sells": 1.0,
+   "med_tim": 99.0,
+   "med_avg_out": 4.0,
+   "TSLA": -12.7,
+   "NVDA": -48.7,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.1,
+   "pos_pct": 55.8,
+   "med_sells": 2.0,
+   "med_tim": 94.2,
+   "med_avg_out": 17.2,
+   "TSLA": 22.3,
+   "NVDA": -173.9,
+   "AMZN": 20.0,
+   "INTC": -108.5
+  }
+ },
+ {
+  "name": "trail25 gain0.5 | rebuy below | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 51.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 9.1,
+   "NVDA": 7.6,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.08,
+   "pos_pct": 71.2,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 10.0,
+   "NVDA": 19.6,
+   "AMZN": 6.8,
+   "INTC": -0.2
+  }
+ },
+ {
+  "name": "trail20 gain0.5 | rebuy below | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 51.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.7,
+   "NVDA": 5.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.06,
+   "pos_pct": 67.3,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.1,
+   "NVDA": -77.8,
+   "AMZN": -0.2,
+   "INTC": 4.6
+  }
+ },
+ {
+  "name": "trail25 gainNone | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 1.59,
+   "pos_pct": 70.3,
+   "med_sells": 3.0,
+   "med_tim": 97.6,
+   "med_avg_out": 3.0,
+   "TSLA": 32.2,
+   "NVDA": 37.0,
+   "AMZN": 2.5,
+   "INTC": 2.9
+  },
+  "valid": {
+   "med_edge": 0.02,
+   "pos_pct": 55.8,
+   "med_sells": 3.0,
+   "med_tim": 96.9,
+   "med_avg_out": 5.5,
+   "TSLA": -16.5,
+   "NVDA": 19.6,
+   "AMZN": 6.8,
+   "INTC": -10.8
+  }
+ },
+ {
+  "name": "trail10 gain0.25 | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 68.3,
+   "med_sells": 1.0,
+   "med_tim": 99.2,
+   "med_avg_out": 4.0,
+   "TSLA": 6.3,
+   "NVDA": 19.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 51.0,
+   "med_sells": 3.0,
+   "med_tim": 93.3,
+   "med_avg_out": 18.1,
+   "TSLA": -35.2,
+   "NVDA": 199.6,
+   "AMZN": 31.1,
+   "INTC": 35.1
+  }
+ },
+ {
+  "name": "trail10 gain0.5 | rebuy drop0.05 | maxout 10",
+  "tune": {
+   "med_edge": -0.0,
+   "pos_pct": 44.6,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -9.3,
+   "NVDA": -38.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 45.2,
+   "med_sells": 1.0,
+   "med_tim": 98.3,
+   "med_avg_out": 6.0,
+   "TSLA": 16.4,
+   "NVDA": -15.5,
+   "AMZN": 9.0,
+   "INTC": 14.2
+  }
+ },
+ {
+  "name": "trail10 gain0.5 | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 47.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 6.3,
+   "NVDA": 19.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 51.9,
+   "med_sells": 1.0,
+   "med_tim": 96.0,
+   "med_avg_out": 15.0,
+   "TSLA": 16.4,
+   "NVDA": 107.8,
+   "AMZN": 9.0,
+   "INTC": 14.2
+  }
+ },
+ {
+  "name": "trail15 gain0.25 | rebuy below | maxout 10",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 57.4,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": -23.5,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 52.9,
+   "med_sells": 2.0,
+   "med_tim": 98.7,
+   "med_avg_out": 2.0,
+   "TSLA": 12.8,
+   "NVDA": -55.8,
+   "AMZN": 11.4,
+   "INTC": 0.6
+  }
+ },
+ {
+  "name": "trail15 gain0.25 | rebuy drop0.05 | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 60.4,
+   "med_sells": 1.0,
+   "med_tim": 99.4,
+   "med_avg_out": 3.0,
+   "TSLA": 6.3,
+   "NVDA": -30.7,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 53.8,
+   "med_sells": 2.0,
+   "med_tim": 88.1,
+   "med_avg_out": 30.8,
+   "TSLA": 20.1,
+   "NVDA": -127.2,
+   "AMZN": -44.9,
+   "INTC": 37.8
+  }
+ },
+ {
+  "name": "trail15 gain0.5 | rebuy below | maxout 10",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 45.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.9,
+   "NVDA": -23.5,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 55.8,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 0.6,
+   "TSLA": 9.5,
+   "NVDA": -62.7,
+   "AMZN": 0.7,
+   "INTC": 0.8
+  }
+ },
+ {
+  "name": "trail15 gain0.5 | rebuy drop0.05 | maxout 10",
+  "tune": {
+   "med_edge": -0.0,
+   "pos_pct": 41.6,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -9.3,
+   "NVDA": -39.7,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 47.1,
+   "med_sells": 1.0,
+   "med_tim": 98.3,
+   "med_avg_out": 5.6,
+   "TSLA": 9.5,
+   "NVDA": -136.1,
+   "AMZN": 8.5,
+   "INTC": 1.3
+  }
+ },
+ {
+  "name": "trail15 gain0.5 | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 45.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 6.3,
+   "NVDA": -9.3,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 53.8,
+   "med_sells": 1.0,
+   "med_tim": 97.7,
+   "med_avg_out": 10.0,
+   "TSLA": 9.5,
+   "NVDA": -175.5,
+   "AMZN": 8.5,
+   "INTC": 21.1
+  }
+ },
+ {
+  "name": "trail15 gain0.5 | rebuy drop0.05 | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 45.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 6.3,
+   "NVDA": -30.7,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 60.6,
+   "med_sells": 1.0,
+   "med_tim": 97.7,
+   "med_avg_out": 11.8,
+   "TSLA": 9.5,
+   "NVDA": -136.2,
+   "AMZN": 8.5,
+   "INTC": 21.1
+  }
+ },
+ {
+  "name": "trail20 gainNone | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": -1.4,
+   "pos_pct": 46.5,
+   "med_sells": 4.0,
+   "med_tim": 88.4,
+   "med_avg_out": 16.5,
+   "TSLA": -0.5,
+   "NVDA": -105.7,
+   "AMZN": 23.4,
+   "INTC": 5.5
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 50.0,
+   "med_sells": 5.0,
+   "med_tim": 88.7,
+   "med_avg_out": 14.6,
+   "TSLA": -59.5,
+   "NVDA": -226.2,
+   "AMZN": 11.4,
+   "INTC": 45.3
+  }
+ },
+ {
+  "name": "trail20 gain0.25 | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 56.4,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 1.0,
+   "TSLA": 38.8,
+   "NVDA": 14.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 50.0,
+   "med_sells": 2.0,
+   "med_tim": 95.1,
+   "med_avg_out": 14.7,
+   "TSLA": 22.1,
+   "NVDA": -138.7,
+   "AMZN": 11.4,
+   "INTC": -13.5
+  }
+ },
+ {
+  "name": "trail20 gain0.25 | rebuy drop0.05 | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 65.3,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 1.0,
+   "TSLA": 38.8,
+   "NVDA": 14.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 50.0,
+   "med_sells": 1.5,
+   "med_tim": 90.1,
+   "med_avg_out": 26.2,
+   "TSLA": 22.1,
+   "NVDA": -181.9,
+   "AMZN": -8.8,
+   "INTC": -13.5
+  }
+ },
+ {
+  "name": "trail20 gain0.5 | rebuy below | maxout 10",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 46.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.7,
+   "NVDA": 5.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 55.8,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": -16.4,
+   "NVDA": -62.8,
+   "AMZN": -0.2,
+   "INTC": -56.2
+  }
+ },
+ {
+  "name": "trail20 gain0.5 | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 50.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 0.7,
+   "NVDA": 5.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 65.4,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.1,
+   "NVDA": -106.7,
+   "AMZN": -0.2,
+   "INTC": 4.6
+  }
+ },
+ {
+  "name": "trail20 gain0.5 | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 47.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 7.9,
+   "NVDA": 14.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 60.6,
+   "med_sells": 1.0,
+   "med_tim": 98.4,
+   "med_avg_out": 7.0,
+   "TSLA": 12.1,
+   "NVDA": -54.9,
+   "AMZN": 13.0,
+   "INTC": -13.5
+  }
+ },
+ {
+  "name": "trail20 gain0.5 | rebuy drop0.05 | maxout 10",
+  "tune": {
+   "med_edge": -0.0,
+   "pos_pct": 44.6,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 7.9,
+   "NVDA": 14.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 46.2,
+   "med_sells": 1.0,
+   "med_tim": 98.4,
+   "med_avg_out": 5.1,
+   "TSLA": -16.4,
+   "NVDA": -117.7,
+   "AMZN": -3.0,
+   "INTC": -56.2
+  }
+ },
+ {
+  "name": "trail20 gain0.5 | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 46.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 7.9,
+   "NVDA": 14.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 57.7,
+   "med_sells": 1.0,
+   "med_tim": 98.4,
+   "med_avg_out": 7.0,
+   "TSLA": 12.1,
+   "NVDA": -157.5,
+   "AMZN": 13.0,
+   "INTC": -13.5
+  }
+ },
+ {
+  "name": "trail20 gain0.5 | rebuy drop0.05 | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 47.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 7.9,
+   "NVDA": 14.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 57.7,
+   "med_sells": 1.0,
+   "med_tim": 98.4,
+   "med_avg_out": 7.0,
+   "TSLA": 12.1,
+   "NVDA": -117.7,
+   "AMZN": 13.0,
+   "INTC": -13.5
+  }
+ },
+ {
+  "name": "trail25 gainNone | rebuy below | maxout 10",
+  "tune": {
+   "med_edge": 0.88,
+   "pos_pct": 61.4,
+   "med_sells": 3.0,
+   "med_tim": 98.3,
+   "med_avg_out": 2.0,
+   "TSLA": -9.4,
+   "NVDA": 37.0,
+   "AMZN": 2.5,
+   "INTC": 2.9
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 47.1,
+   "med_sells": 3.0,
+   "med_tim": 98.0,
+   "med_avg_out": 2.8,
+   "TSLA": 1.3,
+   "NVDA": 19.6,
+   "AMZN": 6.8,
+   "INTC": -20.1
+  }
+ },
+ {
+  "name": "trail25 gainNone | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": -0.2,
+   "pos_pct": 44.6,
+   "med_sells": 2.0,
+   "med_tim": 92.5,
+   "med_avg_out": 18.0,
+   "TSLA": -69.9,
+   "NVDA": -11.0,
+   "AMZN": 10.5,
+   "INTC": 15.2
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 46.2,
+   "med_sells": 3.0,
+   "med_tim": 91.1,
+   "med_avg_out": 15.6,
+   "TSLA": 14.1,
+   "NVDA": -17.9,
+   "AMZN": 10.6,
+   "INTC": 80.2
+  }
+ },
+ {
+  "name": "trail25 gainNone | rebuy drop0.05 | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 55.4,
+   "med_sells": 2.0,
+   "med_tim": 85.5,
+   "med_avg_out": 34.2,
+   "TSLA": -8.7,
+   "NVDA": 56.9,
+   "AMZN": 20.3,
+   "INTC": 15.2
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 50.0,
+   "med_sells": 3.0,
+   "med_tim": 86.5,
+   "med_avg_out": 27.6,
+   "TSLA": -62.5,
+   "NVDA": -90.0,
+   "AMZN": 10.6,
+   "INTC": 76.5
+  }
+ },
+ {
+  "name": "trail25 gain0.25 | rebuy below | maxout 10",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 59.4,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -19.2,
+   "NVDA": 7.6,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 58.7,
+   "med_sells": 1.0,
+   "med_tim": 99.4,
+   "med_avg_out": 1.0,
+   "TSLA": 12.6,
+   "NVDA": 19.6,
+   "AMZN": 6.8,
+   "INTC": -0.2
+  }
+ },
+ {
+  "name": "trail25 gain0.25 | rebuy drop0.05 | maxout 10",
+  "tune": {
+   "med_edge": -0.0,
+   "pos_pct": 47.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -19.2,
+   "NVDA": 33.1,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 45.2,
+   "med_sells": 1.0,
+   "med_tim": 98.3,
+   "med_avg_out": 6.0,
+   "TSLA": 18.4,
+   "NVDA": -91.4,
+   "AMZN": 10.6,
+   "INTC": 13.7
+  }
+ },
+ {
+  "name": "trail25 gain0.5 | rebuy below | maxout 10",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 49.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -19.2,
+   "NVDA": 7.6,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 55.8,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 10.0,
+   "NVDA": 19.6,
+   "AMZN": 6.8,
+   "INTC": -0.2
+  }
+ },
+ {
+  "name": "trail25 gain0.5 | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 51.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 9.1,
+   "NVDA": 7.6,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 64.4,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 10.0,
+   "NVDA": 19.6,
+   "AMZN": 6.8,
+   "INTC": -0.2
+  }
+ },
+ {
+  "name": "trail25 gain0.5 | rebuy drop0.05 | maxout 10",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 45.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -19.2,
+   "NVDA": 19.5,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 47.1,
+   "med_sells": 1.0,
+   "med_tim": 99.0,
+   "med_avg_out": 3.2,
+   "TSLA": 10.0,
+   "NVDA": -91.4,
+   "AMZN": 10.6,
+   "INTC": 13.7
+  }
+ },
+ {
+  "name": "trail25 gain0.5 | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 49.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 9.1,
+   "NVDA": 19.5,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 60.6,
+   "med_sells": 1.0,
+   "med_tim": 99.0,
+   "med_avg_out": 3.2,
+   "TSLA": 10.0,
+   "NVDA": -49.9,
+   "AMZN": 10.6,
+   "INTC": 13.7
+  }
+ },
+ {
+  "name": "trail25 gain0.5 | rebuy drop0.05 | maxout 90",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 50.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 9.1,
+   "NVDA": 19.5,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 63.5,
+   "med_sells": 1.0,
+   "med_tim": 99.0,
+   "med_avg_out": 3.2,
+   "TSLA": 10.0,
+   "NVDA": -116.4,
+   "AMZN": 10.6,
+   "INTC": 13.7
+  }
+ },
+ {
+  "name": "PT30 | rebuy drop0.1 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 56.4,
+   "med_sells": 1.0,
+   "med_tim": 97.6,
+   "med_avg_out": 13.0,
+   "TSLA": 35.3,
+   "NVDA": -68.6,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 53.8,
+   "med_sells": 2.0,
+   "med_tim": 66.4,
+   "med_avg_out": 106.0,
+   "TSLA": 38.8,
+   "NVDA": -300.6,
+   "AMZN": 85.0,
+   "INTC": -92.7
+  }
+ },
+ {
+  "name": "PT30 | rebuy drop0.1 | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 50.5,
+   "med_sells": 1.0,
+   "med_tim": 97.6,
+   "med_avg_out": 13.0,
+   "TSLA": -12.7,
+   "NVDA": -48.7,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 52.9,
+   "med_sells": 2.0,
+   "med_tim": 91.5,
+   "med_avg_out": 25.8,
+   "TSLA": 38.8,
+   "NVDA": -173.9,
+   "AMZN": 16.4,
+   "INTC": -108.5
+  }
+ },
+ {
+  "name": "PT50 | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": -0.0,
+   "pos_pct": 44.6,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -4.7,
+   "NVDA": 31.1,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 47.1,
+   "med_sells": 1.0,
+   "med_tim": 95.1,
+   "med_avg_out": 13.9,
+   "TSLA": -6.8,
+   "NVDA": -23.5,
+   "AMZN": -5.8,
+   "INTC": -52.9
+  }
+ },
+ {
+  "name": "PT50 | rebuy drop0.1 | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 48.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": 15.0,
+   "NVDA": -9.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 51.9,
+   "med_sells": 1.0,
+   "med_tim": 86.2,
+   "med_avg_out": 56.0,
+   "TSLA": 27.8,
+   "NVDA": -277.6,
+   "AMZN": 18.4,
+   "INTC": -48.7
+  }
+ },
+ {
+  "name": "PT50 | rebuy drop0.1 | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 46.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -4.7,
+   "NVDA": 4.5,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.0,
+   "pos_pct": 42.3,
+   "med_sells": 1.0,
+   "med_tim": 95.1,
+   "med_avg_out": 21.6,
+   "TSLA": -6.8,
+   "NVDA": -25.6,
+   "AMZN": -5.8,
+   "INTC": -52.9
+  }
+ },
+ {
+  "name": "PT100 | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 45.5,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 1.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 69.2,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.0,
+   "NVDA": 17.2,
+   "AMZN": 0.0,
+   "INTC": 0.2
+  }
+ },
+ {
+  "name": "PT100 | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": -0.0,
+   "pos_pct": 44.6,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": 1.9,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 65.4,
+   "med_sells": 1.0,
+   "med_tim": 99.8,
+   "med_avg_out": 0.0,
+   "TSLA": 0.0,
+   "NVDA": -100.0,
+   "AMZN": 0.0,
+   "INTC": 0.2
+  }
+ },
+ {
+  "name": "PT100 | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": -0.0,
+   "pos_pct": 44.6,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -42.3,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 60.6,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 1.0,
+   "TSLA": 0.0,
+   "NVDA": 67.7,
+   "AMZN": 0.0,
+   "INTC": -22.9
+  }
+ },
+ {
+  "name": "PT100 | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": -0.0,
+   "pos_pct": 43.6,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -30.5,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 54.8,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 1.0,
+   "TSLA": 0.0,
+   "NVDA": -100.0,
+   "AMZN": 0.0,
+   "INTC": -53.8
+  }
+ },
+ {
+  "name": "PT100 | rebuy drop0.1 | maxout None",
+  "tune": {
+   "med_edge": -0.0,
+   "pos_pct": 41.6,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -42.3,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 55.8,
+   "med_sells": 1.0,
+   "med_tim": 99.3,
+   "med_avg_out": 3.5,
+   "TSLA": 0.0,
+   "NVDA": -215.6,
+   "AMZN": 0.0,
+   "INTC": -22.9
+  }
+ },
+ {
+  "name": "PT100 | rebuy drop0.1 | maxout 30",
+  "tune": {
+   "med_edge": -0.0,
+   "pos_pct": 41.6,
+   "med_sells": 0.0,
+   "med_tim": 100.0,
+   "med_avg_out": 0.0,
+   "TSLA": -0.0,
+   "NVDA": -30.5,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": 0.0,
+   "pos_pct": 51.0,
+   "med_sells": 1.0,
+   "med_tim": 99.3,
+   "med_avg_out": 3.5,
+   "TSLA": 0.0,
+   "NVDA": -100.0,
+   "AMZN": 0.0,
+   "INTC": -53.8
+  }
+ },
+ {
+  "name": "trail25 gainNone | rebuy drop0.05 | maxout 10",
+  "tune": {
+   "med_edge": -0.08,
+   "pos_pct": 44.6,
+   "med_sells": 3.0,
+   "med_tim": 96.5,
+   "med_avg_out": 7.5,
+   "TSLA": -18.9,
+   "NVDA": 31.7,
+   "AMZN": -2.9,
+   "INTC": 15.2
+  },
+  "valid": {
+   "med_edge": -0.79,
+   "pos_pct": 42.3,
+   "med_sells": 3.0,
+   "med_tim": 96.4,
+   "med_avg_out": 6.8,
+   "TSLA": 29.8,
+   "NVDA": -112.6,
+   "AMZN": 10.6,
+   "INTC": -34.0
+  }
+ },
+ {
+  "name": "trail15 gainNone | rebuy below | maxout 90",
+  "tune": {
+   "med_edge": 3.95,
+   "pos_pct": 63.4,
+   "med_sells": 7.0,
+   "med_tim": 85.5,
+   "med_avg_out": 8.5,
+   "TSLA": 11.2,
+   "NVDA": -97.0,
+   "AMZN": 25.6,
+   "INTC": -16.1
+  },
+  "valid": {
+   "med_edge": -0.94,
+   "pos_pct": 49.0,
+   "med_sells": 7.0,
+   "med_tim": 84.7,
+   "med_avg_out": 11.2,
+   "TSLA": -19.3,
+   "NVDA": -289.5,
+   "AMZN": 12.4,
+   "INTC": -74.5
+  }
+ },
+ {
+  "name": "trail20 gain0.25 | rebuy drop0.05 | maxout 10",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 52.5,
+   "med_sells": 1.0,
+   "med_tim": 99.7,
+   "med_avg_out": 1.0,
+   "TSLA": 38.8,
+   "NVDA": 14.2,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -0.98,
+   "pos_pct": 41.3,
+   "med_sells": 2.0,
+   "med_tim": 98.1,
+   "med_avg_out": 7.0,
+   "TSLA": -16.4,
+   "NVDA": -152.2,
+   "AMZN": -10.1,
+   "INTC": -56.2
+  }
+ },
+ {
+  "name": "trail20 gainNone | rebuy below | maxout 10",
+  "tune": {
+   "med_edge": 1.15,
+   "pos_pct": 61.4,
+   "med_sells": 4.0,
+   "med_tim": 97.3,
+   "med_avg_out": 2.4,
+   "TSLA": 21.8,
+   "NVDA": 38.2,
+   "AMZN": 6.2,
+   "INTC": -11.7
+  },
+  "valid": {
+   "med_edge": -1.3,
+   "pos_pct": 45.2,
+   "med_sells": 5.0,
+   "med_tim": 96.6,
+   "med_avg_out": 3.1,
+   "TSLA": -65.4,
+   "NVDA": -107.7,
+   "AMZN": 0.1,
+   "INTC": -49.4
+  }
+ },
+ {
+  "name": "trail10 gain0.25 | rebuy drop0.05 | maxout 10",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 53.5,
+   "med_sells": 1.0,
+   "med_tim": 99.2,
+   "med_avg_out": 4.0,
+   "TSLA": -9.3,
+   "NVDA": -38.4,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -2.11,
+   "pos_pct": 40.4,
+   "med_sells": 2.0,
+   "med_tim": 96.6,
+   "med_avg_out": 8.4,
+   "TSLA": 0.7,
+   "NVDA": -19.4,
+   "AMZN": 31.1,
+   "INTC": 35.1
+  }
+ },
+ {
+  "name": "trail15 gain0.25 | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": 0.0,
+   "pos_pct": 53.5,
+   "med_sells": 1.0,
+   "med_tim": 99.4,
+   "med_avg_out": 3.0,
+   "TSLA": 6.3,
+   "NVDA": -9.3,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -3.14,
+   "pos_pct": 42.3,
+   "med_sells": 2.0,
+   "med_tim": 94.5,
+   "med_avg_out": 16.4,
+   "TSLA": 20.1,
+   "NVDA": -157.9,
+   "AMZN": -11.3,
+   "INTC": 37.8
+  }
+ },
+ {
+  "name": "trail15 gainNone | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 1.44,
+   "pos_pct": 54.5,
+   "med_sells": 7.0,
+   "med_tim": 93.0,
+   "med_avg_out": 5.3,
+   "TSLA": -14.1,
+   "NVDA": -76.5,
+   "AMZN": 7.0,
+   "INTC": -19.0
+  },
+  "valid": {
+   "med_edge": -3.15,
+   "pos_pct": 44.2,
+   "med_sells": 8.0,
+   "med_tim": 91.0,
+   "med_avg_out": 7.0,
+   "TSLA": -33.2,
+   "NVDA": -291.4,
+   "AMZN": 12.4,
+   "INTC": -126.1
+  }
+ },
+ {
+  "name": "trail15 gainNone | rebuy below | maxout 10",
+  "tune": {
+   "med_edge": -1.45,
+   "pos_pct": 44.6,
+   "med_sells": 8.0,
+   "med_tim": 95.1,
+   "med_avg_out": 2.8,
+   "TSLA": 8.2,
+   "NVDA": -52.4,
+   "AMZN": -0.9,
+   "INTC": -16.8
+  },
+  "valid": {
+   "med_edge": -4.31,
+   "pos_pct": 39.4,
+   "med_sells": 8.0,
+   "med_tim": 94.7,
+   "med_avg_out": 3.3,
+   "TSLA": -60.8,
+   "NVDA": -193.0,
+   "AMZN": 12.4,
+   "INTC": -68.9
+  }
+ },
+ {
+  "name": "trail15 gain0.25 | rebuy drop0.05 | maxout 10",
+  "tune": {
+   "med_edge": -0.0,
+   "pos_pct": 43.6,
+   "med_sells": 1.0,
+   "med_tim": 99.4,
+   "med_avg_out": 3.0,
+   "TSLA": -9.3,
+   "NVDA": -39.7,
+   "AMZN": -0.0,
+   "INTC": 0.0
+  },
+  "valid": {
+   "med_edge": -4.59,
+   "pos_pct": 29.8,
+   "med_sells": 2.0,
+   "med_tim": 97.1,
+   "med_avg_out": 8.4,
+   "TSLA": 6.9,
+   "NVDA": -127.6,
+   "AMZN": -1.4,
+   "INTC": 16.6
+  }
+ },
+ {
+  "name": "trail20 gainNone | rebuy drop0.05 | maxout 10",
+  "tune": {
+   "med_edge": -0.34,
+   "pos_pct": 47.5,
+   "med_sells": 4.0,
+   "med_tim": 94.3,
+   "med_avg_out": 7.6,
+   "TSLA": 60.6,
+   "NVDA": -84.1,
+   "AMZN": 2.1,
+   "INTC": 0.5
+  },
+  "valid": {
+   "med_edge": -5.5,
+   "pos_pct": 37.5,
+   "med_sells": 5.0,
+   "med_tim": 93.9,
+   "med_avg_out": 7.3,
+   "TSLA": -60.9,
+   "NVDA": -211.3,
+   "AMZN": -10.1,
+   "INTC": 9.3
+  }
+ },
+ {
+  "name": "trail10 gainNone | rebuy below | maxout 30",
+  "tune": {
+   "med_edge": 2.53,
+   "pos_pct": 56.4,
+   "med_sells": 15.0,
+   "med_tim": 84.9,
+   "med_avg_out": 5.1,
+   "TSLA": 39.5,
+   "NVDA": -36.6,
+   "AMZN": 14.3,
+   "INTC": -15.5
+  },
+  "valid": {
+   "med_edge": -6.2,
+   "pos_pct": 39.4,
+   "med_sells": 14.0,
+   "med_tim": 83.9,
+   "med_avg_out": 6.5,
+   "TSLA": -6.8,
+   "NVDA": -70.0,
+   "AMZN": -33.3,
+   "INTC": 159.6
+  }
+ },
+ {
+  "name": "trail15 gainNone | rebuy drop0.05 | maxout 10",
+  "tune": {
+   "med_edge": -4.73,
+   "pos_pct": 37.6,
+   "med_sells": 7.0,
+   "med_tim": 89.3,
+   "med_avg_out": 7.6,
+   "TSLA": 76.4,
+   "NVDA": 76.2,
+   "AMZN": -7.6,
+   "INTC": -39.1
+  },
+  "valid": {
+   "med_edge": -8.63,
+   "pos_pct": 34.6,
+   "med_sells": 8.0,
+   "med_tim": 89.7,
+   "med_avg_out": 7.4,
+   "TSLA": -80.4,
+   "NVDA": -235.0,
+   "AMZN": -3.8,
+   "INTC": -59.0
+  }
+ },
+ {
+  "name": "trail15 gainNone | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": -14.1,
+   "pos_pct": 32.7,
+   "med_sells": 6.0,
+   "med_tim": 80.8,
+   "med_avg_out": 19.1,
+   "TSLA": 34.4,
+   "NVDA": 135.4,
+   "AMZN": -27.6,
+   "INTC": -40.2
+  },
+  "valid": {
+   "med_edge": -8.76,
+   "pos_pct": 35.6,
+   "med_sells": 7.0,
+   "med_tim": 80.5,
+   "med_avg_out": 17.8,
+   "TSLA": -33.2,
+   "NVDA": -298.9,
+   "AMZN": -36.4,
+   "INTC": -123.0
+  }
+ },
+ {
+  "name": "trail20 gainNone | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": 6.25,
+   "pos_pct": 56.4,
+   "med_sells": 3.0,
+   "med_tim": 72.0,
+   "med_avg_out": 38.5,
+   "TSLA": -31.3,
+   "NVDA": -171.6,
+   "AMZN": 26.4,
+   "INTC": 16.9
+  },
+  "valid": {
+   "med_edge": -9.03,
+   "pos_pct": 43.3,
+   "med_sells": 2.0,
+   "med_tim": 61.1,
+   "med_avg_out": 72.7,
+   "TSLA": -91.0,
+   "NVDA": -54.9,
+   "AMZN": -21.6,
+   "INTC": -93.1
+  }
+ },
+ {
+  "name": "trail10 gainNone | rebuy below | maxout 10",
+  "tune": {
+   "med_edge": -1.4,
+   "pos_pct": 47.5,
+   "med_sells": 15.0,
+   "med_tim": 90.9,
+   "med_avg_out": 2.8,
+   "TSLA": -13.3,
+   "NVDA": -14.0,
+   "AMZN": 19.0,
+   "INTC": -15.6
+  },
+  "valid": {
+   "med_edge": -9.55,
+   "pos_pct": 33.7,
+   "med_sells": 15.0,
+   "med_tim": 90.4,
+   "med_avg_out": 3.1,
+   "TSLA": -35.7,
+   "NVDA": -63.3,
+   "AMZN": -25.7,
+   "INTC": 56.6
+  }
+ },
+ {
+  "name": "trail10 gainNone | rebuy below | maxout None",
+  "tune": {
+   "med_edge": 6.33,
+   "pos_pct": 57.4,
+   "med_sells": 10.0,
+   "med_tim": 70.1,
+   "med_avg_out": 14.0,
+   "TSLA": 53.3,
+   "NVDA": -118.8,
+   "AMZN": -19.0,
+   "INTC": -37.6
+  },
+  "valid": {
+   "med_edge": -10.15,
+   "pos_pct": 45.2,
+   "med_sells": 7.0,
+   "med_tim": 54.0,
+   "med_avg_out": 32.2,
+   "TSLA": -13.6,
+   "NVDA": -270.6,
+   "AMZN": -44.1,
+   "INTC": 159.6
+  }
+ },
+ {
+  "name": "trail20 gainNone | rebuy drop0.05 | maxout 90",
+  "tune": {
+   "med_edge": 3.85,
+   "pos_pct": 58.4,
+   "med_sells": 3.0,
+   "med_tim": 82.8,
+   "med_avg_out": 31.0,
+   "TSLA": -0.5,
+   "NVDA": -69.6,
+   "AMZN": 26.4,
+   "INTC": 16.9
+  },
+  "valid": {
+   "med_edge": -11.46,
+   "pos_pct": 36.5,
+   "med_sells": 4.0,
+   "med_tim": 82.0,
+   "med_avg_out": 31.2,
+   "TSLA": -63.2,
+   "NVDA": -292.0,
+   "AMZN": -8.8,
+   "INTC": -75.6
+  }
+ },
+ {
+  "name": "trail15 gainNone | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": -16.1,
+   "pos_pct": 37.6,
+   "med_sells": 4.0,
+   "med_tim": 40.5,
+   "med_avg_out": 77.5,
+   "TSLA": 103.4,
+   "NVDA": 65.2,
+   "AMZN": -24.4,
+   "INTC": -34.0
+  },
+  "valid": {
+   "med_edge": -12.91,
+   "pos_pct": 46.2,
+   "med_sells": 3.0,
+   "med_tim": 47.4,
+   "med_avg_out": 94.9,
+   "TSLA": -35.9,
+   "NVDA": -272.8,
+   "AMZN": -53.2,
+   "INTC": -144.4
+  }
+ },
+ {
+  "name": "trail10 gainNone | rebuy below | maxout 90",
+  "tune": {
+   "med_edge": 8.13,
+   "pos_pct": 60.4,
+   "med_sells": 12.0,
+   "med_tim": 77.9,
+   "med_avg_out": 9.2,
+   "TSLA": 53.3,
+   "NVDA": -154.2,
+   "AMZN": -7.4,
+   "INTC": -13.1
+  },
+  "valid": {
+   "med_edge": -15.95,
+   "pos_pct": 35.6,
+   "med_sells": 12.0,
+   "med_tim": 74.2,
+   "med_avg_out": 12.9,
+   "TSLA": -20.8,
+   "NVDA": -69.3,
+   "AMZN": -32.9,
+   "INTC": 159.6
+  }
+ },
+ {
+  "name": "trail15 gainNone | rebuy drop0.05 | maxout 90",
+  "tune": {
+   "med_edge": -8.83,
+   "pos_pct": 40.6,
+   "med_sells": 5.0,
+   "med_tim": 68.5,
+   "med_avg_out": 40.0,
+   "TSLA": 70.3,
+   "NVDA": 65.2,
+   "AMZN": -23.8,
+   "INTC": -30.2
+  },
+  "valid": {
+   "med_edge": -18.15,
+   "pos_pct": 38.5,
+   "med_sells": 5.0,
+   "med_tim": 68.9,
+   "med_avg_out": 35.4,
+   "TSLA": -48.1,
+   "NVDA": -249.2,
+   "AMZN": -72.8,
+   "INTC": -138.6
+  }
+ },
+ {
+  "name": "trail10 gainNone | rebuy drop0.05 | maxout 10",
+  "tune": {
+   "med_edge": -5.14,
+   "pos_pct": 39.6,
+   "med_sells": 14.0,
+   "med_tim": 81.2,
+   "med_avg_out": 8.1,
+   "TSLA": 34.2,
+   "NVDA": -87.6,
+   "AMZN": 17.9,
+   "INTC": -18.7
+  },
+  "valid": {
+   "med_edge": -19.47,
+   "pos_pct": 33.7,
+   "med_sells": 14.0,
+   "med_tim": 81.9,
+   "med_avg_out": 7.4,
+   "TSLA": 8.5,
+   "NVDA": -131.2,
+   "AMZN": 13.1,
+   "INTC": -34.6
+  }
+ },
+ {
+  "name": "trail10 gainNone | rebuy drop0.05 | maxout 30",
+  "tune": {
+   "med_edge": -5.62,
+   "pos_pct": 44.6,
+   "med_sells": 11.0,
+   "med_tim": 68.5,
+   "med_avg_out": 17.0,
+   "TSLA": 35.4,
+   "NVDA": -129.1,
+   "AMZN": 48.8,
+   "INTC": 1.1
+  },
+  "valid": {
+   "med_edge": -20.32,
+   "pos_pct": 32.7,
+   "med_sells": 11.0,
+   "med_tim": 68.6,
+   "med_avg_out": 17.5,
+   "TSLA": 57.8,
+   "NVDA": 5.3,
+   "AMZN": 34.1,
+   "INTC": -145.9
+  }
+ },
+ {
+  "name": "trail10 gainNone | rebuy drop0.05 | maxout None",
+  "tune": {
+   "med_edge": -3.95,
+   "pos_pct": 43.6,
+   "med_sells": 5.0,
+   "med_tim": 32.0,
+   "med_avg_out": 70.8,
+   "TSLA": 3.1,
+   "NVDA": -170.3,
+   "AMZN": 66.0,
+   "INTC": -17.7
+  },
+  "valid": {
+   "med_edge": -38.26,
+   "pos_pct": 28.8,
+   "med_sells": 3.0,
+   "med_tim": 19.6,
+   "med_avg_out": 140.2,
+   "TSLA": -68.4,
+   "NVDA": -166.7,
+   "AMZN": 57.3,
+   "INTC": -163.7
+  }
+ },
+ {
+  "name": "trail10 gainNone | rebuy drop0.05 | maxout 90",
+  "tune": {
+   "med_edge": -0.15,
+   "pos_pct": 48.5,
+   "med_sells": 8.0,
+   "med_tim": 49.4,
+   "med_avg_out": 36.6,
+   "TSLA": 45.9,
+   "NVDA": -112.8,
+   "AMZN": 34.8,
+   "INTC": -20.9
+  },
+  "valid": {
+   "med_edge": -43.51,
+   "pos_pct": 30.8,
+   "med_sells": 8.0,
+   "med_tim": 52.0,
+   "med_avg_out": 38.3,
+   "TSLA": -70.0,
+   "NVDA": -198.7,
+   "AMZN": 57.3,
+   "INTC": -85.8
+  }
+ }
+]
