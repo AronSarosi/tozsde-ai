@@ -1865,6 +1865,9 @@
           </div>
         </div>
         ${keyFacts}
+        <section class="section" style="margin-top:14px">
+          <div id="chartBox"><p class="small">Chart betöltése...</p></div>
+        </section>
         ${row.driver_text ? `<p class="driver-line">${esc(row.driver_text)}</p>` : ""}
         ${renderV2Insights(row)}
         ${renderAnalystSection(row)}
@@ -2128,6 +2131,43 @@
       if (cat.includes("buy")) panel.classList.add("detail-buy");
       else if (cat.includes("sell")) panel.classList.add("detail-sell");
       panel.innerHTML = renderDetailHTML(row, false);
+      loadDetailChart(row.symbol);
+    }
+
+    async function loadDetailChart(symbol) {
+      const el = document.getElementById("chartBox");
+      if (!el) return;
+      try {
+        const r = await fetch(`/api/chart/${encodeURIComponent(symbol)}`);
+        const data = await r.json();
+        el.innerHTML = buildChartSVG(data.prices || []);
+      } catch (e) {
+        el.innerHTML = '<p class="small">A chart most nem elérhető.</p>';
+      }
+    }
+    function buildChartSVG(rows) {
+      const pts = rows.map(r => Number(r.close)).filter(Number.isFinite);
+      if (pts.length < 10) return '<p class="small">Nincs elég árfolyamadat.</p>';
+      const w = 820, h = 230, min = Math.min(...pts), max = Math.max(...pts);
+      const span = max - min || 1;
+      const path = pts.map((v, i) =>
+        `${(i / (pts.length - 1) * w).toFixed(1)},${(h - 12 - (v - min) / span * (h - 26)).toFixed(1)}`).join(" ");
+      const up = pts[pts.length - 1] >= pts[0];
+      const col = up ? "var(--green)" : "var(--red)";
+      const chg = (pts[pts.length - 1] / pts[0] - 1) * 100;
+      return `
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+          <span style="font-size:0.8rem;color:var(--muted)">1 éves árfolyam</span>
+          <b class="${up ? "pnl-pos" : "pnl-neg"}">${chg >= 0 ? "+" : ""}${fmt(chg, 1)}% / 1 év</b>
+        </div>
+        <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:auto;display:block;background:var(--surface);border:1px solid var(--line);border-radius:12px">
+          <polyline fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" points="${path}"/>
+        </svg>
+        <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--muted);margin-top:4px">
+          <span>${esc(String(rows[0].date || ""))}</span>
+          <span>min ${fmt(min, 2)} · max ${fmt(max, 2)} USD</span>
+          <span>${esc(String(rows[rows.length - 1].date || ""))}</span>
+        </div>`;
     }
 
     function renderResearchSummary() {

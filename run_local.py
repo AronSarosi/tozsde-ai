@@ -3214,6 +3214,14 @@ class Handler(BaseHTTPRequestHandler):
                 return
             self.send_json(shadow_get_state(execute_cycle=False))
             return
+        if path.startswith("/api/chart/"):
+            symbol = path.rsplit("/", 1)[-1].upper()
+            try:
+                rows = fetch_yahoo_history(symbol) or []
+            except Exception:
+                rows = []
+            self.send_json({"symbol": symbol, "prices": rows})
+            return
         if path.startswith("/api/analyst-targets/"):
             symbol = path.rsplit("/", 1)[-1].upper()
             env = load_env()
