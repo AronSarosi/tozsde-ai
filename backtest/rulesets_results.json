@@ -1,0 +1,223 @@
+[
+ {
+  "name": "BUY-AND-HOLD: vedd meg az elej\u00e9n, tartsd",
+  "train": {
+   "median": 188.5,
+   "profitable": 89,
+   "beat_bh": 48,
+   "tsla": 716.7,
+   "worst_med": -9.8
+  },
+  "test": {
+   "median": 115.0,
+   "profitable": 88,
+   "beat_bh": 41,
+   "tsla": 250.5,
+   "worst_med": -8.4
+  }
+ },
+ {
+  "name": "DIP-HOLD stabiliz\u00e1ci\u00f3 n\u00e9lk\u00fcl (zuhan\u00f3 k\u00e9st is vesz)",
+  "train": {
+   "median": 84.0,
+   "profitable": 81,
+   "beat_bh": 14,
+   "tsla": 507.4,
+   "worst_med": -19.6
+  },
+  "test": {
+   "median": 73.2,
+   "profitable": 87,
+   "beat_bh": 41,
+   "tsla": 250.5,
+   "worst_med": -7.2
+  }
+ },
+ {
+  "name": "CS\u00daCSV\u00c9TEL-HOLD: fels\u0151 10%-ban (kit\u00f6r\u00e9sn\u00e9l) vesz, soha nem ad el",
+  "train": {
+   "median": 118.4,
+   "profitable": 86,
+   "beat_bh": 10,
+   "tsla": 405.9,
+   "worst_med": -9.2
+  },
+  "test": {
+   "median": 67.3,
+   "profitable": 85,
+   "beat_bh": 7,
+   "tsla": 30.5,
+   "worst_med": -15.0
+  }
+ },
+ {
+  "name": "DIP-HOLD gyors stabiliz\u00e1ci\u00f3 (3 nap)",
+  "train": {
+   "median": 74.5,
+   "profitable": 72,
+   "beat_bh": 16,
+   "tsla": 547.2,
+   "worst_med": -20.3
+  },
+  "test": {
+   "median": 57.5,
+   "profitable": 84,
+   "beat_bh": 40,
+   "tsla": 235.2,
+   "worst_med": -8.2
+  }
+ },
+ {
+  "name": "DIP-HOLD 1 \u00e9v: als\u00f3 30%-ban v\u00e9ve 5 nyugodt nap ut\u00e1n, soha nem ad el",
+  "train": {
+   "median": 57.4,
+   "profitable": 71,
+   "beat_bh": 15,
+   "tsla": 533.4,
+   "worst_med": -20.6
+  },
+  "test": {
+   "median": 48.8,
+   "profitable": 82,
+   "beat_bh": 36,
+   "tsla": 218.8,
+   "worst_med": -8.4
+  }
+ },
+ {
+  "name": "VESZTES\u00c9G-PLAFON: dip-v\u00e9tel, de -50%-n\u00e1l m\u00e9gis kisz\u00e1ll (katasztr\u00f3fa-f\u00e9k)",
+  "train": {
+   "median": 56.2,
+   "profitable": 70,
+   "beat_bh": 13,
+   "tsla": 533.4,
+   "worst_med": -20.6
+  },
+  "test": {
+   "median": 48.8,
+   "profitable": 82,
+   "beat_bh": 36,
+   "tsla": 218.8,
+   "worst_med": -8.4
+  }
+ },
+ {
+  "name": "MOMENTUM-TIMING (r\u00e9gi rendszer): trendben bent, trend t\u00f6r\u00e9sekor ki",
+  "train": {
+   "median": 59.5,
+   "profitable": 82,
+   "beat_bh": 16,
+   "tsla": 231.8,
+   "worst_med": -10.0
+  },
+  "test": {
+   "median": 43.4,
+   "profitable": 75,
+   "beat_bh": 16,
+   "tsla": -22.9,
+   "worst_med": -8.9
+  }
+ },
+ {
+  "name": "ARON-S\u00c1VKERESKED\u00c9S: als\u00f3 30%-ban vesz, fels\u0151 85%-ban \u00c9S 35%+ profitban ad el",
+  "train": {
+   "median": 14.3,
+   "profitable": 68,
+   "beat_bh": 14,
+   "tsla": -30.9,
+   "worst_med": -34.2
+  },
+  "test": {
+   "median": 36.2,
+   "profitable": 82,
+   "beat_bh": 26,
+   "tsla": 220.4,
+   "worst_med": -21.3
+  }
+ },
+ {
+  "name": "M\u00c9LY-DIP: csak -25%+ es\u00e9s ut\u00e1n, 5 nyugodt nap (COVID-szab\u00e1ly)",
+  "train": {
+   "median": 15.0,
+   "profitable": 72,
+   "beat_bh": 16,
+   "tsla": 548.9,
+   "worst_med": -15.8
+  },
+  "test": {
+   "median": 36.0,
+   "profitable": 82,
+   "beat_bh": 32,
+   "tsla": 218.8,
+   "worst_med": -5.2
+  }
+ },
+ {
+  "name": "DIP-HOLD 2 \u00e9v: als\u00f3 30%, 5 nyugodt nap, soha nem ad el",
+  "train": {
+   "median": 0.0,
+   "profitable": 66,
+   "beat_bh": 14,
+   "tsla": 552.1,
+   "worst_med": -12.3
+  },
+  "test": {
+   "median": 30.1,
+   "profitable": 85,
+   "beat_bh": 35,
+   "tsla": 218.8,
+   "worst_med": -4.9
+  }
+ },
+ {
+  "name": "S\u00c1VKERESKED\u00c9S t\u00fcrelmetlen: 20% profitn\u00e1l a s\u00e1v tetej\u00e9n ad el",
+  "train": {
+   "median": 9.6,
+   "profitable": 61,
+   "beat_bh": 13,
+   "tsla": -0.0,
+   "worst_med": -34.0
+  },
+  "test": {
+   "median": 27.9,
+   "profitable": 84,
+   "beat_bh": 22,
+   "tsla": 204.5,
+   "worst_med": -20.9
+  }
+ },
+ {
+  "name": "DIP-HOLD lass\u00fa stabiliz\u00e1ci\u00f3 (20 nap)",
+  "train": {
+   "median": 1.2,
+   "profitable": 79,
+   "beat_bh": 17,
+   "tsla": 0.0,
+   "worst_med": -9.4
+  },
+  "test": {
+   "median": 3.4,
+   "profitable": 85,
+   "beat_bh": 20,
+   "tsla": 107.5,
+   "worst_med": -4.1
+  }
+ },
+ {
+  "name": "DIP-HOLD 3 \u00e9v: als\u00f3 30%, 5 nyugodt nap, soha nem ad el",
+  "train": {
+   "median": 0.0,
+   "profitable": 78,
+   "beat_bh": 13,
+   "tsla": 675.4,
+   "worst_med": 0.0
+  },
+  "test": {
+   "median": 0.0,
+   "profitable": 85,
+   "beat_bh": 35,
+   "tsla": 218.8,
+   "worst_med": -0.2
+  }
+ }
+]
